@@ -1,5 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{mymath}[2021/03/31 - Math package by Maximilian Kessler (private use)]
+\ProvidesPackage{mymath}[2021/03/31 - Math package by Maximilian Keßler (private use)]
+%%%%%%Provides the basic math packages used for my lecture-note write-ups
 
 %The language to pass to babel
 \newif\ifenglish\englishtrue
@@ -81,7 +82,8 @@
 \RequirePackage{comment}
 \RequirePackage{soul}
 \RequirePackage{subfig}
-\usepackage{mathrsfs}
+\RequirePackage{mathrsfs}
+\RequirePackage{bbm}
 \ifbeamer
 \else \RequirePackage[shortlabels]{enumitem}\fi
 \RequirePackage[colorlinks=true]{hyperref} % Hyperlinks
