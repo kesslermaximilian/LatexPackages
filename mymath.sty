@@ -65,8 +65,9 @@
 \newunicodechar{χ}{\ensuremath\chi}
 \newunicodechar{ψ}{\ensuremath\psi}
 \newunicodechar{ω}{\ensuremath\omega}
-
+\ifbeamer\else
 \RequirePackage[backend=biber,style=alphabetic]{biblatex}
+\fi
 \else
 \RequirePackage[mathletters]{ucs}
 \fi
@@ -78,7 +79,9 @@
 \RequirePackage{mathtools}
 \RequirePackage{amsthm}
 \RequirePackage{amssymb}
+\ifbeamer\else
 \RequirePackage{bm} % bold math symbols
+\fi
 \RequirePackage{comment}
 \RequirePackage{soul}
 \RequirePackage{subfig}
@@ -86,7 +89,9 @@
 \RequirePackage{bbm}
 \ifbeamer
 \else \RequirePackage[shortlabels]{enumitem}\fi
+\ifbeamer\else
 \RequirePackage[colorlinks=true]{hyperref} % Hyperlinks
+\fi
 
 % TIKZ
 \RequirePackage{tikz}
@@ -132,12 +137,14 @@
 \newtheorem{assumption}{\ifenglish Assumption\else Annahme\fi}
 
 \theoremstyle{definition}
+\ifbeamer\else
 \newtheorem*{fact}{\ifenglish Fact\else Fakt\fi}
 \newtheorem*{note}{\ifenglish Note\else Anmerkung\fi}
+\newtheorem*{problem}{Problem}
+\fi
 \newtheorem*{warning}{\color{red}\ifenglish Warning \else Warnung\fi}
 \newtheorem*{goal}{\ifenglish Goal \else Ziel\fi}
 \newtheorem*{question}{\ifenglish Question \else Frage \fi}
-\newtheorem*{problem}{Problem}
 \newtheorem*{info}{Information}
 \newtheorem*{moral}{Moral}
 \newtheorem*{answer}{\ifenglish Answer\else Antwort\fi}
@@ -159,7 +166,9 @@
 
 \RequirePackage{blindtext}
 \RequirePackage{tabto}
+\ifbeamer\else
 \RequirePackage{lastpage} %\pageref{LastPage} for reference on the last page
+\fi
 
 % Für Tabulatoren
 
