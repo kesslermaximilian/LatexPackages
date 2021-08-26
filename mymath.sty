@@ -11,6 +11,10 @@
 \DeclareOption{nobeamer}{\beamerfalse}
 \DeclareOption{beamer}{\beamertrue}
 
+\newif\ifsubfig\subfigtrue
+\DeclareOption{nosubfig}{\subfigfalse}
+
+
 %Options for onehalf-spacing of lines
 \newif\ifonehalfspacing\onehalfspacingfalse %default is normalspace
 \DeclareOption{onehalfspacing}{\onehalfspacingtrue}
@@ -84,7 +88,8 @@
 \fi
 \RequirePackage{comment}
 \RequirePackage{soul}
-\RequirePackage{subfig}
+\ifsubfig
+\RequirePackage{subfig}\else\fi
 \RequirePackage{mathrsfs}
 \RequirePackage{bbm}
 \ifbeamer
@@ -107,26 +112,25 @@
 
 %%% AMSTHM
 \iffancythm
-    \RequirePackage{fancythm}
+    \RequirePackage{mkessler-fancythm}
 \else
 \theoremstyle{plain}
 \ifbeamer\else
 \newtheorem{theorem}{\ifenglish Theorem\else Satz\fi}
 \newtheorem{corollary}{\ifenglish Corollary\else Korollar\fi}
 \newtheorem*{lemma}{Lemma}
-\fi
 \newtheorem{proposition}{Proposition}
+\fi
 
 
 \theoremstyle{definition}
 \ifbeamer\else
 \newtheorem{definition}{Definition}
 \newtheorem{example}{\ifenglish Example\else Beispiel\fi}
-\fi
 \newtheorem*{remark}{\ifenglish Remark\else Bemerkung\fi}
 \newtheorem*{notation}{Notation}
+\fi
 
-\fi %end of theorem definitions
 
 
 %%Theorems needed in any case (fancy or not fancy theorems)
@@ -154,9 +158,10 @@
 \newtheorem*{recall}{\ifenglish Recall\else Erinnerung\fi}
 \newtheorem*{idea}{\ifenglish Idea\else Idee\fi}
 \newtheorem{exercise}{\ifenglish Exercise\else Aufgabe\fi}
-
-
 \ifbeamer\else\newenvironment{solution}[1][]{\begin{proof}[\ifenglish{}Solution\else{}Lösung\fi{}#1]}{\end{proof}}\fi
+\fi %end of theorem definitions
+
+
 
 
 % Für Formeln
@@ -252,7 +257,7 @@
 
 \RequirePackage{IEEEtrantools}
 
-\usepackage[ngerman,ruled,vlined]{algorithm2e}
+\RequirePackage[ngerman,ruled,vlined]{algorithm2e}
 
 \iflukas
 \newcommand{\RrClA}{\begin{IEEEeqnarray*}{RrCl}}
