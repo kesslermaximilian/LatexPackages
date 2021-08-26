@@ -444,6 +444,7 @@
 \declarebigtheorem[Satz und Definition][Theorem and Definition]{thmredmarginbluefill}{theoremdef}
 \declarebigtheorem[Proposition und Definition][Proposition and Definition]{thmredmarginbluefill}{propositiondef}
 \declarebigtheorem{thmvioletmarginandfill}{notation}
+\declarebigtheorem[zuSatz][Addition to Theorem]{thmredmarginandfill}{additiontheorem}
 
 %%%Environments that are not numbered by default (notation, question, example, remark etc) have two forms:
 % - normal form: won't be numbered unless 'numbersmallenvironments' is set
@@ -578,6 +579,7 @@
 
 %%Solution (for exercises)
 \newenvironment{solution}[1][]{\begin{proof}[\ifenglish{}Solution\else{}Lösung\fi{}#1]}{\end{proof}}
+\newenvironment{additionproof}[1][]{\begin{proof}[\ifenglish{}Additional proof\else{}zuBeweis\fi{}#1]}{\end{proof}}
 
 
 \RequirePackage[ngerman, ruled, vlined]{algorithm2e}
