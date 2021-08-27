@@ -116,7 +116,10 @@
 \RequirePackage{thmtools}
 \RequirePackage{hyperref}
 \RequirePackage[skins]{tcolorbox}
-%\RequirePackage[usenames,svgnames,dvipsnames]{xcolor}
+\RequirePackage{xcolor}
+\definecolor{gold}{rgb}{218,165,32}
+
+
 \mdfsetup{skipabove=\topskip,skipbelow=\topskip}
 
 %%mdframed styles
@@ -166,6 +169,18 @@
     topline=false,
     bottomline=false
 }
+
+\mdfdefinestyle{mdgoldmargin}{%
+    skipabove =\fancythmskipabove,
+    linecolor=gold,
+    linewidth = \fancythmlinewidth,
+    leftmargin = 0cm,
+    rightmargin=0cm,
+    rightline=false,
+    topline=false,
+    bottomline=false
+}
+
 
 \mdfdefinestyle{mdyellowmargin}{%
     skipabove =\fancythmskipabove,
@@ -300,6 +315,12 @@
 	postheadspace={0.3em},
     notefont=\mdseries
 ]{thmgreenmargin}
+
+\declaretheoremstyle[
+	mdframed={style=mdgoldmargin},
+	postheadspace={0.3em},
+    notefont=\mdseries
+]{thmgoldmargin}
 
 \declaretheoremstyle[
 	mdframed={style=mdyellowmargin},
@@ -454,6 +475,7 @@
 \declaresmalltheorem[Notationsmissbrauch][Abuse of Notation]{thmvioletmargin}{abuse}
 \declaresmalltheorem[Beispiel]{thmgreenmargin}{example}
 \declaresmalltheorem[Bemerkung]{thmyellowmargin}{remark}
+\declaresmalltheorem[Lob]{thmgoldmargin}{praise}
 \declaresmalltheorem[Trivial Nonsense][Trivial Nonsense]{thmyellowmargin}{trivial}
 \declaresmalltheorem[Frage]{thmblackmarginandfill}{question}
 \declaresmalltheorem[Organisatorisches][Organisational stuff]{thmblackmargin}{orga}
