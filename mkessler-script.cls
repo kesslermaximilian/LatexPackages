@@ -85,20 +85,6 @@
 
 %%%Document-specific features that are provided
 
-%%%%Management of vocabulary and corresponding index
-\RequirePackage{imakeidx}
-\makeindex[columns=2, title=\ifenglish Index\else Stichwortverzeichnis\fi, intoc]
-
-%Emphasize \vocabulary
-\RequirePackage{xparse}
-\RequirePackage{expl3}
-\ExplSyntaxOn
-\NewDocumentCommand{\vocab}{O{} m}{
-    \textbf{\color{blue} #2}
-    \ifthenelse{\isempty{#1}}{\index{\text_titlecase_first:n{#2}}}{\index{#1}}
-}
-\ExplSyntaxOff
-
 %%%%Bibliography management
 \RequirePackage[backend=biber,style=alphabetic]{biblatex}
 \addbibresource{bibliography.bib}
