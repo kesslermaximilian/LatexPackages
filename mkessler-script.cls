@@ -174,16 +174,6 @@
 % Todonotes and inline notes in fancy boxes
 \RequirePackage{todonotes}
 
-% Figure support as explained in my blog post.
-\RequirePackage{import}
-\RequirePackage{xifthen}
-\RequirePackage{pdfpages}
-\RequirePackage{transparent}
-\newcommand{\incfig}[1]{%
-    \def\svgwidth{\columnwidth}
-    \import{./figures/}{#1.pdf_tex}
-}
-
 % Fix some stuff
 % %http://tex.stackexchange.com/questions/76273/multiple-pdfs-with-page-group-included-in-a-single-page-warning
 \pdfsuppresswarningpagegroup=1
