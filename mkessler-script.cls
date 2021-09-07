@@ -84,28 +84,6 @@
 
 
 %%%Document-specific features that are provided
-
-%%%%Bibliography management
-\RequirePackage[backend=biber,style=alphabetic]{biblatex}
-\addbibresource{bibliography.bib}
-\addbibresource{images.bib}
-
-%Provide simpler commands to properly print image attributions and literature
-\DeclareRobustCommand*{\printimageattributions}{
-    \def\imageattributionstitle{\ifenglish Image attributions \else Bildquellen\fi}
-    \phantomsection
-    \addcontentsline{toc}{section}{\imageattributionstitle}
-    \printbibliography[title={\imageattributionstitle}, type=image]
-}
-
-\DeclareRobustCommand*{\printliterature}{
-    \def\literaturetitle{\ifenglish Literature\else Literatur\fi}
-    \phantomsection
-    \addcontentsline{toc}{section}{\literaturetitle}
-    \printbibliography[title={\literaturetitle}, nottype=image]
-
-}
-
 %%%Hyperref and setup
 \RequirePackage{hyperref} % Hyperlinks
 \RequirePackage{amsmath} % Cleveref needs this

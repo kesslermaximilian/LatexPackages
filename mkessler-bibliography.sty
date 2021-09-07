@@ -1,0 +1,30 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mkessler-bibliography}[2021-09-06 - Package to easily print bibliography and image attributions in document]
+%%%%%%%%%%%%%%%%%%
+
+\newif\ifenglish\englishtrue
+\DeclareOption{german}{\englishfalse}
+\DeclareOption{english}{\englishtrue}
+\DeclareOption*{\PackageWarning{mkessler-bibliography}{Unknown '\CurrentOption'}}
+\ProcessOptions\relax
+
+%%%%Bibliography management
+\RequirePackage[backend=biber,style=alphabetic]{biblatex}
+\addbibresource{bibliography.bib}
+\addbibresource{images.bib}
+
+%Provide simpler commands to properly print image attributions and literature
+\DeclareRobustCommand*{\printimageattributions}{
+    \def\imageattributionstitle{\ifenglish Image attributions \else Bildquellen\fi}
+    \phantomsection
+    \addcontentsline{toc}{section}{\imageattributionstitle}
+    \printbibliography[title={\imageattributionstitle}, type=image]
+}
+
+\DeclareRobustCommand*{\printliterature}{
+    \def\literaturetitle{\ifenglish Literature\else Literatur\fi}
+    \phantomsection
+    \addcontentsline{toc}{section}{\literaturetitle}
+    \printbibliography[title={\literaturetitle}, nottype=image]
+
+}
