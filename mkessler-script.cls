@@ -83,13 +83,6 @@
 }
 
 
-%%%Document-specific features that are provided
-%%%Hyperref and setup
-\RequirePackage{hyperref} % Hyperlinks
-\RequirePackage{amsmath} % Cleveref needs this
-\RequirePackage{cleveref} % Better referencing
-\hypersetup{colorlinks, citecolor=violet, urlcolor=blue!80!black, linkcolor=red!50!black, pdfauthor=\@author, pdftitle=\@course}
-
 %%%The following is based on the repository
 % https://github.com/gillescastel/university-setup
 % but has been modified for own purposes. The original content is distributed under the following license:

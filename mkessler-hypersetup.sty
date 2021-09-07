@@ -1,0 +1,16 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mkessler-hypersetup}[2021-09-06 - Package for setting up hyperref, cleveref and some default hyperref colors]
+%%%%%%%%%%%%%%%%%%
+
+\newif\ifenglish\englishtrue
+\DeclareOption{german}{\englishfalse}
+\DeclareOption{english}{\englishtrue}
+\DeclareOption*{\PackageWarning{mkessler-hypersetup}{Unknown '\CurrentOption'}}
+\ProcessOptions\relax
+
+%%%Hyperref and setup
+\RequirePackage{hyperref} % Hyperlinks
+\RequirePackage{amsmath} % Cleveref needs this
+\RequirePackage{cleveref} % Better referencing
+\hypersetup{colorlinks, citecolor=violet, urlcolor=blue!80!black, linkcolor=red!50!black, pdfauthor=\@author, pdftitle=\@course}
+
