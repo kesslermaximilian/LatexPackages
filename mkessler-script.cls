@@ -132,64 +132,15 @@
 \let\svlim\lim\def\lim{\svlim\limits}
 
 %Make implies and impliedby shorter
-\let\implies\Rightarrow
-\let\impliedby\Leftarrow
-\let\iff\Leftrightarrow
-\let\epsilon\varepsilon
+%\let\implies\Rightarrow
+%\let\impliedby\Leftarrow
+%\let\iff\Leftrightarrow
+%\let\epsilon\varepsilon
 
 % Fix some spacing
 % http://tex.stackexchange.com/questions/22119/how-can-i-change-the-spacing-before-theorems-with-amsthm
 \def\thm@space@setup{%
   \thm@preskip=\parskip \thm@postskip=0pt
-}
-
-%%%%%%%Setup of lectures and their summary
-
-%Tocloft package for making a list of lectures
-\RequirePackage{tocloft}
-%Store name of the summary in a command to use it multiple times
-\newcommand\listlecturename{\ifenglish Summary of lectures\else Übersicht der Vorlesungen\fi}
-\newlistof{lecture}{lec}{\listlecturename} % Declare new list of lectures
-%Settings how to print the summary
-\renewcommand{\cftdot}{}
-\renewcommand\cftlecturefont{\normalfont\bfseries}
-\renewcommand\cftlecturepagefont{\normalfont\bfseries}
-\renewcommand\cftlectitlefont{\Large\bfseries}
-\renewcommand\cftbeforelectureskip{1em}
-
-%Command to parse the date
-\RequirePackage{xifthen}
-\def\testdateparts#1{\dateparts#1\relax}
-\def\dateparts#1 #2 #3 #4 #5\relax{
-    \marginpar{\small\textsf{\mbox{#1 #2 #3 #5}}}
-}
-
-%Define the main lecture command to start a new lecture
-\def\@lectureprefix{\ifenglish Lecture\else Vorlesung\fi}
-\def\@lecture{}%
-\newcommand{\lecture}[3][]{
-    \refstepcounter{lecture}
-    %Store lecture name in the macro \@lecture
-    \ifthenelse{\isempty{#3}}{%
-    \def\@lecture{\@lectureprefix\, \thelecture}%
-    }{%
-    \def\@lecture{\@lectureprefix\, \thelecture: #3}%
-    }%
-    \marginpar{\small\textsf{\parbox{10em}{\@lectureprefix\, \thelecture \\#2}}}
-    %Add lecture as an entry to the lectures file
-    \addcontentsline{lec}{lecture}{\@lectureprefix\,\thelecture\,(#2)}
-    %If key words are provided, add the key words of the lecture below the entry
-    \ifthenelse{\isempty{#1}}{}{\addtocontents{lec}{\smallskip\hspace{1.5em}\protect\parbox{\dimexpr\textwidth-\@pnumwidth - 2em}{#1}}}
-}
-
-
-
-%Provide a command to show the summary of lectures
-\DeclareRobustCommand*{\summaryoflectures}{
-    \phantomsection
-    \addcontentsline{toc}{section}{\listlecturename}
-    \thispagestyle{plain}
-    \listoflecture
 }
 
 %%%% These are the fancy headers
@@ -236,4 +187,3 @@
 % Fix some stuff
 % %http://tex.stackexchange.com/questions/76273/multiple-pdfs-with-page-group-included-in-a-single-page-warning
 \pdfsuppresswarningpagegroup=1
-
