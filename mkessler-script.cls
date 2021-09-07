@@ -10,6 +10,9 @@
 \DeclareOption{show version}{\showversiontrue}
 \DeclareOption{hideversion}{\showversionfalse}
 
+\newif\ifgitversion\gitversionfalse
+\DeclareOption{git}{\gitversiontrue}
+
 \ProcessOptions\relax
 
 
@@ -37,6 +40,14 @@
 
 %%%%Load base class article
 \LoadClass{article}
+
+
+\ifshowversion
+    \ifgitversion
+        \RequirePackage[dirty={ (local changes have been made!)}]{gitinfo2}
+    \fi
+\fi
+
 
 %%%%Title
 %Define layout of title using course, lecturer, assistant and author, and optionally the current time
@@ -73,7 +84,10 @@
     \vskip 3em%
         \begin{tabular}[t]{c}%
         {\small Version} \\
-        \today\,\currenttime
+        \ifgitversion
+            git: \gitFirstTagDescribe\\
+        \fi
+        \ifenglish compiled\else kompiliert\fi~: \today\,\currenttime \\
         \end{tabular}\par
     \fi
     \vskip 4em%
