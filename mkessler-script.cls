@@ -109,40 +109,6 @@
 %OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 %SOFTWARE.
 
-
-% Some basic packages
-\RequirePackage{url}
-\RequirePackage{graphicx}
-\RequirePackage{float}
-
-% for wrapping text around figures
-\RequirePackage{wrapfig}
-
-%%This option is for now commented out, not sure what it does, but causes errors
-%\pdfminorversion=7
-
-
-% Don't indent paragraphs, leave some space between them
-\RequirePackage{parskip}
-
-% Hide page number when page is empty
-\RequirePackage{emptypage}
-
-% Put x \to \infty below \lim
-\let\svlim\lim\def\lim{\svlim\limits}
-
-%Make implies and impliedby shorter
-%\let\implies\Rightarrow
-%\let\impliedby\Leftarrow
-%\let\iff\Leftrightarrow
-%\let\epsilon\varepsilon
-
-% Fix some spacing
-% http://tex.stackexchange.com/questions/22119/how-can-i-change-the-spacing-before-theorems-with-amsthm
-\def\thm@space@setup{%
-  \thm@preskip=\parskip \thm@postskip=0pt
-}
-
 %%%% These are the fancy headers
 \RequirePackage{fancyhdr}
 \pagestyle{fancy}
@@ -150,8 +116,6 @@
 % LE: left even
 % RO: right odd
 % CE, CO: center even, center odd
-% My name for when I print my lecture notes to use for an open book exam.
-% \fancyhead[LE,RO]{Gilles Castel}
 
 \fancyhead[RO,LE]{\@lecture} % Right odd,  Left even
 \fancyhead[RE,LO]{}          % Right even, Left odd
@@ -162,7 +126,6 @@
 
 \makeatother
 
-
 %%No fancy headers in the appendix (as there is no lecture)
 \let\oldappendix\appendix
 \renewcommand\appendix{
@@ -171,9 +134,13 @@
     \renewcommand{\headrulewidth}{0pt}
 }
 
-% Todonotes and inline notes in fancy boxes
-\RequirePackage{todonotes}
-
 % Fix some stuff
 % %http://tex.stackexchange.com/questions/76273/multiple-pdfs-with-page-group-included-in-a-single-page-warning
 \pdfsuppresswarningpagegroup=1
+
+% Fix some spacing
+% http://tex.stackexchange.com/questions/22119/how-can-i-change-the-spacing-before-theorems-with-amsthm
+\def\thm@space@setup{%
+  \thm@preskip=\parskip \thm@postskip=0pt
+}
+
