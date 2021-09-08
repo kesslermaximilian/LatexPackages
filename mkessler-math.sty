@@ -15,14 +15,6 @@
 \DeclareOption*{\PackageWarning{mkessler-math}{Unknown '\CurrentOption'}}
 \ProcessOptions\relax
 
-
-\RequirePackage[\ifenglish english \else ngerman\fi]{babel}
-\RequirePackage[T1]{fontenc}
-
-% When using utf8x, we have to load ucs and inputenc with utf8x option and must exclude bibtex
-% When not using utf8x (plan utf8), we must NOT load ucs, and then load inputenc with utf8-option as well as bibtex
-% also, when using plain utf8, we want to load the newunicodechar package
-\RequirePackage[utf8]{inputenc}
 \RequirePackage{newunicodechar}
     \newunicodechar{α}{\ensuremath\alpha}
     \newunicodechar{β}{\ensuremath\beta}
@@ -48,42 +40,32 @@
     \newunicodechar{ψ}{\ensuremath\psi}
     \newunicodechar{ω}{\ensuremath\omega}
 
-\RequirePackage[backend=biber,style=alphabetic]{biblatex}
-\RequirePackage{csquotes}
-
-\RequirePackage{anyfontsize}
-\RequirePackage{lmodern}
 \RequirePackage{etoolbox}
 \RequirePackage{amsmath}
 \RequirePackage{mathtools}
 \RequirePackage{amsthm}
 \RequirePackage{amssymb}
-\RequirePackage{comment}
-\RequirePackage{soul}
-\RequirePackage{caption}
-\RequirePackage{subcaption}
+
 \RequirePackage{latexsym}
 \RequirePackage{mathrsfs}
 \ifbeamer\else
 \RequirePackage[shortlabels]{enumitem}
 \fi
-\RequirePackage{wrapfig}
 
-%Pgfplots
-\RequirePackage{pgfplots}
+\RequirePackage{pgfplots} % Plots
 \pgfplotsset{compat=1.7}
 
-% TIKZ
-\RequirePackage{tikz}
+\RequirePackage{tikz} % Plots / drawings
 \usetikzlibrary{calc, intersections, through, quotes, angles, babel, positioning, snakes}
-%\RequirePackage{tkz-euclide}
-\RequirePackage[export]{adjustbox}
-%Commutative diagrams
-\RequirePackage{tikz-cd}
+
+\RequirePackage{tikz-cd} %Commutative diagrams
 
 %%for small diagrams, similar to tikz-cd
 \usepackage{xy}        % for small diagrams, e.g. arrows
 \xyoption{all}
+
+
+
 
 %%Theorems needed in any case (fancy or not fancy theorems)
 
