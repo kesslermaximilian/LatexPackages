@@ -139,19 +139,12 @@
     \fancyhead[RO,LE]{} % Right odd,  Left even
     \fancyhead[RE,LO]{}          % Right even, Left odd
 
-    \fancyfoot[RO,LE]{}  % Right odd,  Left even
+    \fancyfoot[RO,LE]{\thepage}  % Right odd,  Left even
     \fancyfoot[RE,LO]{}          % Right even, Left odd
     \fancyfoot[C]{\leftmark}     % Center
 
     \makeatother
 
-    %%No fancy headers in the appendix (as there is no lecture)
-    \let\oldappendix\appendix
-    \renewcommand\appendix{
-        \oldappendix
-        \fancyhead[RO,LE]{}
-        \renewcommand{\headrulewidth}{0pt}
-    }
 \fi
 
 % Fix some stuff
