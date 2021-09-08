@@ -1,0 +1,43 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mkessler-faktor}[2021-09-06 - Faktor package]
+%%%%%%%%%%%%%%%%%%
+
+% Extension the faktor package for 
+% - cofaktor command that provides A \ B notation
+% - scaling the / in the middle
+% - fine positioning of enumerator / denominator
+
+% Essentially taken from 
+% https://tex.stackexchange.com/questions/27591/extending-the-faktor-package
+% and added a mirrored \cofaktor command
+
+%Dependencies
+\RequirePackage{xparse}
+\RequirePackage{amssymb} % provides \diagup and \diagdown
+\RequirePackage{ifthen} % ifthenelse syntax
+\RequirePackage{mathtools}
+
+
+\DeclareDocumentCommand{\faktor}{s m O{0.5} m O{-0.5}}{% \newfaktor[*]{#2}[#3]{#4}[#5] -> #2/#4
+  \setbox0=\hbox{\ensuremath{#2}}% Store numerator
+  \setbox1=\hbox{\ensuremath{\diagup}}% Store slash /
+  \setbox2=\hbox{\ensuremath{#4}}% Store denominator
+  \raisebox{#3\ht1}{\usebox0}% Numerator
+  \mkern-5mu\ifthenelse{\equal{#1}{\BooleanTrue}}% Slash /
+    {\diagup}% regular \faktor slash
+    {\rotatebox{-44}{\rule[#5\ht2]{0.4pt}{-#5\ht2+#3\ht0+\ht0}}}% tilted rule as a slash
+  \mkern-4mu%
+  \raisebox{#5\ht2}{\usebox2}% Denominator
+}
+
+\DeclareDocumentCommand{\cofaktor}{s m O{-0.5} m O{0.5}}{% \newfaktor[*]{#2}[#3]{#4}[#5] -> #2/#4
+  \setbox0=\hbox{\ensuremath{#2}}% Store numerator
+  \setbox1=\hbox{\ensuremath{\diagdown}}% Store slash /
+  \setbox2=\hbox{\ensuremath{#4}}% Store denominator
+  \raisebox{#3\ht1}{\usebox0}% Numerator
+  \mkern-5mu\ifthenelse{\equal{#1}{\BooleanTrue}}% Slash /
+    {\diagdown}% regular \faktor slash
+    {\rotatebox{44}{\rule[-#5\ht2]{0.4pt}{#5\ht2-#3\ht0+\ht0}}}% tilted rule as a slash
+  \mkern-4mu%
+  \raisebox{#5\ht2}{\usebox2}% Denominator
+}
