@@ -158,3 +158,8 @@
   \thm@preskip=\parskip \thm@postskip=0pt
 }
 
+% Don't indent paragraphs, leave some space between them
+\RequirePackage{parskip}
+
+% Hide page number when page is empty
+\RequirePackage{emptypage}
