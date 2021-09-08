@@ -177,6 +177,9 @@
 %Fixes of common misbehaviour
 \renewcommand{\degree}{^\circ}
 
+% Always put limits under \limit
+\let\oldlim\lim\def\lim{\oldlim\limits}
+
 %Used to start an exercise and resetting the equation number
 %\newcommand{\nr}[1]{\setcounter{equation}{0}\section*{\ifenglish Exercise \else Aufgabe \fi #1}~}
 
