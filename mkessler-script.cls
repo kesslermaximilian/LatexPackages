@@ -10,6 +10,9 @@
 \DeclareOption{show version}{\showversiontrue}
 \DeclareOption{hideversion}{\showversionfalse}
 
+\newif\iffancyfoot\fancyfootfalse
+\DeclareOption{fancyfoot}{\fancyfoottrue}
+
 \newif\ifgitversion\gitversionfalse
 \DeclareOption{git}{\gitversiontrue}
 
@@ -124,29 +127,32 @@
 %SOFTWARE.
 
 %%%% These are the fancy headers
-\RequirePackage{fancyhdr}
-\pagestyle{fancy}
 
-% LE: left even
-% RO: right odd
-% CE, CO: center even, center odd
+\iffancyfoot
+    \RequirePackage{fancyhdr}
+    \pagestyle{fancy}
 
-\fancyhead[RO,LE]{\@lecture} % Right odd,  Left even
-\fancyhead[RE,LO]{}          % Right even, Left odd
+    % LE: left even
+    % RO: right odd
+    % CE, CO: center even, center odd
 
-\fancyfoot[RO,LE]{\thepage}  % Right odd,  Left even
-\fancyfoot[RE,LO]{}          % Right even, Left odd
-\fancyfoot[C]{\leftmark}     % Center
+    \fancyhead[RO,LE]{} % Right odd,  Left even
+    \fancyhead[RE,LO]{}          % Right even, Left odd
 
-\makeatother
+    \fancyfoot[RO,LE]{}  % Right odd,  Left even
+    \fancyfoot[RE,LO]{}          % Right even, Left odd
+    \fancyfoot[C]{\leftmark}     % Center
 
-%%No fancy headers in the appendix (as there is no lecture)
-\let\oldappendix\appendix
-\renewcommand\appendix{
-    \oldappendix
-    \fancyhead[RO,LE]{}
-    \renewcommand{\headrulewidth}{0pt}
-}
+    \makeatother
+
+    %%No fancy headers in the appendix (as there is no lecture)
+    \let\oldappendix\appendix
+    \renewcommand\appendix{
+        \oldappendix
+        \fancyhead[RO,LE]{}
+        \renewcommand{\headrulewidth}{0pt}
+    }
+\fi
 
 % Fix some stuff
 % %http://tex.stackexchange.com/questions/76273/multiple-pdfs-with-page-group-included-in-a-single-page-warning
