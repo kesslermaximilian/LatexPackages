@@ -32,6 +32,10 @@
 \newif\ifenglish\englishtrue
 \DeclareOption{german}{\englishfalse}
 \DeclareOption{english}{\englishtrue}
+
+\newif\iffancyhead\fancyheadfalse
+\DeclareOption{fancyhead}{\fancyheadtrue}
+
 \DeclareOption*{\PackageWarning{mkessler-lectures}{Unknown '\CurrentOption'}}
 \ProcessOptions\relax
 
@@ -79,3 +83,24 @@
     \thispagestyle{plain}
     \listoflecture
 }
+
+
+\iffancyhead
+    \RequirePackage{fancyhdr}
+    \pagestyle{fancy}
+
+    % LE: left even
+    % RO: right odd
+    % CE, CO: center even, center odd
+
+    \fancyhead[RO,LE]{\@lecture} % Right odd,  Left even
+    \fancyhead[RE,LO]{}          % Right even, Left odd
+
+    %%No fancy headers in the appendix (as there is no lecture)
+    \let\mkesslerlecturesoldappendix\appendix
+    \renewcommand\appendix{
+        \mkesslerlecturesoldappendix
+        \fancyhead[RO,LE]{}
+        \renewcommand{\headrulewidth}{0pt}
+    }
+\fi
