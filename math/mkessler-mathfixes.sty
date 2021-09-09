@@ -5,7 +5,8 @@
 % This just brings together some (possibly ugly) hacks that I use when writing math. Likely, you do not want to use this except when building around this package (like I did), or already have similar shortcuts
 
 %Proper Degree command
-\renewcommand{\degree}{^\circ}
+\def\mkessler@mathfixes@degree{^\circ}
+\AtBeginDocument{\def\degree{\mkessler@mathfixes@degree}}
 
 % Always put limits under \limit
 \let\oldlim\lim\def\lim{\oldlim\limits}
@@ -25,4 +26,4 @@
 
 \let\mkessler@mathfixes@oldepsilon\epsilon
 \renewcommand\epsilon\varepsilon
-\newcommand\uglyphi{\mkessler@mathfixes@oldepsilon}
+\newcommand\uglyepsilon{\mkessler@mathfixes@oldepsilon}
