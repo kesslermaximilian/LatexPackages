@@ -12,7 +12,7 @@
 %%%%%Package dependencies
 \RequirePackage{amsmath}
 \RequirePackage{bbm}
-
+\RequirePackage{mathtools}
 
 %%%%Different types of operator wrappers:
 
@@ -161,6 +161,16 @@
 \newcommand*{\cfun}{\ensuremath{\mathbbm{1}}}
 \newcommand*{\One}{\cfun}
 
-%Possibly destructive commands
-\renewcommand\subset\subseteq
-\renewcommand\supset\supseteq
+%Paired Delimiters
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+%Norm and absolute value
+%Make them scaling by default and have \abs*{} as the non-scaling version of the command
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\let\oldabs\abs
+\def\abs{\@ifstar{\oldabs}{\oldabs*}}
+
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\let\oldnorm\norm
+\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
