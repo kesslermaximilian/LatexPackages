@@ -6,24 +6,33 @@
 
 %Proper Degree command
 \def\mkessler@mathfixes@degree{^\circ}
-\AtBeginDocument{\def\degree{\mkessler@mathfixes@degree}}
+\AtBeginDocument{\let\degree\mkessler@mathfixes@degree}
 
 % Always put limits under \limit
 \let\oldlim\lim\def\lim{\oldlim\limits}
 
 % Print equal sign under subset by default to not confuse people
 % (I still write \subset, because this enables me remove this renewcommand and have the default \subset command evaluated instead
-\renewcommand\subset\subseteq
-\renewcommand\supset\supseteq
-
+\let\mkessler@mathfixes@subseteq\subseteq
+\let\mkessler@mathfixes@supseteq\supseteq
+\AtBeginDocument{
+    \let\subset\mkessler@mathfixes@subseteq
+    \let\supset\mkessler@mathfixes@supseteq
+}
 
 %%Renew phi and epsilon to their proper versions, make the old ones available as 
 % uglyphi and uglyepsilon
 
-\let\mkessler@mathfixes@oldphi\phi
-\renewcommand\phi\varphi
-\newcommand\uglyphi{\mkessler@mathfixes@oldphi}
+\let\mkessler@mathfixes@stored@phi\phi
+\let\mkessler@mathfixes@stored@varphi\varphi
+\AtBeginDocument{
+    \let\phi\mkessler@mathfixes@stored@varphi
+    \let\uglyphi\mkessler@mathfixes@stored@phi
+}
 
-\let\mkessler@mathfixes@oldepsilon\epsilon
-\renewcommand\epsilon\varepsilon
-\newcommand\uglyepsilon{\mkessler@mathfixes@oldepsilon}
+\let\mkessler@mathfixes@stored@epsilon\epsilon
+\let\mkessler@mathfixes@stored@varepsilon\varepsilon
+\AtBeginDocument{
+    \let\epsilon\mkessler@mathfixes@stored@varepsilon
+    \let\uglyepsilon\mkessler@mathfixes@stored@epsilon
+}
