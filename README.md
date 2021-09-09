@@ -1,5 +1,10 @@
 # Latex Packages
 
+#### Rework in progress
+
+I try to rework the math package in this branch, so this is wip
+
+
 This is a collection of some packages I regularly use. Feel free to use them as well, if you want to.
 
 However, some of them (especially `mkessler-math`) might be heavily customized for myself and do not form a real package in the Unix philosophy sense and are more of my preamble, that everyone gets to copy around that I bundled up in a central place. Some others (especially `mkessler-fancythm`) follow (or at least try to) this philosophy, so they should be designed to work with your documents and online provide specific functionality.
