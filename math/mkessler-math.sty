@@ -16,7 +16,7 @@
 %%%% Import the other custom math packages
 \RequirePackage{mkessler-mathfonts} % Load this first to ensure untouched fonts
 \RequirePackage{mkessler-faktor}
-\RequirePackage[\inf@mkessler@math@english english\else german\fi]{mkessler-operators}
+\RequirePackage[\if@mkessler@math@english english\else german\fi]{mkessler-operators}
 \RequirePackage{mkessler-mathfig}
 \RequirePackage{mkessler-mathsymb}
 \RequirePackage{mkessler-unicodechar}
@@ -45,3 +45,4 @@
 \newcommand{\Q}{\ensuremath{\mathbb{Q}}}
 \newcommand{\R}{\ensuremath{\mathbb{R}}}
 \newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+
