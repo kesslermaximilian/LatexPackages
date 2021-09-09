@@ -1,0 +1,27 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mkessler-mathfonts}[2021-09-06 - Collects several math fonts together]
+
+
+%%% Store away the several (partially conflicting) fonts in internal macros
+
+\let\mkessler@mathfonts@none@mathcal\mathcal
+
+\RequirePackage{mathrsfs}
+\let\mkessler@mathfonts@mathrsfs@mathscr\mathscr
+
+\RequirePackage[mathscr]{eucal}
+\let\mkessler@mathfonts@eucal@optionmathscr@mathscr\mathscr
+
+\RequirePackage{amsfonts}
+\let\mkessler@mathfonts@amsfonts@mathfrak\mathfrak
+
+%%% Provide user commands to internally stored macros
+\def\mkessler@mathfonts@restorefonts{
+    \let\mathcal\mkessler@mathfonts@none@mathcal % Set \mathcal to default calligrapic
+    \let\mathfrak\mkessler@mathfonts@amsfonts@mathfrak % Set \mathfrak to mathfrak from amsfonts
+    \let\mathscr\mkessler@mathfonts@mathrsfs@mathscr % Set \mathscr to mathscript from mathrsfs package
+    \let\mathcat\mkessler@mathfonts@mathrsfs@mathscr % Set \mathcat to mathscript from mathrsfs package
+    \let\mathcom\mkessler@mathfonts@eucal@optionmathscr@mathscr % Set \mathcom (for comic) to \mathscr from [mathscr]{eucal} package
+}
+
+\AtBeginDocument{\mkessler@mathfonts@restorefonts}
