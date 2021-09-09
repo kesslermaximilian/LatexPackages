@@ -10,30 +10,14 @@
 \DeclareOption*{\PackageWarning{mkessler-math}{Unknown '\CurrentOption'}}
 \ProcessOptions\relax
 
-\RequirePackage{newunicodechar}
-    \newunicodechar{α}{\ensuremath\alpha}
-    \newunicodechar{β}{\ensuremath\beta}
-    \newunicodechar{γ}{\ensuremath\gamma}
-    \newunicodechar{δ}{\ensuremath\delta}
-    \newunicodechar{ε}{\ensuremath\epsilon}
-    \newunicodechar{ζ}{\ensuremath\zeta}
-    \newunicodechar{η}{\ensuremath\eta}
-    \newunicodechar{θ}{\ensuremath\theta}
-    \newunicodechar{ι}{\ensuremath\iota}
-    \newunicodechar{κ}{\ensuremath\kappa}
-    \newunicodechar{λ}{\ensuremath\lambda}
-    \newunicodechar{μ}{\ensuremath\mu}
-    \newunicodechar{ν}{\ensuremath\nu}
-    \newunicodechar{ξ}{\ensuremath\xi}
-    \newunicodechar{π}{\ensuremath\pi}
-    \newunicodechar{ρ}{\ensuremath\rho}
-    \newunicodechar{σ}{\ensuremath\sigma}
-    \newunicodechar{τ}{\ensuremath\tau}
-    \newunicodechar{υ}{\ensuremath\upsilon}
-    \newunicodechar{φ}{\ensuremath\phi}
-    \newunicodechar{χ}{\ensuremath\chi}
-    \newunicodechar{ψ}{\ensuremath\psi}
-    \newunicodechar{ω}{\ensuremath\omega}
+%%%% Import the other custom math packages
+\RequirePackage{mkessler-mathfonts} % Load this first to ensure untouched fonts
+\RequirePackage{mkessler-faktor}
+\RequirePackage[\inf@mkessler@math@english english\else german\fi]{mkessler-operators}
+\RequirePackage{mkessler-mathfig}
+\RequirePackage{mkessler-mathsymb}
+\RequirePackage{mkessler-unicodechar}
+\RequirePackage{mkessler-mathfixes} % Load this last since it renews behaviour
 
 \RequirePackage{amsmath}
 \RequirePackage{mathtools}
@@ -41,40 +25,15 @@
 \RequirePackage{amssymb}
 
 \RequirePackage{latexsym}
-\RequirePackage{mathrsfs}
-
-\RequirePackage{pgfplots} % Plots
-\pgfplotsset{compat=1.7}
-
-\RequirePackage{tikz} % Plots / drawings
-\usetikzlibrary{calc, intersections, through, quotes, angles, babel, positioning, snakes}
-
-\RequirePackage{tikz-cd} %Commutative diagrams
-
-
-%%for small diagrams, similar to tikz-cd
-\usepackage[all]{xy}        % for small diagrams, e.g. arrows
-%%% In older versions, you found 
-% \usepackage{xy}
-% \xyoption{all}
-% here, but this messes with the catcode of the @ sign (which no package should do!)
-% so that further parts in this package would get broken
 
 % Für Formeln
 \RequirePackage{mathabx}
-\RequirePackage{faktor}
-\RequirePackage[mathscr]{eucal} % \mathscr for another calligraphic alphabet
 \RequirePackage{esint}
 
 \RequirePackage{IEEEtrantools}
-
-
 \RequirePackage[ngerman,ruled,vlined]{algorithm2e}
 
-
 %%% Custom commands
-
-
 %Short commands for \mathbb{}
 \newcommand{\C}{\ensuremath{\mathbb{C}}}
 \newcommand{\F}{\ensuremath{\mathbb{F}}}
@@ -83,34 +42,3 @@
 \newcommand{\Q}{\ensuremath{\mathbb{Q}}}
 \newcommand{\R}{\ensuremath{\mathbb{R}}}
 \newcommand{\Z}{\ensuremath{\mathbb{Z}}}
-
-%Paired Delimiters
-\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
-\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
-
-%Norm and absolute value
-%Make them scaling by default and have \abs*{} as the non-scaling version of the command
-\DeclarePairedDelimiter\abs{\lvert}{\rvert}
-\let\oldabs\abs
-\def\abs{\@ifstar{\oldabs}{\oldabs*}}
-
-\DeclarePairedDelimiter\norm{\lVert}{\rVert}
-\let\oldnorm\norm
-\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
-
-%%%Fixes of common misbehaviour
-
-%Proper Degree command
-\renewcommand{\degree}{^\circ}
-
-% Always put limits under \limit
-\let\oldlim\lim\def\lim{\oldlim\limits}
-
-\if@mkessler@math@english
-    \RequirePackage[english]{mkessler-operators}
-\else
-    \RequirePackage[german]{mkessler-operators}
-\fi
-
-
-
