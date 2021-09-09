@@ -1,5 +1,3 @@
-
-
 %%%% Bibliography
 \RequirePackage[backend=biber,style=alphabetic]{biblatex}
 
@@ -10,8 +8,22 @@
 %%%% Utilities
 \RequirePackage{comment} %comments
 \RequirePackage{todo} % todo notes
+\RequirePackage{blindtext} % \blindtext filling
 
 \RequirePackage[export]{adjustbox} % 
+\RequirePackage{pdfpages} % Include external PDF files easily
+
+% only load enumitem if beamer class has not been loaded
+% This is based on the internal command beamer@tempdim that beamer.sty defines
+\RequirePackage{etoolbox}
+\ifdef{\beamer@tempdim}{}{
+        \RequirePackage[shortlabels]{enumitem}
+}
+\RequirePackage[mathscr]{eucal} % \mathscr alphabet
+\newcommand{\cat}[1]{ \mathscr{#1} }
+
+\newcommand{\emphasize}[1]{{\color{red} #1}}
+
 
 %%% Figures
 \RequirePackage{caption} % Caption in minipages

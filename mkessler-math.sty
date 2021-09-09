@@ -2,15 +2,10 @@
 \ProvidesPackage{mkessler-math}[2021/03/31 - Math package]
 %%%%%%Provides the basic math packages used for my lecture-note write-ups
 
-%The language to pass to babel
-\newif\ifenglish\englishtrue
-\DeclareOption{german}{\englishfalse}
-\DeclareOption{english}{\englishtrue}
-
-%If beamer shall be activated
-\newif\ifbeamer\beamerfalse
-\DeclareOption{beamer}{\beamertrue}
-\DeclareOption{nobeamer}{\beamerfalse}
+\newif\if@mkessler@math@english\@mkessler@math@englishtrue
+\DeclareOption{german}{\@mkessler@math@englishfalse}
+\DeclareOption{ngerman}{\@mkessler@math@englishfalse}
+\DeclareOption{english}{\@mkessler@math@englishtrue}
 
 \DeclareOption*{\PackageWarning{mkessler-math}{Unknown '\CurrentOption'}}
 \ProcessOptions\relax
@@ -40,7 +35,6 @@
     \newunicodechar{ψ}{\ensuremath\psi}
     \newunicodechar{ω}{\ensuremath\omega}
 
-\RequirePackage{etoolbox}
 \RequirePackage{amsmath}
 \RequirePackage{mathtools}
 \RequirePackage{amsthm}
@@ -48,9 +42,6 @@
 
 \RequirePackage{latexsym}
 \RequirePackage{mathrsfs}
-\ifbeamer\else
-\RequirePackage[shortlabels]{enumitem}
-\fi
 
 \RequirePackage{pgfplots} % Plots
 \pgfplotsset{compat=1.7}
@@ -60,44 +51,29 @@
 
 \RequirePackage{tikz-cd} %Commutative diagrams
 
+
 %%for small diagrams, similar to tikz-cd
-\usepackage{xy}        % for small diagrams, e.g. arrows
-\xyoption{all}
-
-
-
-
-%%Theorems needed in any case (fancy or not fancy theorems)
+\usepackage[all]{xy}        % for small diagrams, e.g. arrows
+%%% In older versions, you found 
+% \usepackage{xy}
+% \xyoption{all}
+% here, but this messes with the catcode of the @ sign (which no package should do!)
+% so that further parts in this package would get broken
 
 % Für Formeln
 \RequirePackage{mathabx}
 \RequirePackage{faktor}
-\RequirePackage[mathscr]{eucal}
-
-\RequirePackage{blindtext}
-\RequirePackage{tabto}
-\RequirePackage{lastpage} %\pageref{LastPage} for reference on the last page
-
-% Für Tabulatoren
-
-\RequirePackage{pdfpages} % PDF-Dateien einbinden
-
-% Für Zeilenumbruch
-\RequirePackage{microtype}
-\RequirePackage{changepage}
-
+\RequirePackage[mathscr]{eucal} % \mathscr for another calligraphic alphabet
 \RequirePackage{esint}
 
 \RequirePackage{IEEEtrantools}
+
 
 \RequirePackage[ngerman,ruled,vlined]{algorithm2e}
 
 
 %%% Custom commands
 
-
-%%Load additional operators
-\RequirePackage{mkessler-operators}
 
 %Short commands for \mathbb{}
 \newcommand{\C}{\ensuremath{\mathbb{C}}}
@@ -115,14 +91,12 @@
 %Norm and absolute value
 %Make them scaling by default and have \abs*{} as the non-scaling version of the command
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
-\makeatletter
 \let\oldabs\abs
 \def\abs{\@ifstar{\oldabs}{\oldabs*}}
 
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}
 \let\oldnorm\norm
 \def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
-\makeatother
 
 %%%Fixes of common misbehaviour
 
@@ -132,14 +106,15 @@
 % Always put limits under \limit
 \let\oldlim\lim\def\lim{\oldlim\limits}
 
-\newcommand{\emphasize}[1]{{\color{red} #1}}
-
-%For setting counters of itemns in \enemerate
-\makeatletter
-\newcommand\setItemnumber[1]{\setcounter{enum\romannumeral\@enumdepth}{\numexpr#1-1\relax}}
-\makeatother
+\RequirePackage[mathscr]{eucal} % \mathscr alphabet
+\newcommand{\cat}[1]{ \mathscr{#1} }
 
 
+\if@mkessler@math@english
+    \RequirePackage[english]{mkessler-operators}
+\else
+    \RequirePackage[german]{mkessler-operators}
+\fi
 
 
 
