@@ -7,7 +7,7 @@
 
 %%%% Utilities
 \RequirePackage{comment} %comments
-\RequirePackage{todo} % todo notes
+\RequirePackage{todonotes} % todo notes
 \RequirePackage{blindtext} % \blindtext filling
 
 \RequirePackage[export]{adjustbox} % 
@@ -34,3 +34,8 @@
 
 % Math-related
 \RequirePackage[export]{adjustbox}
+
+
+\def\category#1{\mathcat{#1}}
+
+\newcommand\setItemnumber[1]{\setcounter{enum\romannumeral\@enumdepth}{\numexpr#1-1\relax}}
