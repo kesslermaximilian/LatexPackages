@@ -1,0 +1,28 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mkessler-mathfixes}[2021-04-27 - Hacky math packages for some (custom) fixes]
+%%%%%
+
+% This just brings together some (possibly ugly) hacks that I use when writing math. Likely, you do not want to use this except when building around this package (like I did), or already have similar shortcuts
+
+%Proper Degree command
+\renewcommand{\degree}{^\circ}
+
+% Always put limits under \limit
+\let\oldlim\lim\def\lim{\oldlim\limits}
+
+% Print equal sign under subset by default to not confuse people
+% (I still write \subset, because this enables me remove this renewcommand and have the default \subset command evaluated instead
+\renewcommand\subset\subseteq
+\renewcommand\supset\supseteq
+
+
+%%Renew phi and epsilon to their proper versions, make the old ones available as 
+% uglyphi and uglyepsilon
+
+\let\mkessler@mathfixes@oldphi\phi
+\renewcommand\phi\varphi
+\newcommand\uglyphi{\mkessler@mathfixes@oldphi}
+
+\let\mkessler@mathfixes@oldepsilon\epsilon
+\renewcommand\epsilon\varepsilon
+\newcommand\uglyphi{\mkessler@mathfixes@oldepsilon}
