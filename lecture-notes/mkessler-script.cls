@@ -19,6 +19,9 @@
 \ProcessOptions\relax
 
 
+
+\RequirePackage{xifthen}
+
 %%%%Define command to set metainformation of document
 %Set the course
 \def\@course{\ClassError{mkessler-script}{No \noexpand\course given}{See documentation for details}}%
