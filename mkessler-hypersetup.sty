@@ -2,9 +2,10 @@
 \ProvidesPackage{mkessler-hypersetup}[2021-09-06 - Package for setting up hyperref, cleveref and some default hyperref colors]
 %%%%%%%%%%%%%%%%%%
 
-\newif\ifenglish\englishtrue
-\DeclareOption{german}{\englishfalse}
-\DeclareOption{english}{\englishtrue}
+
+\newif\ifmkessler@hypersetup@cleveref\mkessler@hypersetup@clevereffalse
+\DeclareOption{cleveref}{\mkessler@hypersetup@clevereftrue}
+
 \DeclareOption*{\PackageWarning{mkessler-hypersetup}{Unknown '\CurrentOption'}}
 \ProcessOptions\relax
 
@@ -14,7 +15,9 @@
 
 \def\mkessler@hypersetup@exec{
     \RequirePackage{hyperref} % Hyperlinks
-    \RequirePackage{cleveref} % Better referencing
+    \ifmkessler@hypersetup@cleveref
+        \RequirePackage{cleveref} % Better referencing
+    \fi
     \hypersetup{colorlinks, citecolor=violet, urlcolor=blue!80!black, linkcolor=red!50!black, pdfauthor=\@author, pdftitle=\ifdef{\@course}{\@course}{\@title}}
 }
 
