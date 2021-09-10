@@ -9,9 +9,15 @@
 \ProcessOptions\relax
 
 %%%Hyperref and setup
-\RequirePackage{hyperref} % Hyperlinks
 \RequirePackage{xcolor} % To compute the colors below
-\RequirePackage{amsmath} % Cleveref needs this
-\RequirePackage{cleveref} % Better referencing
-\hypersetup{colorlinks, citecolor=violet, urlcolor=blue!80!black, linkcolor=red!50!black, pdfauthor=\@author, pdftitle=\@title}
+\RequirePackage{etoolbox} % Checking for defined commands
 
+\def\mkessler@hypersetup@exec{
+    \RequirePackage{hyperref} % Hyperlinks
+    \RequirePackage{cleveref} % Better referencing
+    \hypersetup{colorlinks, citecolor=violet, urlcolor=blue!80!black, linkcolor=red!50!black, pdfauthor=\@author, pdftitle=\ifdef{\@course}{\@course}{\@title}}
+}
+
+\AtEndPreamble{
+    \mkessler@hypersetup@exec
+}
