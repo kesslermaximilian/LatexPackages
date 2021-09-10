@@ -89,8 +89,8 @@
         {\small Version} \\
         \ifgitversion
             git: \gitFirstTagDescribe\\
-        \fi
-        \ifenglish compiled\else kompiliert\fi~: \today\,\currenttime \\
+            \ifenglish compiled\else kompiliert\fi:
+        \fi\today\,\currenttime \\
         \end{tabular}\par
     \fi
     \vskip 4em%
