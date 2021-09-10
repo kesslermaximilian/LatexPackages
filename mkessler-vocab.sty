@@ -3,22 +3,42 @@
 %%%%%%%%%%%%%%%%%%
 %%Provides a \vocab<[name in index]>{vocabulary} command to print vocabulary in bold blue and automatically index it.
 
-\newif\ifenglish\englishtrue
-\DeclareOption{german}{\englishfalse}
-\DeclareOption{english}{\englishtrue}
+\newif\ifmkessler@vocab@english\mkessler@vocab@englishtrue
+\DeclareOption{german}{\mkessler@vocab@englishfalse}
+\DeclareOption{english}{\mkessler@vocab@englishtrue}
+
+\newif\ifmkessler@vocab@index\mkessler@vocab@indexfalse
+\DeclareOption{index}{\mkessler@vocab@indextrue}
+\DeclareOption{noindex}{\mkessler@vocab@indexfalse}
+
 \DeclareOption*{\PackageWarning{mkessler-vocab}{Unknown '\CurrentOption'}}
 \ProcessOptions\relax
 
 %%%%Management of vocabulary and corresponding index
-\RequirePackage{imakeidx}
-\makeindex[columns=2, title=\ifenglish Index\else Stichwortverzeichnis\fi, intoc]
-
-%Emphasize \vocabulary
 \RequirePackage{xparse}
-\RequirePackage{expl3}
-\ExplSyntaxOn
-\NewDocumentCommand{\vocab}{O{} m}{
-    \textbf{\color{blue} #2}
-    \ifthenelse{\isempty{#1}}{\index{\text_titlecase_first:n{#2}}}{\index{#1}}
-}
-\ExplSyntaxOff
+\RequirePackage{xcolor}
+\ifmkessler@vocab@index
+    \RequirePackage{imakeidx}
+    \makeindex[name=mkessler@vocab@indexname, columns=2, title=\ifmkessler@vocab@english Index\else Stichwortverzeichnis\fi, intoc]
+
+    %Emphasize \vocabulary
+    \RequirePackage{expl3}
+    \ExplSyntaxOn
+    \NewDocumentCommand{\vocab}{O{} m}{
+        \textbf{\color{blue} #2}%
+        \if\relax\detokenize{#1}\relax%
+        \index[mkessler@vocab@indexname]{\text_titlecase_first:n{#2}} % true branch: #1 was empty
+        \else
+        \index[mkessler@vocab@indexname]{#1} % false branch: #1 was supplied
+        \fi
+    }
+    \ExplSyntaxOff
+    \newcommand\printvocabindex{
+        \printindex[mkessler@vocab@indexname]
+    }
+\else
+    \NewDocumentCommand{\vocab}{O{} m }{
+        \textbf{\color{blue} #2}
+    }
+\fi
+
