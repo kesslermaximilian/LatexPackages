@@ -14,7 +14,7 @@
 \ProcessOptions\relax
 
 %%%% Import the other custom math packages
-\RequirePackage{mkessler-mathfonts} % Load this first to ensure untouched fonts
+\RequirePackage{mkessler-mathfont} % Load this first to ensure untouched fonts
 
 \RequirePackage{amsmath}
 \RequirePackage{mathtools}
@@ -35,8 +35,8 @@
 \RequirePackage{mkessler-faktor}
 \RequirePackage{mkessler-mathsymb}
 \RequirePackage[basic]{mkessler-mathalias}
-% mkessler-mathfonts has already been imported
-\RequirePackage[\if@mkessler@math@english english\else german\fi]{mkessler-operators}
+% mkessler-mathfont has already been imported
+\RequirePackage[\if@mkessler@math@english english\else german\fi]{mkessler-mathop}
 \RequirePackage{mkessler-mathfig}
 \RequirePackage{mkessler-unicodechar}
 \RequirePackage{mkessler-mathfixes} % Load this last since it renews behaviour
