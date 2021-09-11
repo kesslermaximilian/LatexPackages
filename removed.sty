@@ -16,6 +16,9 @@
         \RequirePackage[shortlabels]{enumitem}
 }
 
+\newcommand\setItemnumber[1]{\setcounter{enum\romannumeral\@enumdepth}{\numexpr#1-1\relax}}
+
+
 \newcommand{\emphasize}[1]{{\color{red} #1}}
 
 
@@ -25,11 +28,6 @@
 
 \RequirePackage{wrapfig} % Wrap text around figures
 
-\newcommand\setItemnumber[1]{\setcounter{enum\romannumeral\@enumdepth}{\numexpr#1-1\relax}}
 
 % Math-related
 \RequirePackage[export]{adjustbox}
-
-\def\category#1{\mathcat{#1}}
-\newcommand{\cat}[1]{ \mathscr{#1} }
-
