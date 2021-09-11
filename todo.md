@@ -1,3 +1,8 @@
+This branch is dedicated to reworking mkessler-fancythm
+
+This is also WIP
+
+
 ## mkessler-bibliography
     - Add option for only images / literature
     - Add option to set include paths of images / literature
