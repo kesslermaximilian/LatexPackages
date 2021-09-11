@@ -1,0 +1,46 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mkessler-mathalias}[2021/09/09 Easy aliasing for math style commands]
+
+%%%%%%
+
+\newif\ifmkessler@mathalias@basic\mkessler@mathalias@basicfalse
+\DeclareOption{basic}{\mkessler@mathalias@basictrue}
+
+\newif\ifmkessler@mathalias@extended\mkessler@mathalias@extendedfalse
+\DeclareOption{extended}{\mkessler@mathalias@extendedtrue\mkessler@mathalias@basictrue}
+
+\DeclareOption*{\PackageWarning{mkessler-mathalias}{Unknown '\CurrentOption'}}
+\ProcessOptions\relax
+
+%Usage: \makealiasesforwith\<mathcommand>{<prefix>}{<Set of letters>}
+% to declare commands of form \<prefix><Letter> as \<mathcommand>{<Letter>} for each
+% of the specfied letters
+% 
+% E.g. \makealiasesforwith\mathcal{c}{ABC} will declare
+% \cA \cB \cC \cD as \mathcal{A}, \mathcal{B}, \mathcal{C}
+% This is also ensuring math context, so that
+% \cA will be valid even in normal text.
+
+\def\makealiasesforwith#1#2#3{
+    \def\mkessler@aliases@makealias##1{
+        \expandafter\def\csname #2##1\endcsname{\ensuremath{#1{##1}}}
+    }
+    \def\mkessler@aliases@recurse##1{
+        \ifx##1\mkessler@dummy\else
+        \mkessler@aliases@makealias{##1}\expandafter\mkessler@aliases@recurse\fi
+    }
+    \mkessler@aliases@recurse #3\mkessler@dummy
+}
+
+\def\mkessler@mathalias@all{ABCDEFGHIJKLMNOPQRSTUVWXYZ}
+
+\ifmkessler@mathalias@basic
+    \RequirePackage{amsfonts}
+    \makealiasesforwith\mathbb{}{CFKNQRZ}
+\fi
+
+\ifmkessler@mathalias@extended
+    \expandafter\makealiasesforwith\expandafter\mathcal\expandafter{\expandafter c\expandafter}\expandafter{\mkessler@mathalias@all}
+    \expandafter\makealiasesforwith\expandafter\mathfrak\expandafter{\expandafter f\expandafter}\expandafter{\mkessler@mathalias@all}
+\fi
+
