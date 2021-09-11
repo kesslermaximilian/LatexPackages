@@ -604,14 +604,6 @@
 \newenvironment{additionproof}[1][]{\begin{proof}[\ifenglish{}Additional proof\else{}zuBeweis\fi{}#1]}{\end{proof}}
 
 
-\RequirePackage[ngerman, ruled, vlined]{algorithm2e}
-%Make algorithm2e numbering alike with theorems
-\usepackage{aliascnt}
-\makeatletter
-\let\c@algocf\relax
-\makeatother
-\newaliascnt{algocf}{theorem}
-
 %Taken from
 % https://github.com/gillescastel/university-setup/blob/master/preamble.tex
 % Make boxes breakable
