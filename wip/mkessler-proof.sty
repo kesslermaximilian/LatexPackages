@@ -1,34 +1,77 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mkessler-proof}
+
 %%%% This package will be developed for proofs with automatic references to theorems
 % for claims numbered within these profos
 % and for nice subproof  / proof of claim environments
 
+\newif\ifmkessler@proof@english\mkessler@proof@englishtrue
+\DeclareOption{german}{\mkessler@proof@englishfalse}
+
+\DeclareOption*{\PackageWarning{mkessler-proof}{Unknown '\CurrentOption'}}
+\ProcessOptions\relax
+
+\RequirePackage{amsthm}
+\RequirePackage{etoolbox}
+\RequirePackage{xparse}
+
 %%Give claim an own counter and let it reset at each proof
 %See also at:
 %https://tex.stackexchange.com/questions/283502/reset-counter-at-beginning-of-proof
-\newtheorem{claim}{\ifenglish Claim\else Behauptung\fi}
-\newtheorem*{claim*}{\ifenglish Claim\else Behauptung\fi}
-\AtBeginEnvironment{proof}{\setcounter{claim}{0}}
+\newtheorem{claim}{\ifmkessler@proof@english Claim\else Behauptung\fi}
+\newtheorem*{claim*}{\ifmkessler@proof@english Claim\else Behauptung\fi}
+\AtBeginDocument{\def\claimautorefname{\ifmkessler@proof@english Claim\else Behauptung\fi}}
 
 \let\mkessler@fancythm@saved@proof\proof
 \let\mkessler@fancythm@saved@endproof\endproof
 
 \newif\ifhyperref
 \AtBeginDocument{
-        \@ifpackageloaded{hyperref}{\hyperreftrue}{\hyperreffalse}
+    \@ifpackageloaded{hyperref}{
+        \hyperreftrue
+        \def\grab#1{\expandafter\@firstoffive#1}
+        \def\mkessler@proof@blankref#1{\expandafter\grab\csname r@#1\endcsname}
+        \let\mkessler@proof@autoref\autoref
+    }{
+        \hyperreffalse
+        \let\mkessler@proof@blankref\ref
+        \let\mkessler@proof@autoref\ref
+        \providecommand\phantomsection{}
+    }
 }
-
-\newcounter
 
 \NewDocumentEnvironment{rproof}{m}
 {
-    \begin{proof}[Beweis von \ifhyperref\autoref{#1}\else\ref{#1}\fi]
+    % Restore correct counter for claim
+    \ifcsdef{themkessler@proof@#1@save@claim}{
+        \setcounter{claim}{\value{mkessler@proof@#1@save@claim}}
+        \def\mkessler@proof@proofprefix{\ifmkessler@proof@english Continuation of proof of\else Fortsetzung des Beweises zu\fi}
+        \edef\haha{\value{mkessler@proof@#1@part}}
+%        \def\previous@{Siehe Seite \ref{mkessler@proof@#1@part@1} für den vorherigen Teil.}
+    }{
+        \newcounter{mkessler@proof@#1@save@claim}
+        \newcounter{mkessler@proof@#1@part}
+        \setcounter{claim}{0}
+        \def\mkessler@proof@proofprefix{\ifmkessler@proof@english Proof of\else Beweis von\fi}
+ %       \let\previous@\relax
+    }
+    % Set up counter number printing as subindexed by numbering of the reference
+    \let\mkessler@proof@theoldclaim\theclaim
+    \def\theclaim{\mkessler@proof@blankref{#1}.\mkessler@proof@theoldclaim}
+    % Now, start the actual proof
+    \begin{proof}[\mkessler@proof@proofprefix\space\mkessler@proof@autoref{#1}]
+  %      \refstepcounter{mkessler@proof@#1@part}
+   %     \label{mkessler@proof@#1@part@\csname themkessler@proof@#1@part\endcsname}
+  %      \previous@
+%        \ifnumexpr1<\value{mkessler@proof@#1@part} Siehe Seite \ref{mkessler@proof@#1@part@\numexpr{\value{mkessler@proof@#1@part}-1}}\fi
 }
 {
-    \end{proof}
+    \end{proof} % End proof
+    % Save current claim counter for later restoration
+    \setcounter{mkessler@proof@#1@save@claim}{\value{claim}}
+    \stepcounter{mkessler@proof@#1@part}
 }
 
-%Proof (with asterisk)
-\newenvironment{proof*}[1][\ifenglish Proof\else Beweis\fi]{\begin{proof}[#1\emph{*}]}{\end{proof}}
 
 %%subproof environment - essentially copied proof environment from amsthm and modified its name + symbol
 \DeclareRobustCommand{\blackqed}{%
@@ -39,7 +82,7 @@
   \fi
 }
 
-\newenvironment{subproof}[1][\ifenglish Subproof\else Unterbeweis\fi]{\par
+\newenvironment{subproof}[1][\ifmkessler@proof@english Subproof\else Unterbeweis\fi]{\par
   \pushQED{\blackqed}%
   \normalfont \topsep6\p@\@plus6\p@\relax
   \trivlist
@@ -54,5 +97,5 @@
 %%%% This might be dropped, but for now is collected here
 
 %%Solution (for exercises)
-\newenvironment{solution}[1][]{\begin{proof}[\ifenglish{}Solution\else{}Lösung\fi{}#1]}{\end{proof}}
-\newenvironment{additionproof}[1][]{\begin{proof}[\ifenglish{}Additional proof\else{}zuBeweis\fi{}#1]}{\end{proof}}
+\newenvironment{solution}[1][]{\begin{proof}[\ifmkessler@proof@english{}Solution\else{}Lösung\fi{}#1]}{\end{proof}}
+\newenvironment{additionproof}[1][]{\begin{proof}[\ifmkessler@proof@english{}Additional proof\else{}zuBeweis\fi{}#1]}{\end{proof}}
