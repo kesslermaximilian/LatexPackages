@@ -14,8 +14,6 @@
 \newif\ifnumbersmallenvironmentswiththeorem\numbersmallenvironmentswiththeoremfalse
 \newif\ifnumbersmallenvironments\numbersmallenvironmentsfalse
 
-\newif\ifbeamer\beamerfalse
-
 \newcommand{\fancythmlinewidth}{2pt}
 \newcommand{\fancythmskipabove}{8pt}
 
@@ -92,7 +90,6 @@
 
 \DeclareOptionX{english}{\englishtrue}
 \DeclareOptionX{german}{\englishfalse}
-\DeclareOptionX{beamer}{\beamertrue}
 
 \DeclareOptionX{showdaggers}{\setkeys{mkesslerfancythm}{showdaggers=#1}}
 \DeclareOptionX{ownenvironments}{\setkeys{mkesslerfancythm}{ownenvironments=#1}}
@@ -521,27 +518,25 @@
 }
 
 \theoremstyle{plain}
-\ifbeamer\else\newtheorem{variant}{\ifenglish Variant\else Variante\fi}
+\newtheorem{variant}{\ifenglish Variant\else Variante\fi}
 \newtheorem{assumption}{\ifenglish Assumption\else Annahme\fi}
-\fi
+
 
 %%Give claim an own counter and let it reset at each proof
 %See also at:
 %https://tex.stackexchange.com/questions/283502/reset-counter-at-beginning-of-proof
-\ifbeamer\else
 \newtheorem{claim}{\ifenglish Claim\else Behauptung\fi}
 \AtBeginEnvironment{proof}{\setcounter{claim}{0}}
 \newtheorem*{claim*}{\ifenglish Claim\else Behauptung\fi}
-\fi
 
 \theoremstyle{definition}
-\ifbeamer\else\newtheorem*{note}{\ifenglish Note\else Anmerkung\fi}\fi
+\newtheorem*{note}{\ifenglish Note\else Anmerkung\fi}
 \newtheorem*{warning}{\color{red}\ifenglish Warning \else Warnung\fi}
-\ifbeamer\else\newtheorem*{goal}{\ifenglish Goal \else Ziel\fi}\fi
+\newtheorem*{goal}{\ifenglish Goal \else Ziel\fi}
 \newtheorem*{strategy}{\ifenglish Proof Strategy \else Beweisstrategie\fi}
 \newtheorem*{goal*}{\ifenglish Goal* \else Ziel*\fi}
 \newtheorem*{problem}{Problem}
-\ifbeamer\else\newtheorem*{info}{Information}\fi
+\newtheorem*{info}{Information}
 \newenvironment{moral}{%
 	\begin{mdframed}[linecolor=green!70!black]%
 	\bfseries\color{green!50!black}}%
@@ -551,31 +546,14 @@
 	\bfseries\color{red!50!black}}%
 	{\end{mdframed}}
 
-\ifbeamer\else\newtheorem*{answer}{\ifenglish Answer\else Antwort\fi}\fi
+\newtheorem*{answer}{\ifenglish Answer\else Antwort\fi}
 \newtheorem{observe}[theorem]{\ifenglish Observe\else Beobachte\fi}
-\ifbeamer\else\newtheorem*{property}{\ifenglish Property\else Eigenschaft\fi}\fi
-\ifbeamer\else\newtheorem*{intuition}{Intuition}\fi
-\ifbeamer\else\newtheorem*{recall}{\ifenglish Recall\else Erinnerung\fi}\fi
+\newtheorem*{property}{\ifenglish Property\else Eigenschaft\fi}
+\newtheorem*{intuition}{Intuition}
+\newtheorem*{recall}{\ifenglish Recall\else Erinnerung\fi}
 \newtheorem*{idea}{\ifenglish Idea\else Idee\fi}
-\ifbeamer\else\newtheorem{exercise}{\ifenglish Exercise\else Aufgabe\fi}[section]\fi
+\newtheorem{exercise}{\ifenglish Exercise\else Aufgabe\fi}[section]
 \newtheorem{reminder}{\ifenglish Reminder\else Erinnerung\fi}
-
-%Numbering of environments with a fractional environment number, see
-% https://tex.stackexchange.com/questions/598076/how-to-have-a-fractional-environment-number/598080?noredirect=1#comment1499689_598080
-%However, for a reason i don't understand the posted answer does not work for me, but i had to replace theorem with definition in the definition of the gag environment (so apparently, i have to do this for each environment separately). It seems that the definitions of this document do use \thedefinition and not \thetheorem, although by default this is not the case.
-\newcounter{gag}
-\makeatletter
-\newenvironment{gag}[1]{%
-  \let\savedthedefinition\thedefinition
-  \thm@headfont{\bfseries\boldmath}%
-  \stepcounter{gag}%
-  \renewcommand{\thedefinition}{\savedthedefinition#1}%
-  \renewcommand{\theHdefinition}{gag\thegag}%
-  \addtocounter{definition}{-1}\ignorespaces
-}{\ignorespacesafterend}
-\makeatother
-
-
 
 
 %%subproof environment - essentially copied proof environment from amsthm and modified its name + symbol
@@ -587,6 +565,7 @@
     \quad\hbox{$\blacksquare$}%
   \fi
 }
+
 \newenvironment{subproof}[1][\ifenglish Subproof\else Unterbeweis\fi]{\par
   \pushQED{\blackqed}%
   \normalfont \topsep6\p@\@plus6\p@\relax
