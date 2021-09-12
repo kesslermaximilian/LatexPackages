@@ -1,268 +1,193 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{mkessler-fancythm}[2021/04/27 - Theorem-Environment Package]
 %%%%%%%%m
-%Provides fancy theorem-like-environments usedd in the write-ups of my lecture nots
+%Provides fancy theorem-like-environments used in the write-ups of my lecture notes
 
-\RequirePackage{xkeyval}
 
-\newif\ifenglish\englishtrue
-\newif\ifshowstars\showstarstrue
-\newif\ifshowdaggers\showdaggerstrue
-\newif\ifincludestars\includestarstrue
-\newif\ifincludeoral\includeoraltrue
-\newif\ifmarkoral\markoraltrue
-
-\newif\iflecturenumbers\lecturenumberstrue
-\newif\ifnumbersmallenvironmentswiththeorem\numbersmallenvironmentswiththeoremfalse
-\newif\ifnumbersmallenvironments\numbersmallenvironmentsfalse
-
-\newcommand{\fancythmlinewidth}{2pt}
-\newcommand{\fancythm}{8pt}
-
-\define@choicekey*{mkesslerfancythm}{numbersmallenvironments}[\val\nr]{no,section,theorem}{%
-    \ifcase\nr\relax
-        \numbersmallenvironmentsfalse
-    \or
-        \numbersmallenvironmentstrue
-        %numbering small environments within sections is forbidden whilst using lecturenumbes
-        \iflecturenumbers
-            \numbersmallenvironmentswiththeoremtrue
-        \else
-            \numbersmallenvironmentswiththeoremfalse
-        \fi
-    \or
-        \numbersmallenvironmentstrue
-        \numbersmallenvironmentswiththeoremtrue
-    \fi
-}
-
-\define@choicekey*{mkesslerfancythm}{lecturenumbers}[\val\nr]{true,false}{%
-    \ifcase\nr\relax
-        \lecturenumberstrue
-    \else
-        \lecturenumbersfalse
-    \fi
-}
-
-\define@choicekey*{mkesslerfancythm}{showdaggers}[\val\nr]{true,false}{%
-    \ifcase\nr\relax
-        \showdaggerstrue
-    \else
-        \showdaggersfalse
-    \fi
-}
-
-\define@choicekey*{mkesslerfancythm}{ownenvironments}[\val\nr]{on, natural, off}{%
-    \ifcase\nr\relax
-        \includestarstrue
-        \showstarstrue
-    \or
-        \includestarstrue
-        \showstarsfalse
-    \or
-        \includestarsfalse
-        \showstarsfalse
-    \fi
-}
-
-\define@choicekey*{mkesslerfancythm}{oralremarks}[\val\nr]{on,natural,off}{%
-    \ifcase\nr\relax
-        \includeoraltrue
-        \markoraltrue
-    \or
-        \includeoraltrue
-        \markoralfalse
-    \or
-        \includeoralfalse
-    \fi
-}
-
+\RequirePackage{mkessler-fancythmoptions} % Internal preamble for option handling
 
 %%%%% Option section
+\DeclareOptionX{english}{\mkessler@fancythm@englishtrue}
+\DeclareOptionX{german}{\mkessler@fancythm@englishfalse}
 
-\DeclareOptionX{english}{\englishtrue}
-\DeclareOptionX{german}{\englishfalse}
-
-\DeclareOptionX{showdaggers}{\setkeys{mkesslerfancythm}{showdaggers=#1}}
+\DeclareOptionX{showdaggers}{\setkeys{mkesslerfancythm}{mkessler@fancythm@showdaggers=#1}}
 \DeclareOptionX{ownenvironments}{\setkeys{mkesslerfancythm}{ownenvironments=#1}}
 \DeclareOptionX{oralremarks}{\setkeys{mkesslerfancythm}{oralremarks=#1}}
 
-\DeclareOptionX{lecturenumbers}{\setkeys{mkesslerfancythm}{lecturenumbers=#1}}
-\DeclareOptionX{numbersmallenvironments}{\setkeys{mkesslerfancythm}{numbersmallenvironments=#1}}
+\DeclareOptionX{mkessler@fancythm@lecturenumbers}{\setkeys{mkesslerfancythm}{mkessler@fancythm@lecturenumbers=#1}}
+\DeclareOptionX{numbersmallenvironments}{\setkeys{mkesslerfancythm}{mkessler@fancythm@numbersmallenvironments=#1}}
 
 \DeclareOptionX*{\PackageWarning{mkesslerfancythm}{Unknown X \CurrentOption}}% For unknown options
 \ProcessOptionsX*\relax
 
+%%%%%%%% Implementation section
 
-
-%%%% Implementation section
-
-
-%Required Packages
+%Required Packages and setup
 \RequirePackage{amsmath}
 \RequirePackage{amsthm}
 \RequirePackage{mdframed}
 \RequirePackage{thmtools}
 \RequirePackage[skins]{tcolorbox}
+\RequirePackage{mfirstuc}
+\RequirePackage{xifthen}
+\RequirePackage{xparse}
+\tcbuselibrary{breakable}
 
-\RequirePackage{mkessler-thmstyle}
+% Dummy counters
+\declaretheorem[numberwithin=section]{mkessler@fancythm@dummy}
+\declaretheorem[numberwithin=mkessler@fancythm@dummy]{mkessler@fancythm@smalldummy}
+
+%%%%% Main part, i.e. providing macros for defining new theorems
+
 %%Environments that are numbered by default have 3 versions:
 % - the standard one, for numbering
 % - one asterisk, to exclude them from numbering (because they were not numbered in the lecture) -> they will be numbered if 'truenmubers' option is set
 % - two asterisks, for marking them as self-added, so they will not be numbered, but will receive a visual asterisk. -> They will be numbered if 'truenumbers' option is set
 
-%Theorem
 
-\RequirePackage{mfirstuc}
-\RequirePackage{xifthen}
-
-\RequirePackage{xparse}
-
-%Taken from
-% https://github.com/gillescastel/university-setup/blob/master/preamble.tex
-% Make boxes breakable
-\tcbuselibrary{breakable}
-
-\declaretheorem[numberwithin=section]{dummy}
-\declaretheorem[numberwithin=dummy]{smalldummy}
 
 \NewDocumentCommand{\declarebigtheorem}{O{} O{} m m O{}}{
     %First, store the name of the theorem in \theoremname
-    \ifenglish
+    \ifmkessler@fancythm@english
         \ifthenelse{\isempty{#2}}{\def\theoremname{#4}}{\def\theoremname{#2}}
     \else
         \ifthenelse{\isempty{#1}}{\def\theoremname{#4}}{\def\theoremname{#1}}
     \fi
 
     %Define the mane version of the theorem
-    \ifthenelse{\isempty{#5}}{\declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}, sibling = dummy]{#4}}{}
+    \ifthenelse{\isempty{#5}}{\declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}, sibling = mkessler@fancythm@dummy]{#4}}{}
 
     %Define the versions theorem*, theorem**, dtheorem
 
-    \iflecturenumbers
-        \ifnumbersmallenvironments
-            \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}, sibling=smalldummy]{#4*}
-            \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\ifshowstars *\else\fi, sibling=smalldummy]{#4**}
-            \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\ifshowdaggers $^{\dagger}$\else\fi, sibling=smalldummy]{d#4}
+    \ifmkessler@fancythm@lecturenumbers
+        \ifmkessler@fancythm@numbersmallenvironments
+            \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}, sibling=mkessler@fancythm@smalldummy]{#4*}
+            \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\ifmkessler@fancythm@showstars *\else\fi, sibling=mkessler@fancythm@smalldummy]{#4**}
+            \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\ifmkessler@fancythm@showdaggers $^{\dagger}$\else\fi, sibling=mkessler@fancythm@smalldummy]{d#4}
         \else
             \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}, numbered=no]{#4*}
-            \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\ifshowstars *\else\fi, numbered = no]{#4**}
-            \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\ifshowdaggers $^{\dagger}$\else\fi, numbered = no]{d#4}
+            \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\ifmkessler@fancythm@showstars *\else\fi, numbered = no]{#4**}
+            \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\ifmkessler@fancythm@showdaggers $^{\dagger}$\else\fi, numbered = no]{d#4}
         \fi
     \else
-        \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}, sibling=dummy]{#4*}
-        \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\ifshowstars *\else\fi, sibling=dummy]{#4**}
-        \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\ifshowdaggers $^{\dagger}$\else\fi, sibling=dummy]{d#4}
+        \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}, sibling=mkessler@fancythm@dummy]{#4*}
+        \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\ifmkessler@fancythm@showstars *\else\fi, sibling=mkessler@fancythm@dummy]{#4**}
+        \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\ifmkessler@fancythm@showdaggers $^{\dagger}$\else\fi, sibling=mkessler@fancythm@dummy]{d#4}
     \fi
-    \ifincludestars\else\renewenvironment{#4**}{\comment}{\endcomment}\fi
+    \ifmkessler@fancythm@includestars\else\renewenvironment{#4**}{\comment}{\endcomment}\fi
 }
 
 \NewDocumentCommand{\declaresmalltheorem}{O{} O{} m m}{
     %Get the name of the theorem and store it in \theoremname
-    \ifenglish
+    \ifmkessler@fancythm@english
         \ifthenelse{\isempty{#2}}{\def\theoremname{#4}}{\def\theoremname{#2}}
     \else
         \ifthenelse{\isempty{#1}}{\def\theoremname{#4}}{\def\theoremname{#1}}
     \fi
-    \ifnumbersmallenvironments
-        \ifnumbersmallenvironmentswiththeorem
-            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}, sibling = smalldummy]{#4}
-            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\ifshowstars *\else\fi, sibling=smalldummy]{#4*}
-            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\ifshowdaggers $^{\dagger}$\else\fi, sibling=smalldummy]{d#4}
+    \ifmkessler@fancythm@numbersmallenvironments
+        \ifmkessler@fancythm@numbersmallenvironmentswiththeorem
+            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}, sibling = mkessler@fancythm@smalldummy]{#4}
+            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\ifmkessler@fancythm@showstars *\else\fi, sibling=mkessler@fancythm@smalldummy]{#4*}
+            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\ifmkessler@fancythm@showdaggers $^{\dagger}$\else\fi, sibling=mkessler@fancythm@smalldummy]{d#4}
         \else
-            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}, sibling=dummy]{#4}
-            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\ifshowstars *\else\fi, sibling=dummy]{#4*}
-            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\ifshowdaggers $^{\dagger}$\else\fi, sibling=dummy]{d#4}
+            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}, sibling=mkessler@fancythm@dummy]{#4}
+            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\ifmkessler@fancythm@showstars *\else\fi, sibling=mkessler@fancythm@dummy]{#4*}
+            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\ifmkessler@fancythm@showdaggers $^{\dagger}$\else\fi, sibling=mkessler@fancythm@dummy]{d#4}
         \fi
     \else
         \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}, numbered = no]{#4}
-        \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\ifshowstars *\else\fi, numbered = no]{#4*}
-        \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\ifshowdaggers $^{\dagger}$\else\fi, numbered = no]{d#4}
+        \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\ifmkessler@fancythm@showstars *\else\fi, numbered = no]{#4*}
+        \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\ifmkessler@fancythm@showdaggers $^{\dagger}$\else\fi, numbered = no]{d#4}
     \fi
-    \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}, sibling=dummy]{n#4}
-    \ifincludestars\else\renewenvironment{#4*}{\comment}{\endcomment}\fi
+    \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}, sibling=mkessler@fancythm@dummy]{n#4}
+    \ifmkessler@fancythm@includestars\else\renewenvironment{#4*}{\comment}{\endcomment}\fi
 }
 
 
-\declarebigtheorem[Satz][Theorem]{thmredmarginandfill}{theorem}
-\declarebigtheorem{thmredmarginandfill}{proposition}
-\declarebigtheorem[Korollar]{thmredmarginandfill}{corollary}
-\declarebigtheorem{thmorangemarginandfill}{lemma}
-\declarebigtheorem[Lemma und Definition][Lemma and Definition]{thmorangemarginbluefill}{lemmadef}
-\declarebigtheorem{thmbluemarginandfill}{definition}
-\declarebigtheorem[Satz und Definition][Theorem and Definition]{thmredmarginbluefill}{theoremdef}
-\declarebigtheorem[Proposition und Definition][Proposition and Definition]{thmredmarginbluefill}{propositiondef}
-\declarebigtheorem{thmvioletmarginandfill}{notation}
-\declarebigtheorem[zuSatz][Addition to Theorem]{thmredmarginandfill}{additiontheorem}
+%%%% If requested, now define some default theoremstyles
+\ifmkessler@fancythm@defaulttheorems
 
-%%%Environments that are not numbered by default (notation, question, example, remark etc) have two forms:
-% - normal form: won't be numbered unless 'numbersmallenvironments' is set
-% - having an asterisk: will be displayed with an asterisk, will be numbered if 'numbersmallenvironments' is set
-%Notation
+    \RequirePackage[default styles]{mkessler-thmstyle} % Easy setup of mdframed styles
 
-\declaresmalltheorem[Notationsmissbrauch][Abuse of Notation]{thmvioletmargin}{abuse}
-\declaresmalltheorem[Beispiel]{thmgreenmargin}{example}
-\declaresmalltheorem[Bemerkung]{thmyellowmargin}{remark}
-\declaresmalltheorem[Lob]{thmgoldmargin}{praise}
-\declaresmalltheorem[Trivial Nonsense][Trivial Nonsense]{thmyellowmargin}{trivial}
-\declaresmalltheorem[Frage]{thmblackmarginandfill}{question}
-\declaresmalltheorem[Organisatorisches][Organisational stuff]{thmblackmargin}{orga}
-\declaresmalltheorem[Fakt]{thmredmargin}{fact}
+    \declarebigtheorem[Satz][Theorem]{thmredmarginandfill}{theorem}
+    \declarebigtheorem{thmredmarginandfill}{proposition}
+    \declarebigtheorem[Korollar]{thmredmarginandfill}{corollary}
+    \declarebigtheorem{thmorangemarginandfill}{lemma}
+    \declarebigtheorem[Lemma und Definition][Lemma and Definition]{thmorangemarginbluefill}{lemmadef}
+    \declarebigtheorem{thmbluemarginandfill}{definition}
+    \declarebigtheorem[Satz und Definition][Theorem and Definition]{thmredmarginbluefill}{theoremdef}
+    \declarebigtheorem[Proposition und Definition][Proposition and Definition]{thmredmarginbluefill}{propositiondef}
+    \declarebigtheorem{thmvioletmarginandfill}{notation}
+    \declarebigtheorem[zuSatz][Addition to Theorem]{thmredmarginandfill}{additiontheorem}
 
-%%%% Specially treated stuff
+    %%%Environments that are not numbered by default (notation, question, example, remark etc) have two forms:
+    % - normal form: won't be numbered unless 'mkessler@fancythm@numbersmallenvironments' is set
+    % - having an asterisk: will be displayed with an asterisk, will be numbered if 'numbersmallenvironments' is set
+    %Notation
 
-\declaresmalltheorem[\ifmarkoral Mündliche Anmerkung\else Bemerkung\fi][\ifmarkoral Oral remark\else remark\fi]{thmyellowmargin}{oral}
-% Option to remove oral remarks when needed
-\ifincludeoral\else
-    \renewenvironment{oral}{\comment}{\endcomment}
-    \renewenvironment{oral*}{\comment}{\endcomment}
-    \renewenvironment{doral}{\comment}{\endcomment}
-\fi
+    \declaresmalltheorem[Notationsmissbrauch][Abuse of Notation]{thmvioletmargin}{abuse}
+    \declaresmalltheorem[Beispiel]{thmgreenmargin}{example}
+    \declaresmalltheorem[Bemerkung]{thmyellowmargin}{remark}
+    \declaresmalltheorem[Lob]{thmgoldmargin}{praise}
+    \declaresmalltheorem[Trivial Nonsense][Trivial Nonsense]{thmyellowmargin}{trivial}
+    \declaresmalltheorem[Frage]{thmblackmarginandfill}{question}
+    \declaresmalltheorem[Organisatorisches][Organisational stuff]{thmblackmargin}{orga}
+    \declaresmalltheorem[Fakt]{thmredmargin}{fact}
 
+    %%%% Specially treated stuff
 
-%%%%%%%% Other mdframed style boxes
-
-\newtcolorbox{recap}{before skip = 0.5cm, after skip = 0.5cm, enhanced, sharp corners = all, colback = white, colframe = gray, toprule=0pt, bottomrule=0pt, leftrule=0pt,rightrule=0pt, overlay = {
-        \draw[gray, line width = 2pt] (frame.north west) -- ++(0.5cm, 0pt);
-        \draw[gray, line width=2pt] (frame.south east) -- ++(-0.5cm, 0pt);
-        \draw[gray, line width=2pt] (frame.north west) -- ++ (0pt, -0.5cm);
-        \draw[gray, line width=2pt] (frame.south east) -- ++(0pt, 0.5cm);
-}}
-
-\newenvironment{moral}{%
-	\begin{mdframed}[linecolor=green!70!black]%
-	\bfseries\color{green!50!black}}%
-	{\end{mdframed}}
-
-\newenvironment{antimoral}{%
-	\begin{mdframed}[linecolor=red!70!black]%
-	\bfseries\color{red!50!black}}%
-	{\end{mdframed}}
+    \declaresmalltheorem[\ifmkessler@fancythm@markoral Mündliche Anmerkung\else Bemerkung\fi][\ifmkessler@fancythm@markoral Oral remark\else remark\fi]{thmyellowmargin}{oral}
+    % Option to remove oral remarks when needed
+    \ifmkessler@fancythm@includeoral\else
+        \renewenvironment{oral}{\comment}{\endcomment}
+        \renewenvironment{oral*}{\comment}{\endcomment}
+        \renewenvironment{doral}{\comment}{\endcomment}
+    \fi
 
 
-%%%%%%%%%%%% Non-mdframed theorems
+    %%%%%%%% Other mdframed style boxes
 
-\theoremstyle{plain}
-\newtheorem{variant}{\ifenglish Variant\else Variante\fi}
-\newtheorem{assumption}{\ifenglish Assumption\else Annahme\fi}
+    \newtcolorbox{recap}{before skip = 0.5cm, after skip = 0.5cm, enhanced, sharp corners = all, colback = white, colframe = gray, toprule=0pt, bottomrule=0pt, leftrule=0pt,rightrule=0pt, overlay = {
+            \draw[gray, line width = 2pt] (frame.north west) -- ++(0.5cm, 0pt);
+            \draw[gray, line width=2pt] (frame.south east) -- ++(-0.5cm, 0pt);
+            \draw[gray, line width=2pt] (frame.north west) -- ++ (0pt, -0.5cm);
+            \draw[gray, line width=2pt] (frame.south east) -- ++(0pt, 0.5cm);
+    }}
 
-\theoremstyle{definition}
-\newtheorem*{note}{\ifenglish Note\else Anmerkung\fi}
-\newtheorem*{warning}{\color{red}\ifenglish Warning \else Warnung\fi}
-\newtheorem*{goal}{\ifenglish Goal \else Ziel\fi}
-\newtheorem*{strategy}{\ifenglish Proof Strategy \else Beweisstrategie\fi}
-\newtheorem*{goal*}{\ifenglish Goal* \else Ziel*\fi}
-\newtheorem*{problem}{Problem}
-\newtheorem*{info}{Information}
+    \newenvironment{moral}{%
+        \begin{mdframed}[linecolor=green!70!black]%
+        \bfseries\color{green!50!black}}%
+        {\end{mdframed}}
 
-
-\newtheorem*{answer}{\ifenglish Answer\else Antwort\fi}
-\newtheorem{observe}[theorem]{\ifenglish Observe\else Beobachte\fi}
-\newtheorem*{property}{\ifenglish Property\else Eigenschaft\fi}
-\newtheorem*{intuition}{Intuition}
-\newtheorem*{recall}{\ifenglish Recall\else Erinnerung\fi}
-\newtheorem*{idea}{\ifenglish Idea\else Idee\fi}
-\newtheorem{exercise}{\ifenglish Exercise\else Aufgabe\fi}[section]
-\newtheorem{reminder}{\ifenglish Reminder\else Erinnerung\fi}
+    \newenvironment{antimoral}{%
+        \begin{mdframed}[linecolor=red!70!black]%
+        \bfseries\color{red!50!black}}%
+        {\end{mdframed}}
 
 
+    %%%%%%%%%%%% Non-mdframed theorems
+
+    \theoremstyle{plain}
+    \newtheorem{variant}{\ifmkessler@fancythm@english Variant\else Variante\fi}
+    \newtheorem{assumption}{\ifmkessler@fancythm@english Assumption\else Annahme\fi}
+
+    \theoremstyle{definition}
+    \newtheorem*{note}{\ifmkessler@fancythm@english Note\else Anmerkung\fi}
+    \newtheorem*{warning}{\color{red}\ifmkessler@fancythm@english Warning \else Warnung\fi}
+    \newtheorem*{goal}{\ifmkessler@fancythm@english Goal \else Ziel\fi}
+    \newtheorem*{strategy}{\ifmkessler@fancythm@english Proof Strategy \else Beweisstrategie\fi}
+    \newtheorem*{goal*}{\ifmkessler@fancythm@english Goal* \else Ziel*\fi}
+    \newtheorem*{problem}{Problem}
+    \newtheorem*{info}{Information}
+
+
+    \newtheorem*{answer}{\ifmkessler@fancythm@english Answer\else Antwort\fi}
+    \newtheorem{observe}[theorem]{\ifmkessler@fancythm@english Observe\else Beobachte\fi}
+    \newtheorem*{property}{\ifmkessler@fancythm@english Property\else Eigenschaft\fi}
+    \newtheorem*{intuition}{Intuition}
+    \newtheorem*{recall}{\ifmkessler@fancythm@english Recall\else Erinnerung\fi}
+    \newtheorem*{idea}{\ifmkessler@fancythm@english Idea\else Idee\fi}
+    \newtheorem{exercise}{\ifmkessler@fancythm@english Exercise\else Aufgabe\fi}[section]
+    \newtheorem{reminder}{\ifmkessler@fancythm@english Reminder\else Erinnerung\fi}
+
+\fi % end of default theorems

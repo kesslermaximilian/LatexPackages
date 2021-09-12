@@ -1,0 +1,84 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mkessler-fancythmoptions}
+
+\RequirePackage{xkeyval}
+
+%%%%% This is an internal base class, do not import this yourself
+%% This will just be imported by fancythm for easy options use
+\newif\ifmkessler@fancythm@english\mkessler@fancythm@englishtrue
+\newif\ifmkessler@fancythm@showstars\mkessler@fancythm@showstarstrue
+\newif\ifmkessler@fancythm@showdaggers\mkessler@fancythm@showdaggerstrue
+\newif\ifmkessler@fancythm@includestars\mkessler@fancythm@includestarstrue
+\newif\ifmkessler@fancythm@includeoral\mkessler@fancythm@includeoraltrue
+\newif\ifmkessler@fancythm@markoral\mkessler@fancythm@markoraltrue
+
+\newif\ifmkessler@fancythm@lecturenumbers\mkessler@fancythm@lecturenumberstrue
+\newif\ifmkessler@fancythm@numbersmallenvironmentswiththeorem\mkessler@fancythm@numbersmallenvironmentswiththeoremfalse
+\newif\ifmkessler@fancythm@numbersmallenvironments\mkessler@fancythm@numbersmallenvironmentsfalse
+\newif\ifmkessler@fancythm@defaulttheorems\mkessler@fancythm@defaulttheoremstrue
+
+\define@choicekey*{mkesslerfancythm}{mkessler@fancythm@numbersmallenvironments}[\val\nr]{no,section,theorem}{%
+    \ifcase\nr\relax
+        \mkessler@fancythm@numbersmallenvironmentsfalse
+    \or
+        \mkessler@fancythm@numbersmallenvironmentstrue
+        %numbering small environments within sections is forbidden whilst using lecturenumbes
+        \ifmkessler@fancythm@lecturenumbers
+            \mkessler@fancythm@numbersmallenvironmentswiththeoremtrue
+        \else
+            \mkessler@fancythm@numbersmallenvironmentswiththeoremfalse
+        \fi
+    \or
+        \mkessler@fancythm@numbersmallenvironmentstrue
+        \mkessler@fancythm@numbersmallenvironmentswiththeoremtrue
+    \fi
+}
+
+\define@choicekey*{mkesslerfancythm}{mkessler@fancythm@lecturenumbers}[\val\nr]{true,false}{%
+    \ifcase\nr\relax
+        \mkessler@fancythm@lecturenumberstrue
+    \else
+        \mkessler@fancythm@lecturenumbersfalse
+    \fi
+}
+
+\define@choicekey*{mkesslerfancythm}{mkessler@fancythm@defaulttheorems}[\val\nr]{true,false}{%
+    \ifcase\nr\relax
+        \mkessler@fancythm@defaulttheoremstrue
+    \else
+        \mkessler@fancythm@defaulttheoremsfalse
+    \fi
+}
+
+\define@choicekey*{mkesslerfancythm}{mkessler@fancythm@showdaggers}[\val\nr]{true,false}{%
+    \ifcase\nr\relax
+        \mkessler@fancythm@showdaggerstrue
+    \else
+        \mkessler@fancythm@showdaggersfalse
+    \fi
+}
+
+\define@choicekey*{mkesslerfancythm}{ownenvironments}[\val\nr]{on, natural, off}{%
+    \ifcase\nr\relax
+        \mkessler@fancythm@includestarstrue
+        \mkessler@fancythm@showstarstrue
+    \or
+        \mkessler@fancythm@includestarstrue
+        \mkessler@fancythm@showstarsfalse
+    \or
+        \mkessler@fancythm@includestarsfalse
+        \mkessler@fancythm@showstarsfalse
+    \fi
+}
+
+\define@choicekey*{mkesslerfancythm}{oralremarks}[\val\nr]{on,natural,off}{%
+    \ifcase\nr\relax
+        \mkessler@fancythm@includeoraltrue
+        \mkessler@fancythm@markoraltrue
+    \or
+        \mkessler@fancythm@includeoraltrue
+        \mkessler@fancythm@markoralfalse
+    \or
+        \mkessler@fancythm@includeoralfalse
+    \fi
+}
