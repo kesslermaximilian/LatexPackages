@@ -1,0 +1,58 @@
+%%%% This package will be developed for proofs with automatic references to theorems
+% for claims numbered within these profos
+% and for nice subproof  / proof of claim environments
+
+%%Give claim an own counter and let it reset at each proof
+%See also at:
+%https://tex.stackexchange.com/questions/283502/reset-counter-at-beginning-of-proof
+\newtheorem{claim}{\ifenglish Claim\else Behauptung\fi}
+\newtheorem*{claim*}{\ifenglish Claim\else Behauptung\fi}
+\AtBeginEnvironment{proof}{\setcounter{claim}{0}}
+
+\let\mkessler@fancythm@saved@proof\proof
+\let\mkessler@fancythm@saved@endproof\endproof
+
+\newif\ifhyperref
+\AtBeginDocument{
+        \@ifpackageloaded{hyperref}{\hyperreftrue}{\hyperreffalse}
+}
+
+\newcounter
+
+\NewDocumentEnvironment{rproof}{m}
+{
+    \begin{proof}[Beweis von \ifhyperref\autoref{#1}\else\ref{#1}\fi]
+}
+{
+    \end{proof}
+}
+
+%Proof (with asterisk)
+\newenvironment{proof*}[1][\ifenglish Proof\else Beweis\fi]{\begin{proof}[#1\emph{*}]}{\end{proof}}
+
+%%subproof environment - essentially copied proof environment from amsthm and modified its name + symbol
+\DeclareRobustCommand{\blackqed}{%
+  \ifmmode \mathqed
+  \else
+    \leavevmode\unskip\penalty9999 \hbox{}\nobreak\hfill
+    \quad\hbox{$\blacksquare$}%
+  \fi
+}
+
+\newenvironment{subproof}[1][\ifenglish Subproof\else Unterbeweis\fi]{\par
+  \pushQED{\blackqed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \trivlist
+  \item[\hskip\labelsep
+        \itshape
+    #1\@addpunct{.}]\ignorespaces
+}{%
+  \popQED\endtrivlist\@endpefalse
+}
+
+
+%%%% This might be dropped, but for now is collected here
+
+%%Solution (for exercises)
+\newenvironment{solution}[1][]{\begin{proof}[\ifenglish{}Solution\else{}Lösung\fi{}#1]}{\end{proof}}
+\newenvironment{additionproof}[1][]{\begin{proof}[\ifenglish{}Additional proof\else{}zuBeweis\fi{}#1]}{\end{proof}}
