@@ -3,6 +3,8 @@
 %%%%%%%%m
 %Provides fancy theorem-like-environments usedd in the write-ups of my lecture nots
 
+\RequirePackage{xkeyval}
+
 \newif\ifenglish\englishtrue
 \newif\ifshowstars\showstarstrue
 \newif\ifshowdaggers\showdaggerstrue
@@ -15,20 +17,7 @@
 \newif\ifnumbersmallenvironments\numbersmallenvironmentsfalse
 
 \newcommand{\fancythmlinewidth}{2pt}
-\newcommand{\fancythmskipabove}{8pt}
-
-
-
-%Sometimes lecturers don't number environments for no particular reason. For compatibility reasons, i also don't number these environments so that the numbers are the same as in the lecture to make them better referencable, but if you want to number all (theorem, lemma, corollary, definition), then use the 'truenumber' option (true because in my opinion they really should be numbered)
-
-%Option to number ALL environments. This numbers examples, remarks, etc as well. I usually don't do that, but if you prefer it that way, use option 'numbersmallenvironments'
-%Note also that if you put this option on, it does not matter wheter option 'lecturenumbers' ore 'truenumbers' was chosen, as anyway everything will be numbered. (ALL only applys to the environments that have colored boxes)
-
-\RequirePackage{xkeyval}
-
-%%These are two options to adjust the skipabove and the width of the left margin of theorem-like environments. Default values are 2pt and 8pt, but feel free to change them as you like.
-\DeclareOptionX{linewidth}{\renewcommand\fancythmlinewidth{#1}}
-\DeclareOptionX{fancythmskipabove}{\renewcommand{\fancythmskipabove}{#1}}
+\newcommand{\fancythm}{8pt}
 
 \define@choicekey*{mkesslerfancythm}{numbersmallenvironments}[\val\nr]{no,section,theorem}{%
     \ifcase\nr\relax
@@ -88,6 +77,9 @@
     \fi
 }
 
+
+%%%%% Option section
+
 \DeclareOptionX{english}{\englishtrue}
 \DeclareOptionX{german}{\englishfalse}
 
@@ -101,272 +93,19 @@
 \DeclareOptionX*{\PackageWarning{mkesslerfancythm}{Unknown X \CurrentOption}}% For unknown options
 \ProcessOptionsX*\relax
 
-\RequirePackage{comment}
-\begin{comment}
-\DeclareOption{numbersmallenvironments}{\numbersmallenvironmentstrue\lecturenumbersfalse}
-\end{comment}
+
+
+%%%% Implementation section
+
 
 %Required Packages
 \RequirePackage{amsmath}
 \RequirePackage{amsthm}
 \RequirePackage{mdframed}
 \RequirePackage{thmtools}
-%\RequirePackage{hyperref}
 \RequirePackage[skins]{tcolorbox}
-\RequirePackage{xcolor}
-\definecolor{gold}{RGB}{218,165,32}
 
-
-\mdfsetup{skipabove=\topskip,skipbelow=\topskip}
-
-%%mdframed styles
-\mdfdefinestyle{mdredmarginandfill}{%
-    skipabove =\fancythmskipabove,
-    linecolor=red,
-    linewidth = \fancythmlinewidth,
-    leftmargin = 0cm,
-    rightmargin=0cm,
-    backgroundcolor=red!8,
-    rightline=false,
-    topline=false,
-    bottomline=false
-}
-
-\mdfdefinestyle{mdorangemarginandfill}{%
-    skipabove =\fancythmskipabove,
-    linecolor=orange,
-    linewidth = \fancythmlinewidth,
-    leftmargin = 0cm,
-    rightmargin=0cm,
-    backgroundcolor=orange!10,
-    rightline=false,
-    topline=false,
-    bottomline=false
-}
-
-\mdfdefinestyle{mdbluemarginandfill}{%
-    skipabove =\fancythmskipabove,
-    linecolor=blue,
-    linewidth = \fancythmlinewidth,
-    leftmargin = 0cm,
-    rightmargin=0cm,
-    backgroundcolor=blue!7,
-    rightline=false,
-    topline=false,
-    bottomline=false
-}
-
-\mdfdefinestyle{mdgreenmargin}{%
-    skipabove =\fancythmskipabove,
-    linecolor=green!70!black,
-    linewidth = \fancythmlinewidth,
-    leftmargin = 0cm,
-    rightmargin=0cm,
-    rightline=false,
-    topline=false,
-    bottomline=false
-}
-
-\mdfdefinestyle{mdgoldmargin}{%
-    skipabove =\fancythmskipabove,
-    linecolor=gold,
-    linewidth = \fancythmlinewidth,
-    leftmargin = 0cm,
-    rightmargin=0cm,
-    rightline=false,
-    topline=false,
-    bottomline=false
-}
-
-
-\mdfdefinestyle{mdyellowmargin}{%
-    skipabove =\fancythmskipabove,
-    linecolor=yellow!80!orange,
-    linewidth = \fancythmlinewidth,
-    leftmargin = 0cm,
-    rightmargin=0cm,
-    rightline=false,
-    topline=false,
-    bottomline=false
-}
-
-\mdfdefinestyle{mdgraymargin}{%
-    skipabove =\fancythmskipabove,
-    linecolor=gray,
-    linewidth = \fancythmlinewidth,
-    leftmargin = 0cm,
-    rightmargin=0cm,
-    rightline=false,
-    topline=false,
-    bottomline=false
-}
-
-\mdfdefinestyle{mdvioletmarginandfill}{%
-    skipabove =\fancythmskipabove,
-    linecolor=violet,
-    linewidth = \fancythmlinewidth,
-    leftmargin = 0cm,
-    rightmargin=0cm,
-    backgroundcolor=violet!7,
-    rightline=false,
-    topline=false,
-    bottomline=false
-}
-
-\mdfdefinestyle{mdvioletmargin}{%
-    skipabove =\fancythmskipabove,
-    linecolor=violet,
-    linewidth = \fancythmlinewidth,
-    leftmargin = 0cm,
-    rightmargin=0cm,
-    rightline=false,
-    topline=false,
-    bottomline=false
-}
-
-\mdfdefinestyle{mdredmarginbluefill}{%
-    skipabove =\fancythmskipabove,
-    linecolor=red,
-    linewidth = \fancythmlinewidth,
-    leftmargin = 0cm,
-    rightmargin=0cm,
-    backgroundcolor=blue!7,
-    rightline=false,
-    topline=false,
-    bottomline=false
-}
-
-\mdfdefinestyle{mdredmargin}{%
-    skipabove =\fancythmskipabove,
-    linecolor=red,
-    linewidth = \fancythmlinewidth,
-    leftmargin = 0cm,
-    rightmargin=0cm,
-    rightline=false,
-    topline=false,
-    bottomline=false
-}
-
-\mdfdefinestyle{mdorangemarginbluefill}{%
-    skipabove =\fancythmskipabove,
-    linecolor=orange,
-    linewidth = \fancythmlinewidth,
-    leftmargin = 0cm,
-    rightmargin=0cm,
-    backgroundcolor=blue!7,
-    rightline=false,
-    topline=false,
-    bottomline=false
-}
-
-\mdfdefinestyle{mdblackmarginandfill}{%
-	skipabove=\fancythmskipabove,
-	linecolor=black,
-	linewidth=\fancythmlinewidth,
-    leftmargin = 0cm,
-    rightmargin=0cm,
-	backgroundcolor=violet!20!gray!20,
-    rightline=false,
-    topline=false,
-    bottomline=false
-}
-
-\mdfdefinestyle{mdblackmargin}{%
-	skipabove=\fancythmskipabove,
-	linecolor=black,
-	linewidth=\fancythmlinewidth,
-    leftmargin = 0cm,
-    rightmargin=0cm,
-    rightline=false,
-    topline=false,
-    bottomline=false
-}
-
-\declaretheoremstyle[
-	mdframed={style=mdredmarginandfill},
-	postheadspace={0.3em},
-    notefont=\mdseries
-]{thmredmarginandfill}
-
-\declaretheoremstyle[
-	mdframed={style=mdorangemarginbluefill},
-	postheadspace={0.3em},
-    notefont=\mdseries
-]{thmorangemarginbluefill}
-
-\declaretheoremstyle[
-	mdframed={style=mdorangemarginandfill},
-	postheadspace={0.3em},
-    notefont=\mdseries
-]{thmorangemarginandfill}
-
-\declaretheoremstyle[
-	mdframed={style=mdbluemarginandfill},
-	postheadspace={0.3em},
-    notefont=\mdseries
-]{thmbluemarginandfill}
-
-
-\declaretheoremstyle[
-	mdframed={style=mdgreenmargin},
-	postheadspace={0.3em},
-    notefont=\mdseries
-]{thmgreenmargin}
-
-\declaretheoremstyle[
-	mdframed={style=mdgoldmargin},
-	postheadspace={0.3em},
-    notefont=\mdseries
-]{thmgoldmargin}
-
-\declaretheoremstyle[
-	mdframed={style=mdyellowmargin},
-	postheadspace={0.3em},
-    notefont=\mdseries
-]{thmyellowmargin}
-
-\declaretheoremstyle[
-	mdframed={style=mdgraymargin},
-	postheadspace={0.3em},
-    notefont=\mdseries
-]{thmgraymargin}
-
-\declaretheoremstyle[
-	mdframed={style=mdvioletmarginandfill},
-	postheadspace={0.3em},
-    notefont=\mdseries
-]{thmvioletmarginandfill}
-
-\declaretheoremstyle[
-	mdframed={style=mdredmargin},
-	postheadspace={0.3em},
-    notefont=\mdseries
-]{thmredmargin}
-
-\declaretheoremstyle[
-	mdframed={style=mdvioletmargin},
-	postheadspace={0.3em},
-    notefont=\mdseries
-]{thmvioletmargin}
-
-\declaretheoremstyle[
-	mdframed={style=mdredmarginbluefill},
-	postheadspace={0.3em},
-    notefont=\mdseries
-]{thmredmarginbluefill}
-
-\declaretheoremstyle[
-	mdframed={style=mdblackmarginandfill},
-	postheadspace={0.3em},
-    notefont=\mdseries
-]{thmblackmarginandfill}
-
-\declaretheoremstyle[
-	mdframed={style=mdblackmargin},
-	postheadspace={0.3em},
-    notefont=\mdseries
-]{thmblackmargin}
-
+\RequirePackage{mkessler-thmstyle}
 %%Environments that are numbered by default have 3 versions:
 % - the standard one, for numbering
 % - one asterisk, to exclude them from numbering (because they were not numbered in the lecture) -> they will be numbered if 'truenmubers' option is set
@@ -377,18 +116,15 @@
 \RequirePackage{mfirstuc}
 \RequirePackage{xifthen}
 
-
-%%\makenumberedtheorem[german Name]{style}{Name}
 \RequirePackage{xparse}
 
+%Taken from
+% https://github.com/gillescastel/university-setup/blob/master/preamble.tex
+% Make boxes breakable
+\tcbuselibrary{breakable}
 
 \declaretheorem[numberwithin=section]{dummy}
 \declaretheorem[numberwithin=dummy]{smalldummy}
-
-%\newcounter{dummy}
-%\counterwithin{dummy}{section}
-%\newcounter{smalldummy}
-%\counterwithin{smalldummy}{dummy}  % Make belowtheorem reset each time theorem resets
 
 \NewDocumentCommand{\declarebigtheorem}{O{} O{} m m O{}}{
     %First, store the name of the theorem in \theoremname
@@ -448,12 +184,7 @@
 }
 
 
-
-%Theorem
-\declaretheorem[style=thmredmarginandfill,name=\ifenglish Theorem\else Satz\fi, sibling=dummy, refname = {Satz,Sätze}, Refname = {Satz,Sätze}]{theorem}
-\AtBeginDocument{\def\theoremautorefname{\ifenglish Theorem \else Satz\fi}} %Make referencing of theorems work properly (in german) with \autoref
-\declarebigtheorem[Satz][Theorem]{thmredmarginandfill}{theorem}[nomain]
-%Other
+\declarebigtheorem[Satz][Theorem]{thmredmarginandfill}{theorem}
 \declarebigtheorem{thmredmarginandfill}{proposition}
 \declarebigtheorem[Korollar]{thmredmarginandfill}{corollary}
 \declarebigtheorem{thmorangemarginandfill}{lemma}
@@ -477,23 +208,11 @@
 \declaresmalltheorem[Frage]{thmblackmarginandfill}{question}
 \declaresmalltheorem[Organisatorisches][Organisational stuff]{thmblackmargin}{orga}
 \declaresmalltheorem[Fakt]{thmredmargin}{fact}
-\newcounter{blatt}
-%\RequirePackage{savesym}
-%\savesymbol{aside}
-%\declaresmalltheorem[Nebenbemerkung]{thmgraymargin}{aside}
-%\restoresymbol{Color}{aside}
 
-%%Aufgaben environment to include exercises at the end of the documnt
-%%%This is really a UGLY hack, since autoref actlly does not work properly, so we overwrite the autoref-name of itmes (!)
-\declaretheorem[style = thmgreenmargin, numberwithin = blatt, name =Aufgabe]{aufgabe}
-\newcommand\blatt{\refstepcounter{blatt}\subsection*{\theblatt. Übungsblatt}\addcontentsline{toc}{subsection}{\theblatt. Übungsblatt}}
-\AtEndEnvironment{aufgabe}{\label{aufgabe-\theaufgabe}}
-\AtBeginDocument{\def\itemautorefname{Aufgabe}}
+%%%% Specially treated stuff
 
-
-%Oral remarks receive their own environment
 \declaresmalltheorem[\ifmarkoral Mündliche Anmerkung\else Bemerkung\fi][\ifmarkoral Oral remark\else remark\fi]{thmyellowmargin}{oral}
-
+% Option to remove oral remarks when needed
 \ifincludeoral\else
     \renewenvironment{oral}{\comment}{\endcomment}
     \renewenvironment{oral*}{\comment}{\endcomment}
@@ -501,8 +220,7 @@
 \fi
 
 
-%Proof (with asterisk)
-\newenvironment{proof*}[1][\ifenglish Proof\else Beweis\fi]{\begin{proof}[#1\emph{*}]}{\end{proof}}
+%%%%%%%% Other mdframed style boxes
 
 \newtcolorbox{recap}{before skip = 0.5cm, after skip = 0.5cm, enhanced, sharp corners = all, colback = white, colframe = gray, toprule=0pt, bottomrule=0pt, leftrule=0pt,rightrule=0pt, overlay = {
         \draw[gray, line width = 2pt] (frame.north west) -- ++(0.5cm, 0pt);
@@ -511,23 +229,22 @@
         \draw[gray, line width=2pt] (frame.south east) -- ++(0pt, 0.5cm);
 }}
 
-\def\restatableplaceholder{
-    \begin{recap}
-        Platzhalter, um einen anderen Satz zu wiederholen, der momentan nicht kompiliert wurde
-    \end{recap}
-}
+\newenvironment{moral}{%
+	\begin{mdframed}[linecolor=green!70!black]%
+	\bfseries\color{green!50!black}}%
+	{\end{mdframed}}
+
+\newenvironment{antimoral}{%
+	\begin{mdframed}[linecolor=red!70!black]%
+	\bfseries\color{red!50!black}}%
+	{\end{mdframed}}
+
+
+%%%%%%%%%%%% Non-mdframed theorems
 
 \theoremstyle{plain}
 \newtheorem{variant}{\ifenglish Variant\else Variante\fi}
 \newtheorem{assumption}{\ifenglish Assumption\else Annahme\fi}
-
-
-%%Give claim an own counter and let it reset at each proof
-%See also at:
-%https://tex.stackexchange.com/questions/283502/reset-counter-at-beginning-of-proof
-\newtheorem{claim}{\ifenglish Claim\else Behauptung\fi}
-\AtBeginEnvironment{proof}{\setcounter{claim}{0}}
-\newtheorem*{claim*}{\ifenglish Claim\else Behauptung\fi}
 
 \theoremstyle{definition}
 \newtheorem*{note}{\ifenglish Note\else Anmerkung\fi}
@@ -537,14 +254,7 @@
 \newtheorem*{goal*}{\ifenglish Goal* \else Ziel*\fi}
 \newtheorem*{problem}{Problem}
 \newtheorem*{info}{Information}
-\newenvironment{moral}{%
-	\begin{mdframed}[linecolor=green!70!black]%
-	\bfseries\color{green!50!black}}%
-	{\end{mdframed}}
-\newenvironment{antimoral}{%
-	\begin{mdframed}[linecolor=red!70!black]%
-	\bfseries\color{red!50!black}}%
-	{\end{mdframed}}
+
 
 \newtheorem*{answer}{\ifenglish Answer\else Antwort\fi}
 \newtheorem{observe}[theorem]{\ifenglish Observe\else Beobachte\fi}
@@ -555,36 +265,4 @@
 \newtheorem{exercise}{\ifenglish Exercise\else Aufgabe\fi}[section]
 \newtheorem{reminder}{\ifenglish Reminder\else Erinnerung\fi}
 
-
-%%subproof environment - essentially copied proof environment from amsthm and modified its name + symbol
-\makeatletter
-\DeclareRobustCommand{\blackqed}{%
-  \ifmmode \mathqed
-  \else
-    \leavevmode\unskip\penalty9999 \hbox{}\nobreak\hfill
-    \quad\hbox{$\blacksquare$}%
-  \fi
-}
-
-\newenvironment{subproof}[1][\ifenglish Subproof\else Unterbeweis\fi]{\par
-  \pushQED{\blackqed}%
-  \normalfont \topsep6\p@\@plus6\p@\relax
-  \trivlist
-  \item[\hskip\labelsep
-        \itshape
-    #1\@addpunct{.}]\ignorespaces
-}{%
-  \popQED\endtrivlist\@endpefalse
-}
-\makeatother
-
-%%Solution (for exercises)
-\newenvironment{solution}[1][]{\begin{proof}[\ifenglish{}Solution\else{}Lösung\fi{}#1]}{\end{proof}}
-\newenvironment{additionproof}[1][]{\begin{proof}[\ifenglish{}Additional proof\else{}zuBeweis\fi{}#1]}{\end{proof}}
-
-
-%Taken from
-% https://github.com/gillescastel/university-setup/blob/master/preamble.tex
-% Make boxes breakable
-\tcbuselibrary{breakable}
 

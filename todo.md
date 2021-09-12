@@ -39,6 +39,7 @@ https://tex.stackexchange.com/questions/515560/incompatibility-of-thmtools-ieeet
 - 
 ## mkessler-fancythm
 - spacing of subsection before fancy thm
+- how exactly to number the claim environment, to make it referencable correctly
 
 
 # Package ideas 
