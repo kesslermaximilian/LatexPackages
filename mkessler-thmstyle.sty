@@ -1,0 +1,307 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mkessler-thmstyle}[2021/09/09 - Styles used for fancythm]
+
+%%%%% This provides easy-to-use styles, especially for use with the 
+
+\RequirePackage{amsthm}
+\RequirePackage{thmtools}
+\RequirePackage{mdframed}
+\RequirePackage{xcolor}
+\RequirePackage{xparse}
+\definecolor{gold}{RGB}{218,165,32}
+
+\mdfsetup{skipabove=\topskip,skipbelow=\topskip}
+
+
+\def\name#1#2#3{
+    \if\relax\detokenize{#1}\relax
+        \if\relax\detokenize{#3}\relax md#2margin\else #3\fi
+    \else
+        \if\relax\detokenize{#3}\relax md#2marginand#1fill\else #3\fi
+    \fi
+}
+
+\NewDocumentCommand{\declarefancymdfstyle}{O{} m O{} }{
+    \if\relax\detokenize{#1}\relax
+        \mdfdefinestyle{\if\relax\detokenize{#3}\relax md#2margin\else #3\fi}{%
+            skipabove =8pt,
+            linecolor=#2,
+            linewidth = 2pt,
+            leftmargin = 0cm,
+            rightmargin=0cm,
+            rightline=false,
+            topline=false,
+            bottomline=false
+        }
+    \else
+        \mdfdefinestyle{\if\relax\detokenize{#3}\relax md#2marginand#1fill\else #3\fi}{%
+            skipabove =8pt,
+            linecolor=#2,
+            linewidth = 2pt,
+            leftmargin = 0cm,
+            rightmargin=0cm,
+            backgroundcolor=#1,
+            rightline=false,
+            topline=false,
+            bottomline=false
+        }
+    \fi
+}
+
+\NewDocumentCommand{\declarefancythmstyle}{O{} m O{} }{
+    \declarefancymdfstyle[#1]{#2}
+    \if\relax\detokenize{#1}\relax
+        \declaretheoremstyle[
+            mdframed={style=md#2margin},
+            postheadspace={0.3em},
+            notefont=\mdseries
+        ]{thmredmarginandfill}
+    \else
+        \declaretheoremstyle[
+            mdframed={style=md#2marginand#1fill},
+            postheadspace={0.3em},
+            notefont=\mdseries
+        ]{thmredmarginandfill}
+    \fi
+}
+
+\def\fancythmskipabove{8pt}
+\def\fancythmlinewidth{2pt}
+
+\declarefancythmstyle[red!8]{red}[mdredmarginandfill]
+
+%\declarefancymdfstyle[red!8]{red}[mdredmarginandfill]
+
+%\declarefancymdfstyle[red!8]{red}[mdredmarginandfill]
+
+\mdfdefinestyle{mdorangemarginandfill}{%
+    skipabove =\fancythmskipabove,
+    linecolor=orange,
+    linewidth = \fancythmlinewidth,
+    leftmargin = 0cm,
+    rightmargin=0cm,
+    backgroundcolor=orange!10,
+    rightline=false,
+    topline=false,
+    bottomline=false
+}
+
+\mdfdefinestyle{mdbluemarginandfill}{%
+    skipabove =\fancythmskipabove,
+    linecolor=blue,
+    linewidth = \fancythmlinewidth,
+    leftmargin = 0cm,
+    rightmargin=0cm,
+    backgroundcolor=blue!7,
+    rightline=false,
+    topline=false,
+    bottomline=false
+}
+
+\mdfdefinestyle{mdgreenmargin}{%
+    skipabove =\fancythmskipabove,
+    linecolor=green!70!black,
+    linewidth = \fancythmlinewidth,
+    leftmargin = 0cm,
+    rightmargin=0cm,
+    rightline=false,
+    topline=false,
+    bottomline=false
+}
+
+\mdfdefinestyle{mdgoldmargin}{%
+    skipabove =\fancythmskipabove,
+    linecolor=gold,
+    linewidth = \fancythmlinewidth,
+    leftmargin = 0cm,
+    rightmargin=0cm,
+    rightline=false,
+    topline=false,
+    bottomline=false
+}
+
+
+\mdfdefinestyle{mdyellowmargin}{%
+    skipabove =\fancythmskipabove,
+    linecolor=yellow!80!orange,
+    linewidth = \fancythmlinewidth,
+    leftmargin = 0cm,
+    rightmargin=0cm,
+    rightline=false,
+    topline=false,
+    bottomline=false
+}
+
+\mdfdefinestyle{mdgraymargin}{%
+    skipabove =\fancythmskipabove,
+    linecolor=gray,
+    linewidth = \fancythmlinewidth,
+    leftmargin = 0cm,
+    rightmargin=0cm,
+    rightline=false,
+    topline=false,
+    bottomline=false
+}
+
+\mdfdefinestyle{mdvioletmarginandfill}{%
+    skipabove =\fancythmskipabove,
+    linecolor=violet,
+    linewidth = \fancythmlinewidth,
+    leftmargin = 0cm,
+    rightmargin=0cm,
+    backgroundcolor=violet!7,
+    rightline=false,
+    topline=false,
+    bottomline=false
+}
+
+\mdfdefinestyle{mdvioletmargin}{%
+    skipabove =\fancythmskipabove,
+    linecolor=violet,
+    linewidth = \fancythmlinewidth,
+    leftmargin = 0cm,
+    rightmargin=0cm,
+    rightline=false,
+    topline=false,
+    bottomline=false
+}
+
+\mdfdefinestyle{mdredmarginbluefill}{%
+    skipabove =\fancythmskipabove,
+    linecolor=red,
+    linewidth = \fancythmlinewidth,
+    leftmargin = 0cm,
+    rightmargin=0cm,
+    backgroundcolor=blue!7,
+    rightline=false,
+    topline=false,
+    bottomline=false
+}
+
+\mdfdefinestyle{mdredmargin}{%
+    skipabove =\fancythmskipabove,
+    linecolor=red,
+    linewidth = \fancythmlinewidth,
+    leftmargin = 0cm,
+    rightmargin=0cm,
+    rightline=false,
+    topline=false,
+    bottomline=false
+}
+
+\mdfdefinestyle{mdorangemarginbluefill}{%
+    skipabove =\fancythmskipabove,
+    linecolor=orange,
+    linewidth = \fancythmlinewidth,
+    leftmargin = 0cm,
+    rightmargin=0cm,
+    backgroundcolor=blue!7,
+    rightline=false,
+    topline=false,
+    bottomline=false
+}
+
+\mdfdefinestyle{mdblackmarginandfill}{%
+	skipabove=\fancythmskipabove,
+	linecolor=black,
+	linewidth=\fancythmlinewidth,
+    leftmargin = 0cm,
+    rightmargin=0cm,
+	backgroundcolor=violet!20!gray!20,
+    rightline=false,
+    topline=false,
+    bottomline=false
+}
+
+\mdfdefinestyle{mdblackmargin}{%
+	skipabove=\fancythmskipabove,
+	linecolor=black,
+	linewidth=\fancythmlinewidth,
+    leftmargin = 0cm,
+    rightmargin=0cm,
+    rightline=false,
+    topline=false,
+    bottomline=false
+}
+
+\declaretheoremstyle[
+	mdframed={style=mdorangemarginbluefill},
+	postheadspace={0.3em},
+    notefont=\mdseries
+]{thmorangemarginbluefill}
+
+\declaretheoremstyle[
+	mdframed={style=mdorangemarginandfill},
+	postheadspace={0.3em},
+    notefont=\mdseries
+]{thmorangemarginandfill}
+
+\declaretheoremstyle[
+	mdframed={style=mdbluemarginandfill},
+	postheadspace={0.3em},
+    notefont=\mdseries
+]{thmbluemarginandfill}
+
+
+\declaretheoremstyle[
+	mdframed={style=mdgreenmargin},
+	postheadspace={0.3em},
+    notefont=\mdseries
+]{thmgreenmargin}
+
+\declaretheoremstyle[
+	mdframed={style=mdgoldmargin},
+	postheadspace={0.3em},
+    notefont=\mdseries
+]{thmgoldmargin}
+
+\declaretheoremstyle[
+	mdframed={style=mdyellowmargin},
+	postheadspace={0.3em},
+    notefont=\mdseries
+]{thmyellowmargin}
+
+\declaretheoremstyle[
+	mdframed={style=mdgraymargin},
+	postheadspace={0.3em},
+    notefont=\mdseries
+]{thmgraymargin}
+
+\declaretheoremstyle[
+	mdframed={style=mdvioletmarginandfill},
+	postheadspace={0.3em},
+    notefont=\mdseries
+]{thmvioletmarginandfill}
+
+\declaretheoremstyle[
+	mdframed={style=mdredmargin},
+	postheadspace={0.3em},
+    notefont=\mdseries
+]{thmredmargin}
+
+\declaretheoremstyle[
+	mdframed={style=mdvioletmargin},
+	postheadspace={0.3em},
+    notefont=\mdseries
+]{thmvioletmargin}
+
+\declaretheoremstyle[
+	mdframed={style=mdredmarginbluefill},
+	postheadspace={0.3em},
+    notefont=\mdseries
+]{thmredmarginbluefill}
+
+\declaretheoremstyle[
+	mdframed={style=mdblackmarginandfill},
+	postheadspace={0.3em},
+    notefont=\mdseries
+]{thmblackmarginandfill}
+
+\declaretheoremstyle[
+	mdframed={style=mdblackmargin},
+	postheadspace={0.3em},
+    notefont=\mdseries
+]{thmblackmargin}
+
+
+
