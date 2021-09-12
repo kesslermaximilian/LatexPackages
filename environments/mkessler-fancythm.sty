@@ -109,7 +109,7 @@
 
     \RequirePackage[default styles]{mkessler-thmstyle} % Easy setup of mdframed styles
 
-    \declarebigtheorem[Satz][Theorem]{thmredmarginandfill}{theorem}
+    \declarebigtheorem[Satz][Theorem]{thmredmarginandfill}{theorem} \ifmkessler@fancythm@english\else\AtBeginDocument{\def\theoremautorefname{Satz}}\fi
     \declarebigtheorem{thmredmarginandfill}{proposition}
     \declarebigtheorem[Korollar]{thmredmarginandfill}{corollary}
     \declarebigtheorem{thmorangemarginandfill}{lemma}
