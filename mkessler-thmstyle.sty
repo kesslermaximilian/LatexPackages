@@ -50,53 +50,43 @@
 
 \NewDocumentCommand{\declarefancythmstyle}{O{} m O{} }{
     \declarefancymdfstyle[#1]{#2}
-    \if\relax\detokenize{#1}\relax
-        \declaretheoremstyle[
-            mdframed={style=md#2margin},
-            postheadspace={0.3em},
-            notefont=\mdseries
-        ]{thmredmarginandfill}
+    \if\relax\detokenize{#3}\relax
+        \if\relax\detokenize{#1}\relax
+            \declaretheoremstyle[
+                mdframed={style=
+                    \if\relax\detokenize{#1}\relax md#2margin\else md#2marginand#1fill\fi
+                    },
+                postheadspace={0.3em},
+                notefont=\mdseries
+            ]{thm#2margin}
+        \else
+            \declaretheoremstyle[
+                mdframed={style=
+                    \if\relax\detokenize{#1}\relax md#2margin\else md#2marginand#1fill\fi
+                    },
+                postheadspace={0.3em},
+                notefont=\mdseries
+            ]{thm#2marginand#1fill}
+        \fi
     \else
         \declaretheoremstyle[
-            mdframed={style=md#2marginand#1fill},
+            mdframed={style=
+                \if\relax\detokenize{#1}\relax md#2margin\else md#2marginand#1fill\fi
+                },
             postheadspace={0.3em},
             notefont=\mdseries
-        ]{thmredmarginandfill}
+        ]{#3}
     \fi
 }
 
 \def\fancythmskipabove{8pt}
 \def\fancythmlinewidth{2pt}
 
-\declarefancythmstyle[red!8]{red}[mdredmarginandfill]
+\declarefancythmstyle[red!8]{red}[thmredmarginandfill]
+\declarefancythmstyle[orange!10]{orange}[thmorangemarginandfill]
 
-%\declarefancymdfstyle[red!8]{red}[mdredmarginandfill]
+\declarefancythmstyle[blue!7]{blue}[thmbluemarginandfill]
 
-%\declarefancymdfstyle[red!8]{red}[mdredmarginandfill]
-
-\mdfdefinestyle{mdorangemarginandfill}{%
-    skipabove =\fancythmskipabove,
-    linecolor=orange,
-    linewidth = \fancythmlinewidth,
-    leftmargin = 0cm,
-    rightmargin=0cm,
-    backgroundcolor=orange!10,
-    rightline=false,
-    topline=false,
-    bottomline=false
-}
-
-\mdfdefinestyle{mdbluemarginandfill}{%
-    skipabove =\fancythmskipabove,
-    linecolor=blue,
-    linewidth = \fancythmlinewidth,
-    leftmargin = 0cm,
-    rightmargin=0cm,
-    backgroundcolor=blue!7,
-    rightline=false,
-    topline=false,
-    bottomline=false
-}
 
 \mdfdefinestyle{mdgreenmargin}{%
     skipabove =\fancythmskipabove,
@@ -229,19 +219,6 @@
 	postheadspace={0.3em},
     notefont=\mdseries
 ]{thmorangemarginbluefill}
-
-\declaretheoremstyle[
-	mdframed={style=mdorangemarginandfill},
-	postheadspace={0.3em},
-    notefont=\mdseries
-]{thmorangemarginandfill}
-
-\declaretheoremstyle[
-	mdframed={style=mdbluemarginandfill},
-	postheadspace={0.3em},
-    notefont=\mdseries
-]{thmbluemarginandfill}
-
 
 \declaretheoremstyle[
 	mdframed={style=mdgreenmargin},
