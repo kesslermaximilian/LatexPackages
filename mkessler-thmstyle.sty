@@ -10,21 +10,11 @@
 \RequirePackage{xparse}
 \definecolor{gold}{RGB}{218,165,32}
 
-\mdfsetup{skipabove=\topskip,skipbelow=\topskip}
-
-
-\def\name#1#2#3{
-    \if\relax\detokenize{#1}\relax
-        \if\relax\detokenize{#3}\relax md#2margin\else #3\fi
-    \else
-        \if\relax\detokenize{#3}\relax md#2marginand#1fill\else #3\fi
-    \fi
-}
+\mdfsetup{skipabove=8pt,skipbelow=\topskip}
 
 \NewDocumentCommand{\declarefancymdfstyle}{O{} m O{} }{
     \if\relax\detokenize{#1}\relax
         \mdfdefinestyle{\if\relax\detokenize{#3}\relax md#2margin\else #3\fi}{%
-            skipabove =8pt,
             linecolor=#2,
             linewidth = 2pt,
             leftmargin = 0cm,
@@ -35,7 +25,6 @@
         }
     \else
         \mdfdefinestyle{\if\relax\detokenize{#3}\relax md#2marginand#1fill\else #3\fi}{%
-            skipabove =8pt,
             linecolor=#2,
             linewidth = 2pt,
             leftmargin = 0cm,
@@ -78,9 +67,6 @@
         ]{#3}
     \fi
 }
-
-\def\fancythmskipabove{8pt}
-\def\fancythmlinewidth{2pt}
 
 \declarefancythmstyle[red!8]{red}[thmredmarginandfill]
 \declarefancythmstyle[orange!10]{orange}[thmorangemarginandfill]
