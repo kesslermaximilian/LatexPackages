@@ -1,0 +1,25 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mkessler-exsheet}
+
+\newif\ifmkessler@exsheet@english\mkessler@exsheet@englishtrue
+\DeclareOption{german}{\mkessler@exsheet@englishfalse}
+\DeclareOption{english}{\mkessler@exsheet@englishtrue}
+
+\DeclareOption*{\PackageWarning{mkessler-exsheet}{Unknown '\CurrentOption'}}
+\ProcessOptions\relax
+
+\RequirePackage{mkessler-fancythm}
+
+\newcounter{mkessler@exsheet@sheet}
+
+\declaretheorem[style=thmgreenmargin, numberwithin=mkessler@exsheet@sheet, name=\ifmkessler@exsheet@english Exercise\else Aufgabe\fi]{mkessler@exsheet@aufgabe}
+
+\usepackage{xkeyval}
+
+\NewDocumentEnvironment{aufgabe}{O{}}{
+\begin{mkessler@exsheet@aufgabe\expandafter}\if\relax\detokenize{#1}\relax\else[#1]\fi\label{aufgabe-\themkessler@exsheet@aufgabe}
+}{
+    \end{mkessler@exsheet@aufgabe\expandafter}\relax
+}
+
+\newcommand\blatt{\refstepcounter{mkessler@exsheet@sheet}\subsection*{\themkessler@exsheet@sheet. Übungsblatt}\addcontentsline{toc}{subsection}{\themkessler@exsheet@sheet. Übungsblatt}}
