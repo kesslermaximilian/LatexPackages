@@ -64,6 +64,16 @@
     \setcounter{mkessler@proof@#1@save@claim}{\value{claim}}
 }
 
+% Proof (with asterisk)
+\NewDocumentEnvironment{proof*}{O{}}
+{
+    \if\relax\detokenize{#1}\relax\begin{proof}[\ifmkessler@proof@english Proof\emph{*}\else Beweis\emph{*}\fi]\else\begin{proof}[#1\emph{*}]\fi
+}
+{
+    \end{proof}
+}
+
+
 %%subproof environment - essentially copied proof environment from amsthm and modified its name + symbol
 \DeclareRobustCommand{\blackqed}{%
   \ifmmode \mathqed
