@@ -1,0 +1,14 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mkessler-counters}[2021-09-06 - Write counters to auxiliary file]
+
+\RequirePackage{etoolbox}
+
+\newwrite\mkessler@counters@out
+\immediate\openout\mkessler@counters@out\jobname.cnt\relax
+\AtBeginDocument{
+    \let\mkessler@counters@saved@stepcounter\stepcounter
+    \def\stepcounter#1{
+    \mkessler@counters@saved@stepcounter{#1}
+    \immediate\write\mkessler@counters@out{#1: \csname the#1\endcsname}}
+}
+
