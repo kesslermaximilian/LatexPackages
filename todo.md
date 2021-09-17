@@ -47,4 +47,12 @@ https://tex.stackexchange.com/questions/515560/incompatibility-of-thmtools-ieeet
 
 # Package ideas 
 - Define new math environment column types
-
+- Integrate this:
+```
+\makeatletter
+\gdef\@badend#1{%
+  \@latex@error{\protect\begin{\detokenize\expandafter{\@currenvir}}\@currenvline
+                     \space ended by \protect\end{\detokenize{#1}}}\@eha}
+\makeatother
+```
+from [https://github.com/latex3/latex2e/issues/587](https://github.com/latex3/latex2e/issues/587)
