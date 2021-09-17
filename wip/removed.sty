@@ -9,34 +9,10 @@
 \RequirePackage[export]{adjustbox} % 
 \RequirePackage{pdfpages} % Include external PDF files easily
 
-% only load enumitem if beamer class has not been loaded
-% This is based on the internal command beamer@tempdim that beamer.sty defines
-\RequirePackage{etoolbox}
-\ifdef{\beamer@tempdim}{}{
-        \RequirePackage[shortlabels]{enumitem}
-}
-
-\newcommand\setItemnumber[1]{\setcounter{enum\romannumeral\@enumdepth}{\numexpr#1-1\relax}}
-
-
 \newcommand{\emphasize}[1]{{\color{red} #1}}
-
-
-%%% Figures
-\RequirePackage{caption} % Caption in minipages
-\RequirePackage{subcaption} % Subfigures / captions
 
 \RequirePackage{wrapfig} % Wrap text around figures
 
 
 % Math-related
 \RequirePackage[export]{adjustbox}
-
-
-%%% A bad geoTopo hack
-%%Aufgaben environment to include exercises at the end of the documnt
-%%%This is really a UGLY hack, since autoref actlly does not work properly, so we overwrite the autoref-name of itmes (!)
-\declaretheorem[style = thmgreenmargin, numberwithin = blatt, name =Aufgabe]{aufgabe}
-\newcommand\blatt{\refstepcounter{blatt}\subsection*{\theblatt. Übungsblatt}\addcontentsline{toc}{subsection}{\theblatt. Übungsblatt}}
-\AtEndEnvironment{aufgabe}{\label{aufgabe-\theaufgabe}}
-\AtBeginDocument{\def\itemautorefname{Aufgabe}}
