@@ -25,6 +25,10 @@ This is also WIP
 - spacing of subsection before fancy thm
 - how exactly to number the claim environment, to make it referencable correctly
 
+## mkessler-exsheet
+- Better language options
+- Change command name (migrate to english)
+
 
 ### Option clashes
 There is an option clash (since TexLive 2018) between thmtools, IEEEtrantools and cleveref.
