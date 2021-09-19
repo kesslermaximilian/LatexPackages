@@ -61,15 +61,19 @@
 %Define the main lecture command to start a new lecture
 \def\@lectureprefix{\ifenglish Lecture\else Vorlesung\fi}
 \def\@lecture{}%
-\newcommand{\lecture}[3][]{
-    \refstepcounter{lecture}
+
+\RequirePackage{xparse}
+
+% \lecture[keywords]{date}[number]{title}[margin note]
+\NewDocumentCommand{\lecture}{ O{} m O{} m O{}}{
+    \ifthenelse{\isempty{#3}}{\refstepcounter{lecture}}{\setcounter{lecture}{#3}}
     %Store lecture name in the macro \@lecture
-    \ifthenelse{\isempty{#3}}{%
+    \ifthenelse{\isempty{#4}}{%
     \def\@lecture{\@lectureprefix\, \thelecture}%
     }{%
-    \def\@lecture{\@lectureprefix\, \thelecture: #3}%
+    \def\@lecture{\@lectureprefix\, \thelecture: #4}%
     }%
-    \marginpar{\small\textsf{\parbox{10em}{\@lectureprefix\, \thelecture \\#2}}}
+    \marginpar{\small\textsf{\parbox{10em}{\@lectureprefix\, \thelecture \\#2 \ifthenelse{\isempty{#5}}{}{\\#5}}}}
     %Add lecture as an entry to the lectures file
     \addcontentsline{lec}{lecture}{\@lectureprefix\,\thelecture\,(#2)}
     %If key words are provided, add the key words of the lecture below the entry
