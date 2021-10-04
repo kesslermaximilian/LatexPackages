@@ -2,6 +2,9 @@
 \ProvidesPackage{mkessler-restate}
 
 \RequirePackage{xkeyval}
+\RequirePackage{todonotes}
+\RequirePackage{xparse}
+\RequirePackage{etoolbox}
 
 \newif\ifmkessler@restate@english\mkessler@restate@englishtrue
 \DeclareOptionX{english}{\mkessler@restate@englishtrue}
@@ -21,8 +24,6 @@
 
 \newcommand\restatesetup[1]{\setkeys{mkessler-restate.sty}{#1}}
 
-\RequirePackage{todonotes}
-\RequirePackage{xparse}
 
 \NewDocumentCommand{\restatetheorem}{s m}{
     \ifcsdef{#2}{
@@ -31,7 +32,7 @@
     \ifmkessler@restate@strict
     \PackageError{mkessler-restate}{Strict mode enabled but restate command not defined}{The theorem you tried to restate is not defined. Either make sure it is so that it can be printed or disable the strict mode with \noexpand\restatesetup{strict=false} to print a placeholder instead}
     \else
-    \missingfigure{\ifmkessler@restate@english Here theorem #1 is missing, since it is not part of this document.\else Hier fehlt die Wiederholung von Satz #1, der nicht Teil dieses Dokumentes ist.\fi}
+    \missingfigure{\ifmkessler@restate@english Here theorem \textbf{#2} is missing, since it is not part of this document.\else Hier fehlt die Wiederholung von Satz \textbf{#2}, der nicht Teil dieses Dokumentes ist.\fi}
     \fi
     }
 }
