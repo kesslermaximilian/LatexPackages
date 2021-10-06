@@ -1,0 +1,3 @@
+[submodule "PyTeX"]
+	path = PyTeX
+	url = https://github.com/kesslermaximilian/PyTeX.git
