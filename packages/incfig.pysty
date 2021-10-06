@@ -1,5 +1,4 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{castel-incfig}[2021-09-06 - Figure support for inkscape figures by Gilles Castell]
+__HEADER__(Figure support for inkscape figures by Gilles Castell)
 
 %%%%%%%%
 % This is just a small package bundling the figure support for the inkscape figures by Gilles Castel. The setup can be originally found in the preamble
