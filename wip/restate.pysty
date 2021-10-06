@@ -1,0 +1,36 @@
+__HEADER__(Replacement package)
+\RequirePackage{xkeyval}
+\RequirePackage{todonotes}
+\RequirePackage{xparse}
+\RequirePackage{etoolbox}
+
+__NEW_IF__(english, true)
+\DeclareOptionX{english}{__SET_IF__(english,true)}
+\DeclareOptionX{german}{__SET_IF__(english,false)}
+\DeclareOptionX{ngerman}{__SET_IF__(english,false)}
+
+\define@boolkey+{__FILE_NAME__}[__PACKAGE_PREFIX__]{strict}[true]{
+    \if__PACKAGE_PREFIX__strict
+        __INFO__(Strict mode enabled. Undefined restates will throw errors.)%
+    \else
+        __INFO__(Strict mode disabled. Undefined restates will now print placeholder boxes)%
+    \fi
+}{
+        __WARNING__({Erroneous input to key 'strict' ignored. Provide =true or =false.)
+}
+\ProcessOptionsX*\relax
+
+\newcommand\restatesetup[1]{\setkeys{__FILE_NAME__}{#1}}
+
+
+\NewDocumentCommand{\restatetheorem}{s m}{
+    \ifcsdef{#2}{
+        \ifx#1\BooleanTrue\csname#2\endcsname*\else\csname#2\endcsname\fi
+    }{
+    __IF__(strict)
+    \PackageError{__PACKAGE_NAME__}{Strict mode enabled but restate command not defined}{The theorem you tried to restate is not defined. Either make sure it is so that it can be printed or disable the strict mode with \noexpand\restatesetup{strict=false} to print a placeholder instead}
+    \else
+    \missingfigure{__IF__(english) Here theorem \textbf{#2} is missing, since it is not part of this document.\else Hier fehlt die Wiederholung von Satz \textbf{#2}, der nicht Teil dieses Dokumentes ist.\fi}
+    \fi
+    }
+}

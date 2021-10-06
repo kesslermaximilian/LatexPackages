@@ -1,0 +1,32 @@
+__HEADER__(Package to easily print bibliography and image attributions in document)
+\RequirePackage{xkeyval}
+
+__LANGUAGE_OPTIONS__
+
+\def__PACKAGE_MACRO__(bibfile){bibliography.bib}
+\def__PACKAGE_MACRO__(imagefile){images.bib}
+\DeclareOptionX{bibfile}[bibliography.bib]{\def__PACKAGE_MACRO__(bibfile){#1}}
+\DeclareOptionX{imagefile}[images.bib]{\def__PACKAGE_MACRO__(imagefile){#1}}
+
+__END_OPTIONS_X__
+
+%%%%Bibliography management
+\RequirePackage[backend=biber,style=alphabetic]{biblatex}
+\addbibresource{__PACKAGE_MACRO__(bibfile)}
+\addbibresource{__PACKAGE_MACRO__(imagefile)}
+
+%Provide simpler commands to properly print image attributions and literature
+\DeclareRobustCommand*{\printimageattributions}{
+    \def\imageattributionstitle{\ifenglish Image attributions \else Bildquellen\fi}
+    \phantomsection
+    \addcontentsline{toc}{section}{\imageattributionstitle}
+    \printbibliography[title={\imageattributionstitle}, type=image]
+}
+
+\DeclareRobustCommand*{\printliterature}{
+    \def\literaturetitle{\ifenglish Literature\else Literatur\fi}
+    \phantomsection
+    \addcontentsline{toc}{section}{\literaturetitle}
+    \printbibliography[title={\literaturetitle}, nottype=image]
+
+}

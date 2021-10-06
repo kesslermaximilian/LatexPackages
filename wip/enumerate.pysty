@@ -1,8 +1,6 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{mkessler-enumerate}
+__HEADER__(Simple enumeration package wrapper. Handles custom number setting and beamer class.)
 
 \@ifclassloaded{beamer}{}{
     \usepackage[shortlabels]{enumitem}
     \newcommand\setItemnumber[1]{\setcounter{enum\romannumeral\@enumdepth}{\numexpr#1-1\relax}}
 }
-

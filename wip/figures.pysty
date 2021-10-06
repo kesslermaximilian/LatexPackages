@@ -1,5 +1,4 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{mkessler-figures}
+__HEADER__(Packages related to inclusion of figures.)
 
 \RequirePackage{caption}
 \RequirePackage{subcaption}

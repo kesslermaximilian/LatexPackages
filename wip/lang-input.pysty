@@ -1,4 +1,4 @@
-% Input / encoding
+__HEADER__(Packages related to language input. Still work in progress, not intended for use.)
 \RequirePackage[\ifutf utf8\else utf8x\fi]{inputenc}
 \RequirePackage[T1]{fontenc}
 

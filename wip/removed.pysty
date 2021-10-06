@@ -1,4 +1,4 @@
-% Quotations
+__HEADER__((For now) removed parts of other packages. Not intended for use right now.)% Quotations
 \RequirePackage{csquotes} % quotations
 
 %%%% Utilities
