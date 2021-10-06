@@ -1,8 +1,4 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{mkessler-findpackage}[2021-09-06 - Find a package that provides some command]
-
-
-%%%%
+__HEADER__(Find a package that provides some command)
 % This is just a quick packaging of the post by
 %   'Martin Nyolt' (https://tex.stackexchange.com/users/78783/martin-nyolt)
 % found at

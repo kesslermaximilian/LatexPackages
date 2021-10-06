@@ -1,7 +1,4 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{mkessler-lectures}[2021-09-06 - Package for managing different lectures within a document]
-
-%%%%%%%%%%%%%%%%%%
+__HEADER__(Package for managing different lectures within a document)
 % The core of the lecture command this package provides has been taken from the preamble in
 % https://github.com/gillescastel/university-setup
 % which is licensed under
@@ -29,21 +26,20 @@
 %SOFTWARE.
 % This package extends the lecture command to make a summary of lectures at the beginning of a document, and has thus modified this command.
 
-\newif\ifenglish\englishtrue
-\DeclareOption{german}{\englishfalse}
-\DeclareOption{english}{\englishtrue}
+\RequirePackage{xkeyval}
 
-\newif\iffancyhead\fancyheadfalse
-\DeclareOption{fancyhead}{\fancyheadtrue}
+__LANGUAGE_OPTIONS__
 
-\DeclareOption*{\PackageWarning{mkessler-lectures}{Unknown '\CurrentOption'}}
-\ProcessOptions\relax
+__NEW_IF__(fancyhead,false)
+\DeclareOptionX{fancyhead}{__SET_IF__(fancyhead,true)}
+
+__END_OPTIONS_X__
 
 %Tocloft package for making a list of lectures
 \RequirePackage{tocloft}
 %Store name of the summary in a command to use it multiple times
-\newcommand\listlecturename{\ifenglish Summary of lectures\else Übersicht der Vorlesungen\fi}
-\newlistof{lecture}{lec}{\listlecturename} % Declare new list of lectures
+\newcommand__PACKAGE_MACRO__(listlecturename){__IF__(english) Summary of lectures\else Übersicht der Vorlesungen\fi}
+\newlistof{lecture}{lec}{__PACKAGE_MACRO__(listlecturename)} % Declare new list of lectures
 %Settings how to print the summary
 \renewcommand{\cftdot}{}
 \renewcommand\cftlecturefont{\normalfont\bfseries}
@@ -59,19 +55,19 @@
 }
 
 %Define the main lecture command to start a new lecture
-\def\@lectureprefix{\ifenglish Lecture\else Vorlesung\fi}
+\def__PACKAGE_MACRO__(lectureprefix){__IF__(english) Lecture\else Vorlesung\fi}
 \def\@lecture{}%
 \newcommand{\lecture}[3][]{
     \refstepcounter{lecture}
     %Store lecture name in the macro \@lecture
     \ifthenelse{\isempty{#3}}{%
-    \def\@lecture{\@lectureprefix\, \thelecture}%
+    \def\@lecture{__PACKAGE_MACRO__(lectureprefix)\, \thelecture}%
     }{%
-    \def\@lecture{\@lectureprefix\, \thelecture: #3}%
+    \def\@lecture{__PACKAGE_MACRO__(lectureprefix)\, \thelecture: #3}%
     }%
-    \marginpar{\small\textsf{\parbox{10em}{\@lectureprefix\, \thelecture \\#2}}}
+    \marginpar{\small\textsf{\parbox{10em}{__PACKAGE_MACRO__(lectureprefix)\, \thelecture \\#2}}}
     %Add lecture as an entry to the lectures file
-    \addcontentsline{lec}{lecture}{\@lectureprefix\,\thelecture\,(#2)}
+    \addcontentsline{lec}{lecture}{__PACKAGE_MACRO__(lectureprefix)\,\thelecture\,(#2)}
     %If key words are provided, add the key words of the lecture below the entry
     \ifthenelse{\isempty{#1}}{}{\addtocontents{lec}{\smallskip\hspace{1.5em}\protect\parbox{\dimexpr\textwidth-\@pnumwidth - 2em}{#1}}}
 }
@@ -79,7 +75,7 @@
 %Provide a command to show the summary of lectures
 \DeclareRobustCommand*{\summaryoflectures}{
     \phantomsection
-    \addcontentsline{toc}{section}{\listlecturename}
+    \addcontentsline{toc}{section}{__PACKAGE_MACRO__(listlecturename)}
     \thispagestyle{plain}
     \listoflecture
 }
@@ -97,9 +93,9 @@
     \fancyhead[RE,LO]{}          % Right even, Left odd
 
     %%No fancy headers in the appendix (as there is no lecture)
-    \let\mkesslerlecturesoldappendix\appendix
+    \let__PACKAGE_MACRO__(stored@appendix)\appendix
     \renewcommand\appendix{
-        \mkesslerlecturesoldappendix
+        __PACKAGE_MACRO__(stored@appendix)
         \fancyhead[RO,LE]{}
         \renewcommand{\headrulewidth}{0pt}
     }
