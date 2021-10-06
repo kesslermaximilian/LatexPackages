@@ -1,14 +1,13 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{mkessler-thmstyle}[2021/09/09 - Styles used for fancythm]
-
+__HEADER__(Mdframed Styles used for fancythm package)
 %%%%% This provides easy-to-use styles, especially for use with the 
 
-% A simple option wether to define some default styles
-\newif\ifmkessler@thmstyle@defaultstyles\mkessler@thmstyle@defaultstylesfalse
-\DeclareOption{defaultstyles}{\mkessler@thmstyle@defaultstylestrue}
+\RequirePackage{xkeyval}
 
-\DeclareOption*{\PackageWarning{mkessler-thmstyle}{Unknown '\CurrentOption'}}
-\ProcessOptions\relax
+% A simple option wether to define some default styles
+__NEW_IF__(defaultstyles,false)
+\DeclareOptionX{defaultstyles}{__SET_IF__(defaultstyles,true)}
+
+__END_OPTIONS_X__
 
 \RequirePackage{amsthm}
 \RequirePackage{thmtools}
@@ -75,7 +74,7 @@
     \fi
 }
 
-\ifmkessler@thmstyle@defaultstyles
+__IF__(defaultstyles)
     \declarefancythmstyle[red!8]{red}[thmredmarginandfill]
     \declarefancythmstyle[orange!10]{orange}[thmorangemarginandfill]
     \declarefancythmstyle[blue!7]{blue}[thmbluemarginandfill]
