@@ -1,0 +1,36 @@
+__HEADER__(Hacky math packages for some (custom) fixes)
+% This just brings together some (possibly ugly) hacks that I use when writing math. Likely, you do not want to use this except when building around this package (like I did), or already have similar shortcuts
+
+%Proper Degree command
+\def__PACKAGE_MACRO__(degree){\ensuremath{^\circ}}
+\AtBeginDocument{\let\degree__PACKAGE_MACRO__(degree)}
+
+% Always put limits under \limit
+\let\oldlim\lim\def\lim{\oldlim\limits}
+
+% Print equal sign under subset by default to not confuse people
+% (I still write \subset, because this enables me remove this renewcommand and have the default \subset command evaluated instead
+\let__PACKAGE_MACRO__(subseteq)\subseteq
+\let__PACKAGE_MACRO__(supseteq)\supseteq
+\AtBeginDocument{
+    \let\subset__PACKAGE_MACRO__(subseteq)
+    \let\supset__PACKAGE_MACRO__(supseteq)
+}
+
+%%Renew phi and epsilon to their proper versions, make the old ones available as 
+% uglyphi and uglyepsilon
+
+\let__PACKAGE_MACRO__(stored@phi)\phi
+\let__PACKAGE_MACRO__(stored@varphi)\varphi
+\AtBeginDocument{
+    \let\phi__PACKAGE_MACRO__(stored@varphi)
+    \let\uglyphi__PACKAGE_MACRO__(stored@phi)
+    \let\oldphi__PACKAGE_MACRO__(stored@phi)
+}
+
+\let__PACKAGE_MACRO__(stored@epsilon)\epsilon
+\let__PACKAGE_MACRO__(stored@varepsilon)\varepsilon
+\AtBeginDocument{
+    \let\epsilon__PACKAGE_MACRO__(stored@varepsilon)
+    \let\uglyepsilon__PACKAGE_MACRO__(stored@epsilon)
+}

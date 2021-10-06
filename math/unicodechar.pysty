@@ -1,8 +1,4 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{mkessler-unicodechar}[2021/09/08 - Wrapper for the newunicodchar package with defined unicode symbols]
-
-%%%%%%%%
-
+__HEADER__(Wrapper for the newunicodechare package with some defined unicode symbols.)
 % This is just a simple package loading the newunicodechar package and defining the common unicode symbols i regularly use for typesetting mathematics
 
 \RequirePackage{newunicodechar}

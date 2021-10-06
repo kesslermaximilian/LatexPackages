@@ -1,0 +1,41 @@
+__HEADER__(Easy aliasing for math style commands)
+
+__NEW_IF__(basic,false)
+__NEW_IF__(extended,false)
+
+\DeclareOption{basic}{__SET_IF__(basic,true)}
+\DeclareOption{extended}{__SET_IF__(extended,true)__SET_IF__(basic,true)}
+
+__END_OPTIONS__
+
+%Usage: \makealiasesforwith\<mathcommand>{<prefix>}{<Set of letters>}
+% to declare commands of form \<prefix><Letter> as \<mathcommand>{<Letter>} for each
+% of the specfied letters
+% 
+% E.g. \makealiasesforwith\mathcal{c}{ABC} will declare
+% \cA \cB \cC \cD as \mathcal{A}, \mathcal{B}, \mathcal{C}
+% This is also ensuring math context, so that
+% \cA will be valid even in normal text.
+
+\def\makealiasesforwith#1#2#3{
+    \def__PACKAGE_MACRO__(makealias)##1{
+        \expandafter\def\csname #2##1\endcsname{\ensuremath{#1{##1}}}
+    }
+    \def__PACKAGE_MACRO__(recurse)##1{
+        \ifx##1__PACKAGE_MACRO__(dummy)\else
+        __PACKAGE_MACRO__(makealias){##1}\expandafter__PACKAGE_MACRO__(recurse)\fi
+    }
+    __PACKAGE_MACRO__(recurse) #3__PACKAGE_MACRO__(dummy)
+}
+
+\def__PACKAGE_MACRO__(all){ABCDEFGHIJKLMNOPQRSTUVWXYZ}
+
+__IF__(basic)
+    \RequirePackage{amsfonts}
+    \makealiasesforwith\mathbb{}{CFKNQRZ}
+\fi
+
+__IF__(extended)
+    \expandafter\makealiasesforwith\expandafter\mathcal\expandafter{\expandafter c\expandafter}\expandafter{__PACKAGE_MACRO__(all)}
+    \expandafter\makealiasesforwith\expandafter\mathfrak\expandafter{\expandafter f\expandafter}\expandafter{__PACKAGE_MACRO__(all)}
+\fi

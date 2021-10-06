@@ -1,6 +1,4 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{mkessler-faktor}[2021-09-06 - Faktor package]
-%%%%%%%%%%%%%%%%%%
+__HEADER__(Faktor package that also handles cofaktors)
 
 % Extension the faktor package for 
 % - cofaktor command that provides A \ B notation
@@ -12,7 +10,6 @@
 % and answered by 'Werner' (https://tex.stackexchange.com/users/5764/werner)
 %
 % This package only packages the corresponding answer and provides an analoguous way of a \cofactor command
-
 
 %Dependencies
 \RequirePackage{xparse}

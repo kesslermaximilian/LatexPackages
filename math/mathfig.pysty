@@ -1,7 +1,4 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{mkessler-mathfig}[2021/03/31 - Math figures with TikZ / pgfplots / xy]
-
-%%%%%%%%
+__HEADER__(Math figures with TikZ / pgfplots / xy)
 % This is just a collection of the packages I use to typeset mathematical figures
 % most commonly plots, commutative diagrams or geometry
 

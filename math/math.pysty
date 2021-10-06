@@ -1,17 +1,12 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{mkessler-math}[2021/03/31 - Math package]
-%%%%%%Collects the basic math packages used for my lecture-note write-ups
+__HEADER__(Main math package.)
+% Collects the basic math packages used for my lecture-note write-ups
+% This just imports all the packages I use for writing up mathematics
+% Probably, you will just want to load them separately for more
+% customization
 
-%% This just imports all the packages I use for writing up mathematics
+__LANGUAGE_OPTIONS__
 
-
-\newif\if@mkessler@math@english\@mkessler@math@englishtrue
-\DeclareOption{german}{\@mkessler@math@englishfalse}
-\DeclareOption{ngerman}{\@mkessler@math@englishfalse}
-\DeclareOption{english}{\@mkessler@math@englishtrue}
-
-\DeclareOption*{\PackageWarning{mkessler-math}{Unknown '\CurrentOption'}}
-\ProcessOptions\relax
+__END_OPTIONS__
 
 %%%% Import the other custom math packages
 \RequirePackage{mkessler-mathfont} % Load this first to ensure untouched fonts
@@ -36,7 +31,7 @@
 \RequirePackage{mkessler-mathsymb}
 \RequirePackage[basic]{mkessler-mathalias}
 % mkessler-mathfont has already been imported
-\RequirePackage[\if@mkessler@math@english english\else german\fi]{mkessler-mathop}
+\RequirePackage[__IF__(english) english\else german\fi]{mkessler-mathop}
 \RequirePackage{mkessler-mathfig}
 \RequirePackage{mkessler-unicodechar}
 \RequirePackage{mkessler-mathfixes} % Load this last since it renews behaviour
