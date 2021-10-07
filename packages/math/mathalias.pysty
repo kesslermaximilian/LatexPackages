@@ -1,12 +1,14 @@
 __HEADER__(Easy aliasing for math style commands)
 
+\RequirePackage{xkeyval}
+
 __NEW_IF__(basic,false)
 __NEW_IF__(extended,false)
 
-\DeclareOption{basic}{__SET_IF__(basic,true)}
-\DeclareOption{extended}{__SET_IF__(extended,true)__SET_IF__(basic,true)}
+\DeclareOptionX{basic}{__SET_IF__(basic,true)}
+\DeclareOptionX{extended}{__SET_IF__(extended,true)__SET_IF__(basic,true)}
 
-__END_OPTIONS__
+__END_OPTIONS_X__
 
 %Usage: \makealiasesforwith\<mathcommand>{<prefix>}{<Set of letters>}
 % to declare commands of form \<prefix><Letter> as \<mathcommand>{<Letter>} for each

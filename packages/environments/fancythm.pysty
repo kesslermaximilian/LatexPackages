@@ -1,6 +1,8 @@
 __HEADER__(Theorem-Environment Package)
 %Provides fancy theorem-like-environments used in the write-ups of my lecture notes
 
+\RequirePackage{xkeyval}
+
 __NEW_IF__(showstars,true)
 __NEW_IF__(showdaggers,true)
 __NEW_IF__(includestars,true)

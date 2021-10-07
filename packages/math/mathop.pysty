@@ -1,9 +1,11 @@
 __HEADER__(Math Operator Package)
 %Provides some commonly used Operators used in the write-ups of my lecture notes
 
-__LANGUAGE_OPTIONS__
+\RequirePackage{xkeyval}
 
-__END_OPTIONS__
+__LANGUAGE_OPTIONS_X__
+
+__END_OPTIONS_X__
 
 %%%%%Package dependencies
 \RequirePackage{amsmath}

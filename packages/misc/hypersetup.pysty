@@ -1,9 +1,11 @@
 __HEADER__(Package for setting up hyperref, cleveref and some default hyperref colors)
 
-__NEW_IF__(cleveref,false)
-\DeclareOption{cleveref}{__SET_IF__(cleveref,true)}
+\RequirePackage{xkeyval}
 
-__END_OPTIONS___
+__NEW_IF__(cleveref,false)
+\DeclareOptionX{cleveref}{__SET_IF__(cleveref,true)}
+
+__END_OPTIONS_X__
 
 %%%Hyperref and setup
 \RequirePackage{xcolor} % To compute the colors below

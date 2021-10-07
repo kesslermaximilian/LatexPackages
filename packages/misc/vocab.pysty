@@ -3,11 +3,11 @@ __HEADER__(Package for emphasizing vocabulary)
 
 \RequirePackage{xkeyval}
 
-__LANGUAGE_OPTIONS__
+__LANGUAGE_OPTIONS_X__
 __NEW_IF__(index,false)
 
-\DeclareOption{index}{__SET_IF__(index,true)}
-\DeclareOption{noindex}{__SET_IF__(index,false)}
+\DeclareOptionX{index}{__SET_IF__(index,true)}
+\DeclareOptionX{noindex}{__SET_IF__(index,false)}
 
 __END_OPTIONS_X__
 

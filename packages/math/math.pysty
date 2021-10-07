@@ -4,9 +4,11 @@ __HEADER__(Main math package.)
 % Probably, you will just want to load them separately for more
 % customization
 
-__LANGUAGE_OPTIONS__
+\RequirePackage{xkeyval}
 
-__END_OPTIONS__
+__LANGUAGE_OPTIONS_X__
+
+__END_OPTIONS_X__
 
 %%%% Import the other custom math packages
 \RequirePackage{mkessler-mathfont} % Load this first to ensure untouched fonts

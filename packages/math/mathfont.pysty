@@ -18,7 +18,7 @@ __HEADER__(Collects several math fonts together)
     \let\mathfrak__PACKAGE_MACRO__(amsfonts@mathfrak) % Set \mathfrak to mathfrak from amsfonts
     \let\mathscr__PACKAGE_MACRO__(mathrsfs@mathscr) % Set \mathscr to mathscript from mathrsfs package
     \let\mathcat__PACKAGE_MACRO__(mathrsfs@mathscr) % Set \mathcat to mathscript from mathrsfs package
-    \let\mathcalo__PACKAGE_MACRO__(eucal@optionmathscr@mathscr) % Set \mathcom (for comic) to \mathscr from [mathscr]{eucal} package
+    \let\mathcalo__PACKAGE_MACRO__(eucal@optionmathscr@mathscr) % Set \mathcalo (for old calligraphic) to \mathscr from [mathscr]{eucal} package
 }
 
 \AtBeginDocument{__PACKAGE_MACRO__(restorefonts)}

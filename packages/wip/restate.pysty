@@ -16,9 +16,10 @@ __NEW_IF__(english, true)
         __INFO__(Strict mode disabled. Undefined restates will now print placeholder boxes)%
     \fi
 }{
-        __WARNING__({Erroneous input to key 'strict' ignored. Provide =true or =false.)
+        __WARNING__(Erroneous input to key 'strict' ignored. Provide =true or =false.)
 }
-\ProcessOptionsX*\relax
+
+__END_OPTIONS_X__
 
 \newcommand\restatesetup[1]{\setkeys{__FILE_NAME__}{#1}}
 

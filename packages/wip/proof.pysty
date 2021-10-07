@@ -2,7 +2,7 @@ __HEADER__(Automatic references to theorems in proofs. Claim counters within pro
 
 \RequirePackage{xkeyval}
 
-__LANGUAGE_OPTIONS__
+__LANGUAGE_OPTIONS_X__
 
 __END_OPTIONS_X__
 
@@ -18,15 +18,15 @@ __END_OPTIONS_X__
 \newtheorem*{claim*}{__IF__(english) Claim\else Behauptung\fi}
 \AtBeginDocument{\def\claimautorefname{__IF__(english) Claim\else Behauptung\fi}}
 
-\newif\ifhyperref
+__NEW_IF__(hyperref,false)
 \AtBeginDocument{
     \@ifpackageloaded{hyperref}{
-        \hyperreftrue
+        __SET_IF__(hyperref,true)
         \def\grab#1{\expandafter\@firstoffive#1}
         \def__PACKAGE_MACRO__(blankref)#1{\expandafter\grab\csname r@#1\endcsname}
         \let__PACKAGE_MACRO__(autoref)\autoref
     }{
-        \hyperreffalse
+        __SET_IF__(hyperref,true)
         \let__PACKAGE_MACRO__(blankref)\ref
         \let__PACKAGE_MACRO__(autoref)\ref
     }
