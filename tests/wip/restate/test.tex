@@ -1,0 +1,16 @@
+\documentclass{article}
+
+\usepackage[german]{mkessler-restate}
+
+\begin{document}
+
+\NewDocumentCommand{\testbla}{s}{
+\ifx#1\BooleanTrue Starred version called\else\relax\fi
+    \LaTeX
+}
+
+\undef\testbla
+
+\restatetheorem{testbla}
+
+\end{document}
