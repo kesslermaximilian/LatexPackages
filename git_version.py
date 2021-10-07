@@ -7,13 +7,14 @@ def get_history(commit: git.objects.commit.Commit, priority=0, depth=0) -> Dict:
         'priority': priority,
         'depth': depth
     }}
-    if len(commit.parents) == 0:
-        return commit_history
-    else:
-        commit_history.update(get_history(commit.parents[0], priority, depth+1))
-        for parent in commit.parents[1:]:
-            commit_history.update(get_history(parent, priority+1, depth+1))
-        return commit_history
+    try:
+        if len(commit.parents) > 0:
+            commit_history.update(get_history(commit.parents[0], priority, depth+1))
+            for parent in commit.parents[1:]:
+                commit_history.update(get_history(parent, priority+1, depth+1))
+    except ValueError:
+        pass
+    return commit_history
 
 
 def git_describe(commit: git.objects.commit.Commit):
