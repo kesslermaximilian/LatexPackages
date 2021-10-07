@@ -16,18 +16,25 @@ BUILD_DETAILS = [
 ]
 
 
+def get_latest_commit(repo):
+    if repo.head.is_detached:
+        return repo.head.commit
+    else:
+        return repo.head.ref.commit
+
+
 def build_details():
     repo = git.Repo()
-    repo_description = git_describe(repo.head.ref.commit)
+    repo_description = git_describe(get_latest_commit(repo))
     pytex_repo = repo.submodule('PyTeX').module()
-    pytex_repo_description = git_describe(pytex_repo.head.ref.commit)
+    pytex_repo_description = git_describe(get_latest_commit(pytex_repo))
     return list(map(lambda line: line.format(
             build_time=datetime.now().strftime('%Y/%m/%d %H:%M'),
             pytex_version=pytex_repo_description,
-            pytex_commit_hash=pytex_repo.head.ref.commit.hexsha[0:7],
+            pytex_commit_hash=get_latest_commit(pytex_repo).hexsha[0:7],
             packages_version=repo_description,
-            packages_commit_hash=repo.head.ref.commit.hexsha[0:7]
-            ),BUILD_DETAILS))
+            packages_commit_hash=get_latest_commit(repo).hexsha[0:7]
+            ), BUILD_DETAILS))
 
 
 def build(build_dir: str):
