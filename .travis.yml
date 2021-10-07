@@ -6,7 +6,6 @@ cache: apt
 addons:
   apt:
     packages:
-      - wget
       - tree
       - latexmk
       - biber
@@ -16,8 +15,9 @@ install:
     - pip install GitPython
       
 script:
-    - make build
+    - python3 -c 'from build import build; build("build/LatexPackages/")'
     - cd build
+    - zip -r LatexPackages.zip LatexPackages
     - tree -H '.' -I "index.html" -D --charset utf-8 -T "LatexPackages" > index.html
 
 deploy:
@@ -28,3 +28,9 @@ deploy:
       keep-history: false
       on:
         branch: master
+    - provider: releases
+      api_key: $GITHUB_TOKEN
+      skip_cleanup: true
+      file: $TRAVIS_BUILD_DIR/build/LatexPackages.zip
+      on:
+          tags: true
