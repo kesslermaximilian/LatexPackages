@@ -1,0 +1,30 @@
+sudo: true
+dist: bionic
+language: python
+cache: apt
+
+addons:
+  apt:
+    packages:
+      - wget
+      - tree
+      - latexmk
+      - biber
+      - make
+
+install:
+    - pip install GitPython
+      
+script:
+    - make build
+    - cd build
+    - tree -H '.' -I "index.html" -D --charset utf-8 -T "LatexPackages" > index.html
+
+deploy:
+    - provider: pages
+      skip-cleanup: true
+      github-token: $GITHUB_TOKEN
+      local-dir: build/
+      keep-history: false
+      on:
+        branch: master
