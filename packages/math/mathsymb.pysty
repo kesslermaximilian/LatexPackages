@@ -1,0 +1,40 @@
+__HEADER__(Some extra math-related symbols.)
+% A collection of math-related symbols / tools I often use, mainly collected together from Stack Overflow or hacked together myself
+
+%Dependencies
+\RequirePackage{tikz}
+
+% noloc command by
+%   user 'egreg' (https://tex.stackexchange.com/users/4427/egreg)
+% posted on
+%   https://tex.stackexchange.com/questions/546713/spacing-in-colon (Spacing in \colon)
+% Prints a mirrored \colon correctly
+\RequirePackage{amsmath}
+\newcommand\noloc{%
+  \nobreak
+  \mspace{6mu plus 1mu}
+  {:}
+  \nonscript\mkern-\thinmuskip
+  \mathpunct{}
+  \mspace{2mu}
+}
+
+% \contra command from Gilles Castel, taken from
+%   https://github.com/gillescastel/university-setup/blob/master/preamble.tex
+% (retrieved 2021-09-08)
+% The preamble linked above is MIT-licensed by Gilles Castel
+\RequirePackage{stmaryrd} % for \lightning
+\RequirePackage{graphicx}
+\newcommand\contra{\scalebox{1.5}{$\lightning$}}
+
+%Print a warning sign
+\RequirePackage{pgf}
+\newcommand\Warning{%
+ \makebox[1.4em][c]{%
+ \makebox[0pt][c]{\raisebox{.1em}{\small!}}%
+ \makebox[0pt][c]{\color{red}\Large$\bigtriangleup$}}}%
+
+%Make circled symbols
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+

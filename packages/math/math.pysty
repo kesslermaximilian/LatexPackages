@@ -1,0 +1,39 @@
+__HEADER__(Main math package.)
+% Collects the basic math packages used for my lecture-note write-ups
+% This just imports all the packages I use for writing up mathematics
+% Probably, you will just want to load them separately for more
+% customization
+
+\RequirePackage{xkeyval}
+
+__LANGUAGE_OPTIONS_X__
+
+__END_OPTIONS_X__
+
+%%%% Import the other custom math packages
+\RequirePackage{mkessler-mathfont} % Load this first to ensure untouched fonts
+
+\RequirePackage{amsmath}
+\RequirePackage{mathtools}
+\RequirePackage{amsthm}
+\RequirePackage{amssymb}
+
+\RequirePackage{latexsym}
+
+% Für Formeln
+\RequirePackage{mathabx}
+\RequirePackage{esint}
+
+\RequirePackage{IEEEtrantools}
+\RequirePackage[ngerman,ruled,vlined]{algorithm2e}
+
+
+%%% Importing other custom packages
+\RequirePackage{mkessler-faktor}
+\RequirePackage{mkessler-mathsymb}
+\RequirePackage[basic]{mkessler-mathalias}
+% mkessler-mathfont has already been imported
+\RequirePackage[__IF__(english) english\else german\fi]{mkessler-mathop}
+\RequirePackage{mkessler-mathfig}
+\RequirePackage{mkessler-unicodechar}
+\RequirePackage{mkessler-mathfixes} % Load this last since it renews behaviour

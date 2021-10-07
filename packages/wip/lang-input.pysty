@@ -1,0 +1,22 @@
+__HEADER__(Packages related to language input. Still work in progress, not intended for use.)
+\RequirePackage[\ifutf utf8\else utf8x\fi]{inputenc}
+\RequirePackage[T1]{fontenc}
+
+% Font
+\RequirePackage{lmodern} % Use latin modern font
+\RequirePackage{anyfontsize} % Provides \fontsize{...}{...}\selectfont
+\RequirePackage{soul} % Hyphenation, crossing \ldots
+\RequirePackage{microtype} % Hyphenation, character protrusion, font expansion
+
+% Layout
+\RequirePackage{parskip} % Leave blank line instead of indenting paragraphs
+\RequirePackage{onehalfspacing}
+\RequirePackage{changepage} % Change page layout in middle of document
+
+\RequirePackage{tabto} % Tabulators
+
+% Language support
+\RequirePackage[\ifenglish english \else ngerman\fi]{babel}
+
+%Referencation
+\RequirePackage{lastpage} %\pageref{LastPage} for reference on the last page

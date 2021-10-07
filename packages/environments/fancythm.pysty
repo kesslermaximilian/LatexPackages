@@ -1,0 +1,265 @@
+__HEADER__(Theorem-Environment Package)
+%Provides fancy theorem-like-environments used in the write-ups of my lecture notes
+
+\RequirePackage{xkeyval}
+
+__NEW_IF__(showstars,true)
+__NEW_IF__(showdaggers,true)
+__NEW_IF__(includestars,true)
+__NEW_IF__(includeoral,true)
+__NEW_IF__(markoral,true)
+
+__NEW_IF__(lecturenumbers,true)
+__NEW_IF__(numbersmallenvironmentswiththeorem,false)
+__NEW_IF__(numbersmallenvironments,false)
+__NEW_IF__(defaulttheorems,true)
+
+\define@choicekey*{__PACKAGE_NAME__}{__PACKAGE_PREFIX__numbersmallenvironments}[\val\nr]{no,section,theorem}{%
+    \ifcase\nr\relax
+    __SET_IF__(numbersmallenvironments,false)
+    \or
+    __SET_IF__(numbersmallenvironments,true)
+        %numbering small environments within sections is forbidden whilst using lecturenumbes
+        __IF__(lecturenumbers)
+            __SET_IF__(numbersmallenvironmentswiththeorem,true)
+        \else
+            __SET_IF__(numbersmallenvironmentswiththeorem,false)
+        \fi
+    \or
+        __SET_IF__(numbersmallenvironments,true)
+        __SET_IF__(numbersmallenvironmentswiththeorem,true)
+    \fi
+}
+
+\define@choicekey*{__PACKAGE_NAME__}{__PACKAGE_PREFIX__lecturenumbers}[\val\nr]{true,false}{%
+    \ifcase\nr\relax
+        __SET_IF__(lecturenumbers,true)
+    \else
+        __SET_IF__(lecturenumbers,false)
+    \fi
+}
+
+\define@choicekey*{__PACKAGE_NAME__}{__PACKAGE_PREFIX__defaulttheorems}[\val\nr]{true,false}{%
+    \ifcase\nr\relax
+        __SET_IF__(defaulttheorems,true)
+    \else
+        __SET_IF__(defaulttheorems,false)
+    \fi
+}
+
+\define@choicekey*{__PACKAGE_NAME__}{__PACKAGE_PREFIX__showdaggers}[\val\nr]{true,false}{%
+    \ifcase\nr\relax
+        __SET_IF__(showdaggers,true)
+    \else
+        __SET_IF__(showdaggers,false)
+    \fi
+}
+
+\define@choicekey*{__PACKAGE_NAME__}{ownenvironments}[\val\nr]{on, natural, off}{%
+    \ifcase\nr\relax
+        __SET_IF__(includestars,true)
+        __SET_IF__(showstars,true)
+    \or
+        __SET_IF__(includestars,true)
+        __SET_IF__(showstars,false)
+    \or
+        __SET_IF__(includestars,false)
+        __SET_IF__(showstars,false)
+    \fi
+}
+
+\define@choicekey*{__PACKAGE_NAME__}{oralremarks}[\val\nr]{on,natural,off}{%
+    \ifcase\nr\relax
+        __SET_IF__(includeoral,true)
+        __SET_IF__(markoral,true)
+    \or
+        __SET_IF__(includeoral,true)
+        __SET_IF__(markoral,true)
+    \or
+        __SET_IF__(includeoral,false)
+    \fi
+}
+
+%%%%% Option section
+__LANGUAGE_OPTIONS__
+
+\DeclareOptionX{showdaggers}{\setkeys{__PACKAGE_NAME__}{__PACKAGE_PREFIX__showdaggers=#1}}
+\DeclareOptionX{ownenvironments}{\setkeys{__PACKAGE_NAME__}{ownenvironments=#1}}
+\DeclareOptionX{oralremarks}{\setkeys{__PACKAGE_NAME__}{oralremarks=#1}}
+
+\DeclareOptionX{lecturenumbers}{\setkeys{__PACKAGE_NAME__}{__PACKAGE_PREFIX__lecturenumbers=#1}}
+\DeclareOptionX{numbersmallenvironments}{\setkeys{__PACKAGE_NAME__}{__PACKAGE_PREFIX__numbersmallenvironments=#1}}
+
+__END_OPTIONS_X__
+
+%%%%%%%% Implementation section
+
+%Required Packages and setup
+\RequirePackage{amsmath}
+\RequirePackage{amsthm}
+\RequirePackage{mdframed}
+\RequirePackage{thmtools}
+\RequirePackage[skins]{tcolorbox}
+\RequirePackage{mfirstuc}
+\RequirePackage{xifthen}
+\RequirePackage{xparse}
+\tcbuselibrary{breakable}
+
+% Dummy counters
+\declaretheorem[numberwithin=section]{__PACKAGE_PREFIX__dummy}
+\declaretheorem[numberwithin=__PACKAGE_PREFIX__dummy]{__PACKAGE_PREFIX__smalldummy}
+
+%%%%% Main part, i.e. providing macros for defining new theorems
+
+%%Environments that are numbered by default have 3 versions:
+% - the standard one, for numbering
+% - one asterisk, to exclude them from numbering (because they were not numbered in the lecture) -> they will be numbered if 'truenmubers' option is set
+% - two asterisks, for marking them as self-added, so they will not be numbered, but will receive a visual asterisk. -> They will be numbered if 'truenumbers' option is set
+
+
+
+\NewDocumentCommand{\declarebigtheorem}{O{} O{} m m O{}}{
+    %First, store the name of the theorem in \theoremname
+    \if__PACKAGE_PREFIX__english
+        \ifthenelse{\isempty{#2}}{\def\theoremname{#4}}{\def\theoremname{#2}}
+    \else
+        \ifthenelse{\isempty{#1}}{\def\theoremname{#4}}{\def\theoremname{#1}}
+    \fi
+
+    %Define the mane version of the theorem
+    \ifthenelse{\isempty{#5}}{\declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}, sibling = __PACKAGE_PREFIX__dummy]{#4}}{}
+
+    %Define the versions theorem*, theorem**, dtheorem
+
+    \if__PACKAGE_PREFIX__lecturenumbers
+        \if__PACKAGE_PREFIX__numbersmallenvironments
+            \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}, sibling=__PACKAGE_PREFIX__smalldummy]{#4*}
+            \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\if__PACKAGE_PREFIX__showstars *\else\fi, sibling=__PACKAGE_PREFIX__smalldummy]{#4**}
+            \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\if__PACKAGE_PREFIX__showdaggers $^{\dagger}$\else\fi, sibling=__PACKAGE_PREFIX__smalldummy]{d#4}
+        \else
+            \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}, numbered=no]{#4*}
+            \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\if__PACKAGE_PREFIX__showstars *\else\fi, numbered = no]{#4**}
+            \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\if__PACKAGE_PREFIX__showdaggers $^{\dagger}$\else\fi, numbered = no]{d#4}
+        \fi
+    \else
+        \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}, sibling=__PACKAGE_PREFIX__dummy]{#4*}
+        \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\if__PACKAGE_PREFIX__showstars *\else\fi, sibling=__PACKAGE_PREFIX__dummy]{#4**}
+        \declaretheorem[style = #3, name = \makefirstuc{\expandafter\theoremname}\if__PACKAGE_PREFIX__showdaggers $^{\dagger}$\else\fi, sibling=__PACKAGE_PREFIX__dummy]{d#4}
+    \fi
+    \if__PACKAGE_PREFIX__includestars\else\renewenvironment{#4**}{\comment}{\endcomment}\fi
+}
+
+\NewDocumentCommand{\declaresmalltheorem}{O{} O{} m m}{
+    %Get the name of the theorem and store it in \theoremname
+    \if__PACKAGE_PREFIX__english
+        \ifthenelse{\isempty{#2}}{\def\theoremname{#4}}{\def\theoremname{#2}}
+    \else
+        \ifthenelse{\isempty{#1}}{\def\theoremname{#4}}{\def\theoremname{#1}}
+    \fi
+    \if__PACKAGE_PREFIX__numbersmallenvironments
+        \if__PACKAGE_PREFIX__numbersmallenvironmentswiththeorem
+            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}, sibling = __PACKAGE_PREFIX__smalldummy]{#4}
+            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\if__PACKAGE_PREFIX__showstars *\else\fi, sibling=__PACKAGE_PREFIX__smalldummy]{#4*}
+            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\if__PACKAGE_PREFIX__showdaggers $^{\dagger}$\else\fi, sibling=__PACKAGE_PREFIX__smalldummy]{d#4}
+        \else
+            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}, sibling=__PACKAGE_PREFIX__dummy]{#4}
+            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\if__PACKAGE_PREFIX__showstars *\else\fi, sibling=__PACKAGE_PREFIX__dummy]{#4*}
+            \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\if__PACKAGE_PREFIX__showdaggers $^{\dagger}$\else\fi, sibling=__PACKAGE_PREFIX__dummy]{d#4}
+        \fi
+    \else
+        \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}, numbered = no]{#4}
+        \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\if__PACKAGE_PREFIX__showstars *\else\fi, numbered = no]{#4*}
+        \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}\if__PACKAGE_PREFIX__showdaggers $^{\dagger}$\else\fi, numbered = no]{d#4}
+    \fi
+    \declaretheorem[style=#3,name=\makefirstuc{\expandafter\theoremname}, sibling=__PACKAGE_PREFIX__dummy]{n#4}
+    \if__PACKAGE_PREFIX__includestars\else\renewenvironment{#4*}{\comment}{\endcomment}\fi
+}
+
+
+%%%% If requested, now define some default theoremstyles
+\if__PACKAGE_PREFIX__defaulttheorems
+
+    \RequirePackage[default styles]{mkessler-thmstyle} % Easy setup of mdframed styles
+
+    \declarebigtheorem[Satz][Theorem]{thmredmarginandfill}{theorem} \if__PACKAGE_PREFIX__english\else\AtBeginDocument{\def\theoremautorefname{Satz}}\fi
+    \declarebigtheorem{thmredmarginandfill}{proposition}
+    \declarebigtheorem[Korollar]{thmredmarginandfill}{corollary}
+    \declarebigtheorem{thmorangemarginandfill}{lemma}
+    \declarebigtheorem[Lemma und Definition][Lemma and Definition]{thmorangemarginbluefill}{lemmadef}
+    \declarebigtheorem{thmbluemarginandfill}{definition}
+    \declarebigtheorem[Satz und Definition][Theorem and Definition]{thmredmarginbluefill}{theoremdef}
+    \declarebigtheorem[Proposition und Definition][Proposition and Definition]{thmredmarginbluefill}{propositiondef}
+    \declarebigtheorem{thmvioletmarginandfill}{notation}
+    \declarebigtheorem[zuSatz][Addition to Theorem]{thmredmarginandfill}{additiontheorem}
+
+    %%%Environments that are not numbered by default (notation, question, example, remark etc) have two forms:
+    % - normal form: won't be numbered unless '__PACKAGE_PREFIX__numbersmallenvironments' is set
+    % - having an asterisk: will be displayed with an asterisk, will be numbered if 'numbersmallenvironments' is set
+    %Notation
+
+    \declaresmalltheorem[Notationsmissbrauch][Abuse of Notation]{thmvioletmargin}{abuse}
+    \declaresmalltheorem[Beispiel]{thmgreenmargin}{example}
+    \declaresmalltheorem[Bemerkung]{thmyellowmargin}{remark}
+    \declaresmalltheorem[Lob]{thmgoldmargin}{praise}
+    \declaresmalltheorem[Trivial Nonsense][Trivial Nonsense]{thmyellowmargin}{trivial}
+    \declaresmalltheorem[Frage]{thmblackmarginandfill}{question}
+    \declaresmalltheorem[Organisatorisches][Organisational stuff]{thmblackmargin}{orga}
+    \declaresmalltheorem[Fakt]{thmredmargin}{fact}
+
+    %%%% Specially treated stuff
+
+    \declaresmalltheorem[\if__PACKAGE_PREFIX__markoral Mündliche Anmerkung\else Bemerkung\fi][\if__PACKAGE_PREFIX__markoral Oral remark\else remark\fi]{thmyellowmargin}{oral}
+    % Option to remove oral remarks when needed
+    \if__PACKAGE_PREFIX__includeoral\else
+        \renewenvironment{oral}{\comment}{\endcomment}
+        \renewenvironment{oral*}{\comment}{\endcomment}
+        \renewenvironment{doral}{\comment}{\endcomment}
+    \fi
+
+
+    %%%%%%%% Other mdframed style boxes
+
+    \newtcolorbox{recap}{before skip = 0.5cm, after skip = 0.5cm, enhanced, sharp corners = all, colback = white, colframe = gray, toprule=0pt, bottomrule=0pt, leftrule=0pt,rightrule=0pt, overlay = {
+            \draw[gray, line width = 2pt] (frame.north west) -- ++(0.5cm, 0pt);
+            \draw[gray, line width=2pt] (frame.south east) -- ++(-0.5cm, 0pt);
+            \draw[gray, line width=2pt] (frame.north west) -- ++ (0pt, -0.5cm);
+            \draw[gray, line width=2pt] (frame.south east) -- ++(0pt, 0.5cm);
+    }}
+
+    \newenvironment{moral}{%
+        \begin{mdframed}[linecolor=green!70!black]%
+        \bfseries\color{green!50!black}}%
+        {\end{mdframed}}
+
+    \newenvironment{antimoral}{%
+        \begin{mdframed}[linecolor=red!70!black]%
+        \bfseries\color{red!50!black}}%
+        {\end{mdframed}}
+
+
+    %%%%%%%%%%%% Non-mdframed theorems
+
+    \theoremstyle{plain}
+    \newtheorem{variant}{\if__PACKAGE_PREFIX__english Variant\else Variante\fi}
+    \newtheorem{assumption}{\if__PACKAGE_PREFIX__english Assumption\else Annahme\fi}
+
+    \theoremstyle{definition}
+    \newtheorem*{note}{\if__PACKAGE_PREFIX__english Note\else Anmerkung\fi}
+    \newtheorem*{warning}{\color{red}\if__PACKAGE_PREFIX__english Warning \else Warnung\fi}
+    \newtheorem*{goal}{\if__PACKAGE_PREFIX__english Goal \else Ziel\fi}
+    \newtheorem*{strategy}{\if__PACKAGE_PREFIX__english Proof Strategy \else Beweisstrategie\fi}
+    \newtheorem*{goal*}{\if__PACKAGE_PREFIX__english Goal* \else Ziel*\fi}
+    \newtheorem*{problem}{Problem}
+    \newtheorem*{info}{Information}
+
+
+    \newtheorem*{answer}{\if__PACKAGE_PREFIX__english Answer\else Antwort\fi}
+    \newtheorem{observe}[theorem]{\if__PACKAGE_PREFIX__english Observe\else Beobachte\fi}
+    \newtheorem*{property}{\if__PACKAGE_PREFIX__english Property\else Eigenschaft\fi}
+    \newtheorem*{intuition}{Intuition}
+    \newtheorem*{recall}{\if__PACKAGE_PREFIX__english Recall\else Erinnerung\fi}
+    \newtheorem*{idea}{\if__PACKAGE_PREFIX__english Idea\else Idee\fi}
+    \newtheorem{exercise}{\if__PACKAGE_PREFIX__english Exercise\else Aufgabe\fi}[section]
+    \newtheorem{reminder}{\if__PACKAGE_PREFIX__english Reminder\else Erinnerung\fi}
+
+\fi % end of default theorems

@@ -1,0 +1,18 @@
+__HEADER__((For now) removed parts of other packages. Not intended for use right now.)% Quotations
+\RequirePackage{csquotes} % quotations
+
+%%%% Utilities
+\RequirePackage{comment} %comments
+\RequirePackage{todonotes} % todo notes
+\RequirePackage{blindtext} % \blindtext filling
+
+\RequirePackage[export]{adjustbox} % 
+\RequirePackage{pdfpages} % Include external PDF files easily
+
+\newcommand{\emphasize}[1]{{\color{red} #1}}
+
+\RequirePackage{wrapfig} % Wrap text around figures
+
+
+% Math-related
+\RequirePackage[export]{adjustbox}
