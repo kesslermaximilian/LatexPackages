@@ -1,4 +1,1 @@
-skip: .skip
-
-.skip:
-	@touch .skip
+../../COMPILE_MAKEFILE
