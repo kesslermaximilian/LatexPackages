@@ -5,6 +5,8 @@ build: .initsubmodulelock
 
 init: .initsubmodulelock .gitconfiglock
 
+config: .gitconfiglock
+
 .initsubmodulelock:
 	@git submodule update --init
 	@touch .initsubmodulelock
