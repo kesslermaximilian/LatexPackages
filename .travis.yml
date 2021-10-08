@@ -46,7 +46,7 @@ deploy:
       repo: kesslermaximilian/LatexPackagesBuild
       commiter_from_gh: true
       allow_empty_commit: true
-      target_branch: $TRAVIS_BRANCH
+      target_branch: $TRAVIS_BRANCH-build
       commit_message: $COMMIT_MSG
       on:
           all_branches: true
