@@ -1,3 +1,4 @@
+[![Build Status](https://api.travis-ci.com/kesslermaximilian/LatexPackages.svg)](https://app.travis-ci.com/github/kesslermaximilian/LatexPackages)
 # Latex Packages
 
 #### Rework in progress

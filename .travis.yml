@@ -15,11 +15,11 @@ install:
     - pip install GitPython
       
 script:
+    - GIT_BRANCH=$(python3 -c "import git; print(git.Repo().active_branch.name)")
     - python3 -c 'from build import build; build("build/LatexPackages/")'
     - cd build
     - zip -r LatexPackages.zip LatexPackages
     - tree -H '.' -I "index.html" -D --charset utf-8 -T "LatexPackages" > index.html
-    - GIT_BRANCH=$(python3 -c "import git; print(git.Repo().active_branch.name)")
 
 deploy:
     - provider: pages
