@@ -32,7 +32,7 @@ def build_details():
 
 
 def build(build_dir: str):
-    input_root = Path('./packages').resolve()
+    input_root = Path('./src').resolve()
     output = input_root / build_dir
     print('[PyTeX] Getting git repository information...')
     extra_header, repo_description = build_details()
