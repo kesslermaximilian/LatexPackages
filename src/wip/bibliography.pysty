@@ -1,7 +1,7 @@
 __HEADER__(Package to easily print bibliography and image attributions in document)
 \RequirePackage{xkeyval}
 
-__LANGUAGE_OPTIONS__
+__LANGUAGE_OPTIONS_X__
 
 \def__PACKAGE_MACRO__(bibfile){bibliography.bib}
 \def__PACKAGE_MACRO__(imagefile){images.bib}

@@ -28,7 +28,7 @@ __HEADER__(Package for managing different lectures within a document)
 
 \RequirePackage{xkeyval}
 
-__LANGUAGE_OPTIONS__
+__LANGUAGE_OPTIONS_X__
 
 __NEW_IF__(fancyhead,false)
 \DeclareOptionX{fancyhead}{__SET_IF__(fancyhead,true)}

@@ -81,7 +81,7 @@ __NEW_IF__(defaulttheorems,true)
 }
 
 %%%%% Option section
-__LANGUAGE_OPTIONS__
+__LANGUAGE_OPTIONS_X__
 
 \DeclareOptionX{showdaggers}{\setkeys{__PACKAGE_NAME__}{__PACKAGE_PREFIX__showdaggers=#1}}
 \DeclareOptionX{ownenvironments}{\setkeys{__PACKAGE_NAME__}{ownenvironments=#1}}
