@@ -19,6 +19,7 @@ script:
     - cd build
     - zip -r LatexPackages.zip LatexPackages
     - tree -H '.' -I "index.html" -D --charset utf-8 -T "LatexPackages" > index.html
+    - GIT_BRANCH=$(python3 -c "import git; print(git.Repo().active_branch.name)")
 
 deploy:
     - provider: pages
@@ -34,3 +35,16 @@ deploy:
       file: $TRAVIS_BUILD_DIR/build/LatexPackages.zip
       on:
           tags: true
+    - provider: pages
+      skip-cleanup: true
+      github-token: $GITHUB_TOKEN
+      local-dir: build/LatexPackages
+      repo: kesslermaximilian/LatexPackagesBuild
+      commiter_from_gh: true
+      allow_empty_commit: true
+      keep-history: true
+      target_branch: $GIT_BRANCH
+      on:
+          branches:
+              only:
+                  - /.*/
