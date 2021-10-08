@@ -1,0 +1,96 @@
+__HEADER__(Automatic references to theorems in proofs. Claim counters within proofs)
+
+\RequirePackage{xkeyval}
+
+__LANGUAGE_OPTIONS_X__
+
+__END_OPTIONS_X__
+
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{etoolbox}
+\RequirePackage{xparse}
+
+%%Give claim an own counter and let it reset at each proof
+%See also at:
+%https://tex.stackexchange.com/questions/283502/reset-counter-at-beginning-of-proof
+\newtheorem{claim}{__IF__(english) Claim\else Behauptung\fi}
+\newtheorem*{claim*}{__IF__(english) Claim\else Behauptung\fi}
+\AtBeginDocument{\def\claimautorefname{__IF__(english) Claim\else Behauptung\fi}}
+
+__NEW_IF__(hyperref,false)
+\AtBeginDocument{
+    \@ifpackageloaded{hyperref}{
+        __SET_IF__(hyperref,true)
+        \def\grab#1{\expandafter\@firstoffive#1}
+        \def__PACKAGE_MACRO__(blankref)#1{\expandafter\grab\csname r@#1\endcsname}
+        \let__PACKAGE_MACRO__(autoref)\autoref
+    }{
+        __SET_IF__(hyperref,true)
+        \let__PACKAGE_MACRO__(blankref)\ref
+        \let__PACKAGE_MACRO__(autoref)\ref
+    }
+}
+
+\NewDocumentEnvironment{rproof}{m O{}}{\def__PACKAGE_MACRO__(aster){\relax}\begin{__PACKAGE_PREFIX__rproof@impl}{#1}[#2]}{\end{__PACKAGE_PREFIX__rproof@impl}}
+\NewDocumentEnvironment{rproof*}{m O{}}{\def__PACKAGE_MACRO__(aster){*}\begin{__PACKAGE_PREFIX__rproof@impl}{#1}[#2]}{\end{__PACKAGE_PREFIX__rproof@impl}}
+
+\NewDocumentEnvironment{__PACKAGE_PREFIX__rproof@impl}{m O{}}
+{
+    % Restore correct counter for claim
+    \ifcsdef{the__PACKAGE_PREFIX__#1@save@claim}{
+        \setcounter{claim}{\value{__PACKAGE_PREFIX__#1@save@claim}}
+        \def__PACKAGE_MACRO__(proofprefix){__IF__(english) Continuation of proof__PACKAGE_MACRO__(aster)\space of\else Fortsetzung des Beweises__PACKAGE_MACRO__(aster)\space zu\fi}
+        \edef\haha{\value{__PACKAGE_PREFIX__#1@part}}
+    }{
+        \newcounter{__PACKAGE_PREFIX__#1@save@claim}
+        \setcounter{claim}{0}
+        \def__PACKAGE_MACRO__(proofprefix){__IF__(english) Proof__PACKAGE_MACRO__(aster)\space of\else Beweis__PACKAGE_MACRO__(aster)\space von\fi}
+    }
+    % Set up counter number printing as subindexed by numbering of the reference
+    \let__PACKAGE_MACRO__(theoldclaim)\theclaim
+    \def\theclaim{__PACKAGE_MACRO__(blankref){#1}.__PACKAGE_MACRO__(theoldclaim)}
+    % Now, start the actual proof
+    \begin{proof}[__PACKAGE_MACRO__(proofprefix)\space__PACKAGE_MACRO__(autoref){#1}\if\relax\detokenize{#2}\relax\else\space(#2)\fi]
+}
+{
+    \end{proof} % End proof
+    % Save current claim counter for later restoration
+    \setcounter{__PACKAGE_PREFIX__#1@save@claim}{\value{claim}}
+}
+
+% Proof (with asterisk)
+\NewDocumentEnvironment{proof*}{O{}}
+{
+    \if\relax\detokenize{#1}\relax\begin{proof}[__IF__(english) Proof\emph{*}\else Beweis\emph{*}\fi]\else\begin{proof}[#1\emph{*}]\fi
+}
+{
+    \end{proof}
+}
+
+
+%%subproof environment - essentially copied proof environment from amsthm and modified its name + symbol
+\DeclareRobustCommand{\blackqed}{%
+  \ifmmode \mathqed
+  \else
+    \leavevmode\unskip\penalty9999 \hbox{}\nobreak\hfill
+    \quad\hbox{$\blacksquare$}%
+  \fi
+}
+
+\newenvironment{subproof}[1][__IF__(english) Subproof\else Unterbeweis\fi]{\par
+  \pushQED{\blackqed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \trivlist
+  \item[\hskip\labelsep
+        \itshape
+    #1\@addpunct{.}]\ignorespaces
+}{%
+  \popQED\endtrivlist\@endpefalse
+}
+
+
+%%%% This might be dropped, but for now is collected here
+
+%%Solution (for exercises)
+\newenvironment{solution}[1][]{\begin{proof}[__IF__(english){}Solution\else{}Lösung\fi{}#1]}{\end{proof}}

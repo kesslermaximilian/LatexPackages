@@ -1,1 +1,6 @@
 *.swp
+build/*
+.gitconfiglock
+.initsubmodulelock
+.idea/
+__pycache__

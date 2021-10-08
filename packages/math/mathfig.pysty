@@ -1,0 +1,22 @@
+__HEADER__(Math figures with TikZ / pgfplots / xy)
+% This is just a collection of the packages I use to typeset mathematical figures
+% most commonly plots, commutative diagrams or geometry
+
+
+
+\RequirePackage{pgfplots} % Plots
+\pgfplotsset{compat=1.7}
+
+\RequirePackage{tikz} % Plots / drawings
+\usetikzlibrary{calc, intersections, through, quotes, angles, babel, positioning, snakes}
+
+\RequirePackage{tikz-cd} %Commutative diagrams
+
+
+%%for small diagrams, similar to tikz-cd
+\RequirePackage[all]{xy}        % for small diagrams, e.g. arrows
+%%% In older versions, you found 
+% \RequirePackage{xy}
+% \xyoption{all}
+% here, but this messes with the catcode of the @ sign (which no package should do!)
+% so that further parts in this package would get broken

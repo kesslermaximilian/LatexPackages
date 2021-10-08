@@ -1,0 +1,24 @@
+__HEADER__(Include exercise sheets into lecture notes easily.)
+
+\RequirePackage{xkeyval}
+__LANGUAGE_OPTIONS__
+
+__END_OPTIONS__
+
+\RequirePackage{mkessler-fancythm}
+
+\newcounter{__PACKAGE_PREFIX__sheet}
+
+\declaretheorem[style=thmgreenmargin, numberwithin=__PACKAGE_PREFIX__sheet, name=__IF__(english) Exercise\else Aufgabe\fi]{__PACKAGE_PREFIX__aufgabe}
+
+\usepackage{xkeyval}
+
+\NewDocumentEnvironment{aufgabe}{O{}}{
+\begin{__PACKAGE_PREFIX__aufgabe\expandafter}\if\relax\detokenize{#1}\relax\else[#1]\fi\label{aufgabe-\the__PACKAGE_PREFIX__aufgabe}
+}{
+    \end{__PACKAGE_PREFIX__aufgabe\expandafter}\relax
+}
+
+\newcommand\blatt{\refstepcounter{__PACKAGE_PREFIX__sheet}\subsection*{\the__PACKAGE_PREFIX__sheet. Übungsblatt}\addcontentsline{toc}{subsection}{\the__PACKAGE_PREFIX__sheet. Übungsblatt}}
+
+

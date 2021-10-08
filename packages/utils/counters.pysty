@@ -1,0 +1,13 @@
+__HEADER__(Write LaTeX counters to auxiliary file)
+
+\RequirePackage{etoolbox}
+
+\newwrite__PACKAGE_MACRO__(out)
+\immediate\openout__PACKAGE_MACRO__(out)\jobname.cnt\relax
+\AtBeginDocument{
+    \let__PACKAGE_MACRO__(saved@stepcounter)\stepcounter
+    \def\stepcounter#1{
+        __PACKAGE_MACRO__(saved@stepcounter){#1}
+    \immediate\write__PACKAGE_MACRO__(out){#1: \csname the#1\endcsname}}
+}
+

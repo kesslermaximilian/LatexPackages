@@ -1,0 +1,24 @@
+__HEADER__(Collects several math fonts together)
+%%% Store away the several (partially conflicting) fonts in internal macros
+
+\let__PACKAGE_MACRO__(none@mathcal)\mathcal
+
+\RequirePackage{mathrsfs}
+\let__PACKAGE_MACRO__(mathrsfs@mathscr)\mathscr
+
+\RequirePackage[mathscr]{eucal}
+\let__PACKAGE_MACRO__(eucal@optionmathscr@mathscr)\mathscr
+
+\RequirePackage{amsfonts}
+\let__PACKAGE_MACRO__(amsfonts@mathfrak)\mathfrak
+
+%%% Provide user commands to internally stored macros
+\def__PACKAGE_MACRO__(restorefonts){
+    \let\mathcal__PACKAGE_MACRO__(none@mathcal) % Set \mathcal to default calligrapic
+    \let\mathfrak__PACKAGE_MACRO__(amsfonts@mathfrak) % Set \mathfrak to mathfrak from amsfonts
+    \let\mathscr__PACKAGE_MACRO__(mathrsfs@mathscr) % Set \mathscr to mathscript from mathrsfs package
+    \let\mathcat__PACKAGE_MACRO__(mathrsfs@mathscr) % Set \mathcat to mathscript from mathrsfs package
+    \let\mathcalo__PACKAGE_MACRO__(eucal@optionmathscr@mathscr) % Set \mathcalo (for old calligraphic) to \mathscr from [mathscr]{eucal} package
+}
+
+\AtBeginDocument{__PACKAGE_MACRO__(restorefonts)}
