@@ -1,55 +1,49 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{mkessler-script}[2021/03/31 Write up lecture notes as script]
+__HEADER__(Write up lecture notes as script)
 
-%%%%Options of the package
-\newif\ifenglish\englishtrue
-\DeclareOption{english}{\englishtrue}
-\DeclareOption{german}{\englishfalse}
+__LANGUAGE_OPTIONS__
 
-\newif\ifshowversion\showversiontrue
-\DeclareOption{show version}{\showversiontrue}
-\DeclareOption{hideversion}{\showversionfalse}
+__NEW_IF__(showversion,true)
+\DeclareOption{show version}{__SET_IF__(showversion,true)}
+\DeclareOption{hideversion}{__SET_IF__(showversion,false)}
 
-\newif\iffancyfoot\fancyfootfalse
-\DeclareOption{fancyfoot}{\fancyfoottrue}
-
-\newif\ifgitversion\gitversionfalse
-\DeclareOption{git}{\gitversiontrue}
-
-\ProcessOptions\relax
+__NEW_IF__(fancyfoot,false)
+\DeclareOption{fancyfoot}{__SET_IF__(fancyfoot,true)}
 
 
+__NEW_IF__(gitversion,false)
+\DeclareOption{git}{__SET_IF__(gitversion,true)}
+
+__END_OPTIONS__
 
 \RequirePackage{xifthen}
 
 %%%%Define command to set metainformation of document
 %Set the course
-\def\@course{\ClassError{mkessler-script}{No \noexpand\course given}{See documentation for details}}%
+\def\@course{__ERROR__(No \noexpand\course given){See documentation for details}}%
 \DeclareRobustCommand*{\course}[1]{\gdef\@course{#1}}
 
-\def\@lecturer{\ClassError{mkessler-script}{No \noexpand\lecturer given}{See documentation for details}}%
+\def\@lecturer{__ERROR__(No \noexpand\lecturer given){See documentation for details}}%
 \def\@lecturertitle{}
 \DeclareRobustCommand*{\lecturer}[2][]{
     \gdef\@lecturer{#2}
-    \gdef\@lecturertitle{\ifenglish Lecturer\else\ifthenelse{\isempty{#1}}{Dozent}{Dozentin}\fi}{}
+    \gdef\@lecturertitle{__IF__(english) Lecturer\else\ifthenelse{\isempty{#1}}{Dozent}{Dozentin}\fi}{}
 }
 
 %Set the assistant
-\newif\ifprintassistant\printassistantfalse
+__NEW_IF__(printassistant,false)
 \def\@assistant{}%
 \def\@assistantitle{}
 \DeclareRobustCommand*{\assistant}[2][]{
-    \printassistanttrue
+    __SET_IF__(printassistant,true)
     \gdef\@assistant{#2}
-    \gdef\@assistanttitle{\ifenglish Assistant\else\ifthenelse{\isempty{#1}}{Assistent}{Assistentin}\fi}
+    \gdef\@assistanttitle{__IF__(english) Assistant\else\ifthenelse{\isempty{#1}}{Assistent}{Assistentin}\fi}
 }
 
 %%%%Load base class article
 \LoadClass{article}
 
-
-\ifshowversion
-    \ifgitversion
+__IF__(showversion)
+    __IF__(gitversion)
         \RequirePackage[dirty={ (local changes have been made!)}]{gitinfo2}
     \fi
 \fi
@@ -73,7 +67,7 @@
         \@lecturertitle \\
         {\sc \@lecturer} \\
       \end{tabular}\par
-    \ifprintassistant
+    __IF__(printassistant)
     \vskip 1em%
         \begin{tabular}[t]{c}%
         \@assistanttitle \\
@@ -82,17 +76,17 @@
     \fi
     \vskip 1em%
         \begin{tabular}[t]{c}%
-        \ifenglish Notes\else Mitschrift\fi \\
+        __IF__(english) Notes\else Mitschrift\fi \\
         {\sc \@author} \\
         \end{tabular}
         \par}%
-    \ifshowversion
+    __IF__(showversion)
     \vskip 3em%
         \begin{tabular}[t]{c}%
         {\small Version} \\
-        \ifgitversion
+        __IF__(gitversion)
             git: \gitFirstTagDescribe\\
-            \ifenglish compiled\else kompiliert\fi:
+            __IF__(english) compiled\else kompiliert\fi:
         \fi\today\,\currenttime \\
         \end{tabular}\par
     \fi
@@ -131,7 +125,7 @@
 
 %%%% These are the fancy headers
 
-\iffancyfoot
+__IF__(fancyfoot)
     \RequirePackage{fancyhdr}
     \pagestyle{fancy}
 

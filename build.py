@@ -6,7 +6,7 @@ from datetime import *
 sys.path.insert(0, 'PyTeX/')
 
 from package_formatter import PackageFormatter
-from replacements import make_default_commands
+from class_formatter import ClassFormatter
 from git_version import git_describe, get_latest_commit
 
 BUILD_DETAILS = [
@@ -41,14 +41,21 @@ def build(build_dir: str):
     if git.Repo().is_dirty():
         extra_header += ['WARNING: Local changes to git repository detected.',
                          '         The build will not be reproducible (!)']
-    num_files = 0
+    num_packages = 0
+    num_classes = 0
     for file in input_root.rglob('*.pysty'):
-        num_files += 1
+        num_packages += 1
         formatter = PackageFormatter(package_name=file.with_suffix('').name, extra_header=extra_header)
         print('[PyTeX] Writing file {}'.format(formatter.file_name))
-        make_default_commands(formatter)
-        formatter.format_package(file, Path('./').resolve() / build_dir / str(file.parent.relative_to(input_root)))
-    print(f'[PyTeX] Successfully built {num_files} packages in {build_dir}/')
+        formatter.make_default_macros()
+        formatter.format_file(file, Path('./').resolve() / build_dir / str(file.parent.relative_to(input_root)))
+    for file in input_root.rglob('*.pycls'):
+        num_classes += 1
+        formatter = ClassFormatter(class_name=file.with_suffix('').name, extra_header=extra_header)
+        print('[PyTeX] Writing class file {}'.format(formatter.file_name))
+        formatter.make_default_macros()
+        formatter.format_file(file, Path('./').resolve() / build_dir / str(file.parent.relative_to(input_root)))
+    print(f'[PyTeX] Successfully built {num_packages} packages and {num_classes} classes in {build_dir}/')
 
 
 if __name__ == "__main__":
