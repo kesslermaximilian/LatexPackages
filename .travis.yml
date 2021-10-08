@@ -45,8 +45,9 @@ deploy:
       repo: kesslermaximilian/LatexPackagesBuild
       commiter_from_gh: true
       allow_empty_commit: true
-      keep-history: false
+      keep-history: true
       target_branch: $TRAVIS_BRANCH
+      commit_message: "%{git_commit_msg}\n\nBuilt commit %{git_sha} from %{repo}:%{git_branch}"
       on:
           branches:
               only:
