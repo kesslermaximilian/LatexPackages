@@ -1,5 +1,25 @@
 import git
 from typing import Dict
+import os
+
+
+def get_latest_commit(repo):
+    if repo.head.is_detached:
+        return repo.head.commit
+    else:
+        return repo.head.ref.commit
+
+
+def get_deploy_message():
+    repo = git.Repo()
+    old_msg = get_latest_commit(repo).message
+    return "{old_msg}\n" \
+           "\n" \
+           "Build branch {branch} ({hexsha}) from {repo_name}" \
+        .format(old_msg=old_msg,
+                branch=os.environ['TRAVIS_BRANCH'],
+                hexsha=get_latest_commit(repo).hexsha[0:7],
+                repo_name='kesslermaximilian/LatexPackages')
 
 
 def get_history(commit: git.objects.commit.Commit, priority=0, depth=0) -> Dict:
@@ -9,9 +29,9 @@ def get_history(commit: git.objects.commit.Commit, priority=0, depth=0) -> Dict:
     }}
     try:
         if len(commit.parents) > 0:
-            commit_history.update(get_history(commit.parents[0], priority, depth+1))
+            commit_history.update(get_history(commit.parents[0], priority, depth + 1))
             for parent in commit.parents[1:]:
-                commit_history.update(get_history(parent, priority+1, depth+1))
+                commit_history.update(get_history(parent, priority + 1, depth + 1))
     except ValueError:
         pass
     return commit_history

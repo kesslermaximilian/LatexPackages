@@ -15,6 +15,7 @@ install:
     - pip install GitPython
       
 script:
+    - export COMMIT_MSG=$(python3 -c 'from git_version import get_deploy_message; print(get_deploy_message())')
     - python3 -c 'from build import build; build("build/LatexPackages/")'
     - cd build
     - zip -r LatexPackages.zip LatexPackages
@@ -45,10 +46,8 @@ deploy:
       repo: kesslermaximilian/LatexPackagesBuild
       commiter_from_gh: true
       allow_empty_commit: true
-      target_branch: $TRAVIS_BRANCH
-      commit_message: "%{git_commit_msg}\n\nBuilt commit %{git_sha} from %{repo}:%{git_branch}"
+      target_branch: $TRAVIS_BRANCH-build
+      commit_message: $COMMIT_MSG
       on:
-          branches:
-              only:
-                  - /.*/
+          all_branches: true
           condition: $TRAVIS_PULL_REQUEST = false
