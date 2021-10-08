@@ -19,6 +19,10 @@ script:
     - cd build
     - zip -r LatexPackages.zip LatexPackages
     - tree -H '.' -I "index.html" -D --charset utf-8 -T "LatexPackages" > index.html
+    - cd ..
+
+after_success:
+    
 
 deploy:
     - provider: pages
@@ -41,7 +45,7 @@ deploy:
       repo: kesslermaximilian/LatexPackagesBuild
       commiter_from_gh: true
       allow_empty_commit: true
-      keep-history: true
+      keep-history: false
       target_branch: $TRAVIS_BRANCH
       on:
           branches:
