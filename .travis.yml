@@ -15,6 +15,7 @@ install:
     - pip install GitPython
       
 script:
+    - git status
     - GIT_BRANCH=$(python3 -c "import git; print(git.Repo().active_branch.name)")
     - python3 -c 'from build import build; build("build/LatexPackages/")'
     - cd build
