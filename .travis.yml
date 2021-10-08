@@ -15,8 +15,6 @@ install:
     - pip install GitPython
       
 script:
-    - git status
-    - GIT_BRANCH=$(python3 -c "import git; print(git.Repo().active_branch.name)")
     - python3 -c 'from build import build; build("build/LatexPackages/")'
     - cd build
     - zip -r LatexPackages.zip LatexPackages
@@ -44,8 +42,9 @@ deploy:
       commiter_from_gh: true
       allow_empty_commit: true
       keep-history: true
-      target_branch: $GIT_BRANCH
+      target_branch: $TRAVIS_BRANCH
       on:
           branches:
               only:
                   - /.*/
+          condition: $TRAVIS_PULL_REQUEST = false
