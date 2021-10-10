@@ -1,0 +1,68 @@
+__HEADER__(Write up university exercise sheets)
+
+\RequirePackage{scrbase}
+
+__LANGUAGE_OPTIONS__
+
+__NEW_IF__(largename,false)
+\DeclareOption{large-name}{__SET_IF__(largename,true)}
+
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrartcl}}
+\ProcessOptions\relax
+
+\LoadClass{scrartcl}
+
+\KOMAoption{fontsize}{12pt}
+\KOMAoption{parskip}{half-}
+\KOMAoption{DIV}{12}
+\KOMAoption{headings}{normal}
+
+\RequirePackage{scrlayer-scrpage}
+\KOMAoption{headsepline}{:}
+
+\AtBeginDocument{\maketitle}
+
+\def\@course{}%
+\DeclareRobustCommand*{\course}[1]{\gdef\@course{#1}}
+\def\@sheetnumber{}%
+\DeclareRobustCommand*{\sheetnumber}[1]{\gdef\@sheetnumber{__IF__(english) Sheet #1 \else Übungsblatt #1\fi}}
+
+\renewcommand*{\@date}{\today}
+
+\renewcommand*{\maketitle}{
+	\thispagestyle{plain}
+	{\makebox[0pt][l]{\usekomafont{myauthor}\@author}\hfill\makebox[0pt][r]{\usekomafont{date}\@date}\par}
+	\vspace{0.5em}
+	{\centering\usekomafont{title}\@course\par}
+    {\centering\usekomafont{subtitle}\@sheetnumber \par}
+	\vspace{2em}
+	\hrule
+	\addvspace{2em}
+}
+
+\setkomafont{title}{\LARGE\bfseries}
+\setkomafont{subtitle}{}
+\newkomafont{myauthor}{}
+\setkomafont{date}{}
+\newkomafont{headtitle}{\itshape}
+\setkomafont{pageheadfoot}{\footnotesize}
+\setkomafont{descriptionlabel}{\bfseries}
+\setkomafont{pagenumber}{\normalsize}
+
+\pagestyle{scrheadings}
+\ihead[]{__IF__(largename) \usekomafont{myauthor}\@author \\ \@course\;- \@sheetnumber\else \usekomafont{myauthor}\@author\fi }
+\chead[]{__IF__(largename) \else \usekomafont{subtitle}\@course\;- \@sheetnumber\fi}
+\ohead[]{\usekomafont{date}\@date}
+
+% Page layout
+\setlength{\parindent}{0pt}
+
+\RequirePackage[a4paper, left=2cm, right=2cm, top=3cm, bottom=3cm,  head=15.0pt, headsep=10pt]{geometry}
+
+\setlength{\skip\footins}{15pt}
+
+\setlength{\abovecaptionskip}{0cm}
+\setlength{\belowcaptionskip}{0cm}
+
+%Für Zeilenabstand 1,5
+\RequirePackage[onehalfspacing]{setspace}
