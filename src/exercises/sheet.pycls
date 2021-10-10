@@ -47,6 +47,10 @@ __NEW_IF__(largename,false)
 \setkomafont{subtitle}{}
 \newkomafont{myauthor}{}
 \setkomafont{date}{}
+\newkomafont{headtitle}{\itshape}
+\setkomafont{pageheadfoot}{\footnotesize}
+\setkomafont{descriptionlabel}{\bfseries}
+\setkomafont{pagenumber}{\normalsize}
 
 \pagestyle{scrheadings}
 \ihead[]{__IF__(largename) \usekomafont{myauthor}\@author \\ \@course\;- \@sheetnumber\else \usekomafont{myauthor}\@author\fi }
