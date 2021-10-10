@@ -1,5 +1,10 @@
 __HEADER__(Write up university exercise sheets)
 
+% This is meant as a layouting class for easily writing up exercise sheets.
+% Use \course \sheetnumber and \author to set metadata of the document
+% Use option [largename] if the author(s) is/are too long and collide in the fancy header
+% Use option [german|ngerman|english] to control language appearance
+
 \RequirePackage{scrbase}
 
 __LANGUAGE_OPTIONS__
@@ -20,11 +25,9 @@ __NEW_IF__(largename,false)
 \RequirePackage{scrlayer-scrpage}
 \KOMAoption{headsepline}{:}
 
-\AtBeginDocument{\maketitle}
-
-\def\@course{}%
+\def\@course{__ERROR__(No \noexpand\course given){Use \noexpand\course{<coursename>} to set the course.}}%
 \DeclareRobustCommand*{\course}[1]{\gdef\@course{#1}}
-\def\@sheetnumber{}%
+\def\@sheetnumber{__ERROR__(No \noexpand\sheetnumber given){Use \noexpand\sheetnumber{<num>} to set the current sheetnumber.}}%
 \DeclareRobustCommand*{\sheetnumber}[1]{\gdef\@sheetnumber{__IF__(english) Sheet #1 \else Übungsblatt #1\fi}}
 
 \renewcommand*{\@date}{\today}
@@ -44,10 +47,6 @@ __NEW_IF__(largename,false)
 \setkomafont{subtitle}{}
 \newkomafont{myauthor}{}
 \setkomafont{date}{}
-\newkomafont{headtitle}{\itshape}
-\setkomafont{pageheadfoot}{\footnotesize}
-\setkomafont{descriptionlabel}{\bfseries}
-\setkomafont{pagenumber}{\normalsize}
 
 \pagestyle{scrheadings}
 \ihead[]{__IF__(largename) \usekomafont{myauthor}\@author \\ \@course\;- \@sheetnumber\else \usekomafont{myauthor}\@author\fi }
