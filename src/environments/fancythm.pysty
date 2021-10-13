@@ -90,7 +90,7 @@ __LANGUAGE_OPTIONS_X__
 \DeclareOptionX{lecturenumbers}{\setkeys{__PACKAGE_NAME__}{__PACKAGE_PREFIX__lecturenumbers=#1}}
 \DeclareOptionX{numbersmallenvironments}{\setkeys{__PACKAGE_NAME__}{__PACKAGE_PREFIX__numbersmallenvironments=#1}}
 
-\DeclareOptionX{defaulttheorems}{\setkeys{__PACKAGE_NAME__}{__PACKAGE_PREFIX__defaulttheorems=#1}
+\DeclareOptionX{defaulttheorems}{\setkeys{__PACKAGE_NAME__}{__PACKAGE_PREFIX__defaulttheorems=#1}}
 
 __END_OPTIONS_X__
 
