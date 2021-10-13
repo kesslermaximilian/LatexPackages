@@ -36,5 +36,12 @@ __HEADER__(Some extra math-related symbols.)
 
 %Make circled symbols
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
-            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+    \node[shape=circle,draw,inner sep=2pt] (char) {#1};}
+}
+
+% When dealing with chain complexes, one often uses a bullet as placeholder for the index to mean the whole chain:
+\newcommand\chainpullet{\bullet}
+
+
+
 
