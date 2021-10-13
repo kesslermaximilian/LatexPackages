@@ -40,7 +40,7 @@ __HEADER__(Some extra math-related symbols.)
 }
 
 % When dealing with chain complexes, one often uses a bullet as placeholder for the index to mean the whole chain:
-\newcommand\chainpullet{\bullet}
+\newcommand\chainbullet{\bullet}
 
 
 
