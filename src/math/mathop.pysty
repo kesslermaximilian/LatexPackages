@@ -91,6 +91,7 @@ __END_OPTIONS_X__
 \DeclareSimpleMathOperator{QCoh}
 \DeclareSimpleMathOperator{MaxSpec}
 \DeclareSimpleMathOperator{Fun}
+\DeclareMathOperator{\Nil}{\mathcal{N}il}
 \DeclareMathOperator{\PreSh}{Pre-Sh}
 \newcommand{\tensor}{\otimes} %Synonym for tensoring
 
