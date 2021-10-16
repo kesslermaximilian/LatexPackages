@@ -69,3 +69,9 @@ __NEW_IF__(largename,false)
 
 %Für Zeilenabstand 1,5
 \RequirePackage[onehalfspacing]{setspace}
+\RequirePackage[super]{nth}
+
+\newcommand\nr[1]{
+    \section*{__IF__(english)\nth{#1} exercise\else #1. Aufgabe\fi}
+    \setcounter{equation}{0}
+}
