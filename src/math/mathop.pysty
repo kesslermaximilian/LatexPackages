@@ -79,6 +79,7 @@ __END_OPTIONS_X__
 \DeclareSimpleMathOperator{rank}
 \DeclareSimpleMathOperator{Mat}
 \DeclareSimpleMathOperator{ev}
+\DeclareSimpleMathOperator{tr}
 
 %Algebra
 \DeclareSimpleMathOperator{Quot}
