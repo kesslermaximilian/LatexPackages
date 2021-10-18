@@ -1,12 +1,7 @@
 from pathlib import *
-import sys
-import git
 from datetime import *
-
-sys.path.insert(0, 'PyTeX/')
-
-from package_formatter import PackageFormatter
-from class_formatter import ClassFormatter
+import git
+import PyTeX
 from git_version import git_describe, get_latest_commit
 
 BUILD_DETAILS = [
@@ -38,20 +33,24 @@ def build(build_dir: str):
     extra_header, repo_description = build_details()
     print('[PyTeX] Building version {version} of LatexPackages'.format(version=repo_description))
     print('[PyTeX] Latest commit message: ' + get_latest_commit(git.Repo()).message.strip())
-    if git.Repo().is_dirty():
+    if git.Repo().is_dirty(untracked_files=True):
         extra_header += ['WARNING: Local changes to git repository detected.',
                          '         The build will not be reproducible (!)']
     num_packages = 0
     num_classes = 0
     for file in input_root.rglob('*.pysty'):
         num_packages += 1
-        formatter = PackageFormatter(package_name=file.with_suffix('').name, extra_header=extra_header)
+        formatter = PyTeX.PackageFormatter(
+            package_name=file.with_suffix('').name,
+            extra_header=extra_header)
         print('[PyTeX] Writing file {}'.format(formatter.file_name))
         formatter.make_default_macros()
         formatter.format_file(file, Path('./').resolve() / build_dir / str(file.parent.relative_to(input_root)))
     for file in input_root.rglob('*.pycls'):
         num_classes += 1
-        formatter = ClassFormatter(class_name=file.with_suffix('').name, extra_header=extra_header)
+        formatter = PyTeX.ClassFormatter(
+            class_name=file.with_suffix('').name,
+            extra_header=extra_header)
         print('[PyTeX] Writing class file {}'.format(formatter.file_name))
         formatter.make_default_macros()
         formatter.format_file(file, Path('./').resolve() / build_dir / str(file.parent.relative_to(input_root)))
