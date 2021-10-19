@@ -18,3 +18,7 @@ config: .gitconfiglock
 	@echo "[Push annotated tags by default]"
 	@git config push.followTags true
 	@touch .gitconfiglock
+
+
+clean:
+	-rm -r build/
