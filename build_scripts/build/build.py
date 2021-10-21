@@ -63,5 +63,28 @@ def build(src_dir: Path, build_dir: Path, check_existence: bool = True):
         print('[PyTeX] Writing class file {}'.format(formatter.file_name))
         formatter.make_default_macros()
         formatter.format_file(input_path=file, output_dir=output_dir)
+    build_info = {
+        'build_time': '',
+        'packages': {
+            'built': '',
+            'skipped': ''
+        },
+        'classes': {
+          'built': '',
+          'skipped': ''
+        },
+        'LatexPackages': {
+            'version': '',
+            'branch': '',
+            'commit': '',
+            'dirty': ''
+        },
+        'PyTeX': {
+            'version': '',
+            'branch': '',
+            'commit': '',
+            'dirty': ''
+        }
+    }
     print(f'[PyTeX] Successfully built {num_packages} packages (skipped {num_skipped_packages}) '
           f'and {num_classes} classes (skipped {num_skipped_classes}) in {build_dir}/')
