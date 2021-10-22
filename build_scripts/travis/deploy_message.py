@@ -1,5 +1,5 @@
 import os
-from build_scripts.git_hook import get_latest_commit
+from PyTeX.build.git_hook import get_latest_commit
 
 
 def get_deploy_message(repo):

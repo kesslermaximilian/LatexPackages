@@ -2,8 +2,8 @@
 import argparse
 import pathlib
 
-from build_scripts.build import build
-from build_scripts.build.config import FILENAME_TYPE_RAW_NAME, FILENAME_TYPE_PREPEND_AUTHOR
+from PyTeX.build.build import build
+from PyTeX.build.build.config import FILENAME_TYPE_RAW_NAME, FILENAME_TYPE_PREPEND_AUTHOR
 
 
 def main():
