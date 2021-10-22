@@ -93,8 +93,11 @@ def main():
         action='store_true',
         dest='overwrite_existing_files'
     )
-    args = parser.parse_args()
-    build(**vars(args))
+    args = vars(parser.parse_args())
+    for arg in args.keys():
+        if type(args[arg]) == pathlib.PosixPath:
+            args[arg] = args[arg].resolve()
+    build(**args)
 
 
 if __name__ == "__main__":
