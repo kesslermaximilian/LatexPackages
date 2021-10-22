@@ -1,0 +1,7 @@
+This LaTeX {latex_file_type} is free software and distributed under the MIT License. You
+may use it freely for your purposes. The latest version of the {latex_file_type} can be
+obtained via GitHub under
+   https://github.com/kesslermaximilian/LatexPackages
+For further information see the url above.
+Reportings of bugs, suggestions and improvements are welcome, see the README
+at the Git repository for further information.
