@@ -9,7 +9,6 @@ from PyTeX.build.build.config import FILENAME_TYPE_RAW_NAME, FILENAME_TYPE_PREPE
 def main():
     parser = argparse.ArgumentParser(description='Incrementally build LatexPackages with PyTeX')
     input_group = parser.add_mutually_exclusive_group(required=True)
-    output_group = parser.add_mutually_exclusive_group()
     input_group.add_argument(
         '-s', '--source-dir',
         metavar='SRC_DIR',
@@ -19,7 +18,7 @@ def main():
         default='./src',
         dest='src_dir'
     )
-    output_group.add_argument(
+    parser.add_argument(
         '-b', '--build-dir',
         metavar='BUILD_DIR',
         help='Relativ or absolute path to output directory for processed packages and classes',
@@ -41,7 +40,7 @@ def main():
         type=pathlib.Path,
         dest='input_file'
     )
-    output_group.add_argument(
+    parser.add_argument(
         '-n', '--name',
         help='Name of the package / class to be formatted.',
         type=str,
