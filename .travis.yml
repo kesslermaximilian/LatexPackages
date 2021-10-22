@@ -15,15 +15,8 @@ install:
     - pip install GitPython
       
 script:
-    - export COMMIT_MSG=$(python3 -c 'from git_version import get_deploy_message; print(get_deploy_message())')
-    - python3 -c 'from build import build; build("build/LatexPackages/")'
-    - cd build
-    - zip -r LatexPackages.zip LatexPackages
-    - tree -H '.' -I "index.html" -D --charset utf-8 -T "LatexPackages" > index.html
-    - cd ..
-
-after_success:
-    
+    - source ./.travis/get_build_repo_from_origin.sh
+    - source ./.travis/travis_build.sh
 
 deploy:
     - provider: pages
@@ -42,7 +35,7 @@ deploy:
     - provider: pages
       edge: true
       github-token: $GITHUB_TOKEN
-      local-dir: build/LatexPackages
+      local-dir: build/LatexPackagesBuild
       repo: kesslermaximilian/LatexPackagesBuild
       commiter_from_gh: true
       allow_empty_commit: true

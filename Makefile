@@ -1,11 +1,12 @@
 .PHONY: build
-BUILD_FLAGS=--source-dir src --build-dir build --recursive --git-version --pytex-version --license --author "Maximilian Keßler" --pytex-info-text --extra-header ".build/header_info.txt" --name "prepend-author"
+BUILD_FLAGS=--recursive --git-version --pytex-version --license --author "Maximilian Keßler" --pytex-info-text --extra-header ".build/header_info.txt" --name "prepend-author"
+BUILD_DIRS= --source-dir src --build-dir build
 
 build: .initsubmodulelock
-	@python3 build.py ${BUILD_FLAGS}
+	@python3 build.py ${BUILD_DIRS} ${BUILD_FLAGS}
 
 dirty: .initsubmodulelock
-	@python3 build.py ${BUILD_FLAGS} --allow-dirty
+	@python3 build.py ${BUILD_DIRS} ${BUILD_FLAGS} --allow-dirty
 
 init: .initsubmodulelock .gitconfiglock
 
@@ -25,4 +26,7 @@ config: .gitconfiglock
 
 
 clean:
-	-rm -r build/
+	@-rm -r build/
+
+travis:
+	@python3 build.py --source-dir src --build-dir build/LatexPackagesBuild ${BUILD_FLAGS}
