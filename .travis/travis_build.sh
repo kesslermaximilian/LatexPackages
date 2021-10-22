@@ -1,4 +1,6 @@
+cd .travis
 export COMMIT_MSG=$(python3 print_deploy_message.py)
+cd ..
 make travis
 cd build
 zip -r LatexPackages.zip LatexPackagesBuild
