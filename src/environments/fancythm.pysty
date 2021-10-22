@@ -265,3 +265,5 @@ __END_OPTIONS_X__
     \newtheorem{reminder}{\if__PACKAGE_PREFIX__english Reminder\else Erinnerung\fi}
 
 \fi % end of default theorems
+
+% just a test
