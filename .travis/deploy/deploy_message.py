@@ -1,5 +1,11 @@
 import os
-from PyTeX.build.git_hook import get_latest_commit
+
+
+def get_latest_commit(repo):
+    if repo.head.is_detached:
+        return repo.head.commit
+    else:
+        return repo.head.ref.commit
 
 
 def get_deploy_message(repo):
