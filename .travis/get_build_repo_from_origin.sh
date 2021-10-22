@@ -14,3 +14,4 @@ else
     echo "Checking out remote branch from last build"
     git checkout -b ${REMOTE_BRANCH}-build origin/${REMOTE_BRANCH}-build
 fi
+cd ../..
