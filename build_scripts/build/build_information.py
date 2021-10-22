@@ -1,9 +1,10 @@
 import git
 import datetime
+from typing import Optional
 
 from build_scripts.git_hook import git_describe, get_latest_commit
 
-from .config import BUILD_DETAILS
+from .config import BUILD_DETAILS, DATE_FORMAT
 
 
 def build_information():
@@ -18,3 +19,58 @@ def build_information():
         packages_version=repo_description,
         packages_commit_hash=get_latest_commit(repo).hexsha[0:7]
     ), BUILD_DETAILS)), repo_description
+
+
+class BuildInfo:
+    def __init__(
+            self,
+            include_timestamp: bool = False,
+            include_pytex_version: bool = False,
+            include_license: bool = False,
+            include_git_version: bool = False,
+            include_pytex_info_text: bool = False,
+            author: Optional[str] = None,
+            pytex_repo: Optional[git.Repo] = None,
+            packages_repo: Optional[git.Repo] = None):
+        self.author = author
+
+        self._pytex_repo = pytex_repo
+        self._packages_repo = packages_repo
+        self._pytex_repo_commit = None
+        self._packages_repo_commit = None
+        self._pytex_repo_version = None
+        self._packages_repo_version = None
+
+        self._header = None
+
+        self.get_repo_commits()
+        self.get_repo_version()
+
+        self.create_header(
+            include_timestamp=include_timestamp,
+            include_pytex_version=include_pytex_version,
+            include_license=include_license,
+            include_git_version=include_git_version,
+            include_pytex_info_text=include_pytex_info_text
+        )
+
+    def get_repo_commits(self):
+        if self._packages_repo:
+            self._packages_repo_commit = get_latest_commit(self._packages_repo)
+        if self._pytex_repo:
+            self._pytex_repo_commit = get_latest_commit(self._pytex_repo)
+
+    def get_repo_version(self):
+        if self._packages_repo_commit:
+            self._packages_repo_version = git_describe(self._packages_repo_commit)
+        if self._pytex_repo_commit:
+            self._pytex_repo_version = git_describe(self._pytex_repo_commit)
+
+    def create_header(
+            self,
+            include_timestamp: bool = False,
+            include_pytex_version: bool = False,
+            include_license: bool = False,
+            include_git_version: bool = False,
+            include_pytex_info_text: bool = False):
+        pass
