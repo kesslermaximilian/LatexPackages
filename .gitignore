@@ -1,7 +1,0 @@
-*.swp
-build/*
-.gitconfiglock
-.initsubmodulelock
-.idea/
-*.synctex.gz
-__pycache__
