@@ -1,3 +1,0 @@
-\contentsline {section}{\numberline {1}test}{1}{section.1}%
-\contentsline {subsection}{1. Exercise Sheet}{1}{section*.2}%
-\contentsline {subsection}{2. Exercise Sheet}{1}{section*.3}%
